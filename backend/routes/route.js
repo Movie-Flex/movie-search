@@ -1,38 +1,19 @@
 const express = require('express');
-const validateUser = require('../middlewares/validateUser');
+const {loginUser} = require('../controllers/user');
 const { getMovies } = require('../controllers/autoSuggest');
 const { fuzzySearch } = require('../controllers/fuzzySearch');
+const authTest = require('../controllers/authTest');
 
 const router = express.Router();
 
+router.get('/login',loginUser);
 
-router.post('/', (req, res) => {
-    res.status(200).send("Welcome! Your session is active.");
-  });
+router.get('/authTest', authTest.welcome);
 
-router.post('/autoSuggest', async (req, res) => {
-  try {
-    const q = req.query.q;
-    const movies = await getMovies(q);
+router.post('/autoSuggest', getMovies)
 
-    res.json(movies);
-  } catch (err) {
-    console.error('Error getting movies:', err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
+router.post('/fuzzySearch', fuzzySearch)
 
-router.post('/fuzzySearch', async (req, res) => {
-  try {
-    const q = req.query.q;
-    const movies = await fuzzySearch(q);
-
-    res.json(movies);
-  } catch (err) {
-    console.error('Error getting movies:', err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
 
 
 

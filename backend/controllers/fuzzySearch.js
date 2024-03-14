@@ -1,17 +1,20 @@
-require('dotenv').config();
-const { MongoClient } = require('mongodb');
+const { connectToDatabase } = require('../databases/db');
 
-const uri = process.env.MONGOOSE_URL;
 const dbName = 'sample_mflix';
 const collectionName = 'embedded_movies';
 
-async function fuzzySearch(query) {
-  const client = new MongoClient(uri);
-
+const fuzzySearch = async (req, res) => {
+  let client;
   try {
-    await client.connect();
-    const db = client.db(dbName);
-    const collection = db.collection(collectionName);
+    const  query  = req.query.q;
+
+    if (!query) {
+      return res.status(400).json({ error: 'Query is required' });
+    }
+
+    // Connect to the database and get client and collection
+    const { client: connectedClient, collection } = await connectToDatabase(dbName, collectionName); 
+    client = connectedClient; // Assign client
 
     // Create the aggregation pipeline with the $search stage
     const pipeline = [
@@ -31,14 +34,16 @@ async function fuzzySearch(query) {
     ];
 
     const movies = await collection.aggregate(pipeline).toArray();
-    return movies;
+
+    res.json(movies);
   } catch (err) {
     console.error('Error retrieving movies:', err);
-    throw err;
+    res.status(500).json({ error: 'Internal server error' });
   } finally {
-    await client.close();
+    if (client) {
+      await client.close();
+    }
   }
-}
+};
 
 module.exports = { fuzzySearch };
-

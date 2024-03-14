@@ -1,17 +1,19 @@
-require('dotenv').config();
-const { MongoClient } = require('mongodb');
+const { connectToDatabase } = require('../databases/db');
 
-const uri = process.env.MONGOOSE_URL
 const dbName = 'sample_mflix';
 const collectionName = 'embedded_movies';
 
-async function getMovies(query) {
-  const client = new MongoClient(uri);
-
+const getMovies = async (req, res) => {
+  let client; 
   try {
-    await client.connect();
-    const db = client.db(dbName);
-    const collection = db.collection(collectionName);
+    const  query  = req.query.q; 
+
+    if (!query) {
+      return res.status(400).json({ error: 'Query parameter is required' });
+    }
+
+    const { client : connectedClient, collection } = await connectToDatabase(dbName, collectionName); 
+    client = connectedClient; 
 
     // Create the aggregation pipeline with the $search stage
     const pipeline = [
@@ -19,24 +21,23 @@ async function getMovies(query) {
         $search: {
           index: 'default',
           text: {
-            query: query ,
-            // path: {
-            //   wildcard: '*' // Search across all fields
-            // }
-            path : 'title'
+            query: query,
+            path: 'title' // Adjusted to search in the 'title' field
           }
         }
       }
     ];
 
     const movies = await collection.aggregate(pipeline).toArray();
-    return movies;
+    res.json(movies);
   } catch (err) {
     console.error('Error retrieving movies:', err);
-    throw err;
+    res.status(500).json({ error: 'Internal server error' });
   } finally {
-    await client.close();
+    if (client) {
+      await client.close();
+    }
   }
-}
+};
 
 module.exports = { getMovies };

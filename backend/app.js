@@ -4,9 +4,6 @@ const app = express()
 
 const routes = require('./routes/route');
 
-const { connect_M_DB } = require('./databases/db')
-// connect_M_DB(process.env.MONGOOSE_URL);
-
 const port = process.env.API_PORT;
 
 app.use(express.json()); 
