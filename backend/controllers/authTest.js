@@ -3,7 +3,10 @@ const { verifyToken } = require('../middlewares/verifyToken');
 
 const welcome = (req, res) => {
 
-    res.status(200).send("Welcome! Your session is active.");
+    res.status(200).json({
+        status: "Login Successful",
+        message: "Welcome! Your session is active."}
+    );
 };
 
 module.exports = {
