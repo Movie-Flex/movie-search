@@ -6,7 +6,7 @@ const { connectToDatabase } = require('../databases/db');
 const dbName = 'sample_mflix';
 const collectionName = 'users';
 
-const generateToken = (user) => {
+const generateToken = async (user) => {
     const payload = {
         name : user.name,
         email: user.emailId,
@@ -33,7 +33,7 @@ const loginUser = async (req, res) => {
 
         // if (user && await bcrypt.compare(password, user.password)) {
         if (user && (password == user.password)) {
-            const token = generateToken(user);
+            const token = await generateToken(user);
             return res.status(200).json({ token: token });
         }
 
