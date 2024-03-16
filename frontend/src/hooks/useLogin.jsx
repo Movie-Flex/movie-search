@@ -10,12 +10,13 @@ export const useLogin = () => {
   const login = async (loginData) => {
 
     try {
+      console.log("print",loginData)
       setIsLoading(true);
-      const response = await axios.get('http://localhost:3002/api/login', loginData);
+      const response = await axios.post('http://localhost:3002/api/login', loginData);
       setIsLoading(false);
 
       localStorage.setItem('token', response.token);
-      // await TokenVerify(response.token);
+      await TokenVerify(response.token);
       setIsLoggedIn(true);
       toast.success("Login Successful")
     } catch (error) {
@@ -26,14 +27,11 @@ export const useLogin = () => {
 
   const TokenVerify = async (token) => {
     try {
-      const response = await axios.get('http://localhost:3002/api/authTest', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get('http://localhost:3002/api/getUser',token);
       console.log(response);
 
       if (response.status === 200) {
+        consol.log(response.data)
         setUser(response.data.userData);
       }
   }catch(error){

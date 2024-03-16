@@ -11,7 +11,7 @@ const { availableUser } = require('../controllers/availableUser');
 
 const router = express.Router();
 
-router.get('/login',loginUser);
+router.post('/login',loginUser);
 
 router.post('/signup',registerUser);
 

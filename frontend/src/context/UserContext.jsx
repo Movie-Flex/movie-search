@@ -6,10 +6,10 @@ const UserContextProvider = (props) => {
         localStorage.getItem("userData") ? true : false
     );
     const [user, setUser] = useState(
-        JSON.parse(localStorage.getItem("userData"))?JSON.parse(localStorage.getItem("userData")):{}
+        JSON.parse(localStorage.getItem("userData"))
     );
     const [token,setToken]=useState(
-        localStorage.getItem("token")?localStorage.getItem("token"):""
+        JSON.parse(localStorage.getItem("token"))
     )
     return (
         <UserContext.Provider
