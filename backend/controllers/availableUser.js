@@ -1,0 +1,32 @@
+const { connectToDatabaseWithSchema } = require('../databases/db');
+const User_2 = require('../models/user'); 
+
+const mongoURI = process.env.MONGODB_URI;
+
+const availableUser = async (req, res) => {
+    let db;
+    try {
+        db = await connectToDatabaseWithSchema(mongoURI);
+
+        const { email, username } = req.body;
+
+        const existingEmailUser = await User_2.findOne({ email: email });
+        const existingUsernameUser = await User_2.findOne({ username: username });
+
+        if (existingEmailUser || existingUsernameUser) {
+            return res.status(400).json({ error: "Email or username already in use" });
+        } else {
+            return res.status(200).json({ message: "Email and username are available" });
+        }
+
+    } catch (error) {
+        console.error("Error occurred during checking available users:", error);
+        return res.status(500).json({ error: "Internal server error" });
+    } finally {
+        if (db) {
+            await db.close();
+        }
+    }
+};
+
+module.exports = { availableUser };

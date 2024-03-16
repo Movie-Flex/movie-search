@@ -1,6 +1,8 @@
 const { connectToDatabaseWithSchema } = require('../databases/db');
 const bcrypt = require('bcrypt');
 const { generateToken } = require('../middlewares/generateToken');
+const { readKeys, encryptPassword, decryptPassword } = require('../middlewares/encrypt');
+
 const User_2 = require('../models/user'); 
 const Role = require('../models/role'); 
 const Subscription = require('../models/subscription'); 
@@ -24,7 +26,12 @@ const registerUser = async (req, res) => {
             return res.status(409).json({ Info: "User already exists" });
         }
 
-        const encryptedPassword = await bcrypt.hash(password, 10);
+        // const hashedPassword = await bcrypt.hash(password, 10); // change this to rsa encryption
+
+        // encryption using RSA public-key cryptography
+        const { privateKey, publicKey } = await readKeys();
+        const encryptedPassword = encryptPassword(password, publicKey);
+
         const newUser = new User_2({
             email: email.toLowerCase(),
             username: username,
@@ -34,14 +41,12 @@ const registerUser = async (req, res) => {
 
         await newUser.save();
 
-        // Create role for the user
         const newRole = new Role({
             email: email,
-            role: 'admin',
+            role: req.body.role ? req.body.role : 'standard_user'
         });
         await newRole.save();
 
-        // Create subscription for the user
         const newSubscription = new Subscription({
             email: email,
             subscription: 'free',
@@ -74,14 +79,21 @@ const loginUser = async (req, res) => {
 
         const user = await User_2.findOne({ email: email });
 
-        if (user && await bcrypt.compare(password, user.password)) {
+        if (!user) {
+            return res.status(400).json({ error: "User not found" });
+        }
 
+        // const passwordMatch = await bcrypt.compare(decryptedPassword, password);
+
+        const { privateKey, publicKey } = await readKeys();
+        // const encryptedPassword = encryptPassword(password, publicKey);
+        const decryptedPassword = decryptPassword(user.password, privateKey);
+
+        if (decryptedPassword == password) {
             const role = await Role.findOne({ email: email });
             const subscription = await Subscription.findOne({ email: email });
-
-            const token = generateToken(user, role , subscription);
-
-            return res.status(200).json({token});
+            const token = generateToken(user, role, subscription);
+            return res.status(200).json({ token });
         }
 
         return res.status(400).json({ error: "Invalid credentials" });
@@ -95,5 +107,6 @@ const loginUser = async (req, res) => {
         }
     }
 };
+
 
 module.exports = { registerUser, loginUser };

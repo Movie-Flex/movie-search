@@ -6,6 +6,7 @@ const role = require('../controllers/role');
 const subscription = require('../controllers/subsciption');
 const authTest = require('../controllers/authTest');
 const { semanticMovies } = require('../controllers/semanticSearch');
+const { availableUser } = require('../controllers/availableUser');
 
 
 const router = express.Router();
@@ -17,6 +18,8 @@ router.post('/signup',registerUser);
 router.get('/authTest', authTest.welcome);
 
 router.get('/role', role.role);
+
+router.get('/availableUser', availableUser);
 
 router.get('/subscription', subscription.subscription);
 
