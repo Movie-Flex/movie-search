@@ -1,7 +1,6 @@
 const axios = require ('axios');
 const MongoClient = require('mongodb').MongoClient;
-const OpenAI =require("openai");
-const {HfInference}=require( '@huggingface/inference');
+// const {HfInference}=require( '@huggingface/inference');
 const  testVector =require( "../utils/testVector")
 
 // const openai = new OpenAI();
@@ -19,9 +18,7 @@ const  testVector =require( "../utils/testVector")
 //     }
 // }
 
-const hf_token="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"
 
-const model = "text-embedding-ada-002";
 
 async function getEmbedding(inputs) {
    return  [
