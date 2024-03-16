@@ -17,7 +17,7 @@ const  testVector =require( "../utils/testVector")
 //     } catch (error) {
 //         throw new Error(`Error getting embedding: ${error.message}`);
 //     }
-//     }
+// }
 
 const hf_token="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"
 
@@ -1566,7 +1566,7 @@ async function getEmbedding(inputs) {
 
 
 async function findSimilarDocuments(embedding) {
-    const url = "mongodb+srv://admin:Swe123we@cluster0.anq0pqz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"; 
+    const url = process.env.MONGODB_URI; 
     const client = new MongoClient(url);
 
     try {
@@ -1578,7 +1578,7 @@ async function findSimilarDocuments(embedding) {
         const documents = await collection.aggregate([
             {
               "$vectorSearch": {
-                "index": "vector-search",
+                "index": "vector_search",
                 "path": "plot_embedding",
                 "queryVector":embedding,
                 "numCandidates": 100,
