@@ -5,6 +5,7 @@ const { fuzzySearch } = require('../controllers/fuzzySearch');
 const role = require('../controllers/role');
 const subscription = require('../controllers/subsciption');
 const authTest = require('../controllers/authTest');
+const { semanticMovies } = require('../controllers/semanticSearch');
 
 
 const router = express.Router();
@@ -22,6 +23,8 @@ router.get('/subscription', subscription.subscription);
 router.post('/autoSuggest', getMovies)
 
 router.post('/fuzzySearch', fuzzySearch)
+
+router.post('/semantic', semanticMovies)
 
 
 

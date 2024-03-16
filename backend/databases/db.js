@@ -23,6 +23,7 @@ async function connectToDatabase(dbName, collectionName) {
     await client.connect();
     const db = client.db(dbName);
     const collection = db.collection(collectionName);
+    // console.log("Conected to the database");
     return { client, collection };
   } catch (error) {
     console.error('Error connecting to the database:', error);

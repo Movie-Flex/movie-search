@@ -36,12 +36,12 @@ const registerUser = async (req, res) => {
         await subscriptionCollection.insertOne({ email: email, subscription: 'free',createdAt : Date() });
 
         const encryptedPassword = await bcrypt.hash(password, 10);
-        const newUser = {
+        const newUser =   {
             email: email.toLowerCase(),
             username: username,
             name: name,
             password: encryptedPassword,
-            createdAt : Date()
+            // createdAt : Date()
         };
 
         await userCollection.insertOne(newUser);
