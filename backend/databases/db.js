@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 
 const uri = process.env.MONGODB_URI;
 
-// for databases which do not have defined schema here like embeded_movies collection
+// for databases which do not have defined schema like embeded_movies collection
 async function connectToDatabase(dbName, collectionName) {
   const client = new MongoClient(uri);
   try {
@@ -20,7 +20,7 @@ async function connectToDatabase(dbName, collectionName) {
   }
 }
 
-// for databases which uses schma defined here like user, role , etc.
+// for databases which uses defined schema  like user, role , etc.
 const connectToDatabaseWithSchema = async (mongoURI) => {
   try {
       await mongoose.connect(mongoURI);
