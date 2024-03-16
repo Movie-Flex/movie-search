@@ -1,37 +1,34 @@
-const { connectToDatabase } = require('../databases/db');
+const { connectToDatabaseWithSchema } = require('../databases/db');
 const { verifyToken } = require('../middlewares/verifyToken');
 const { generateToken } = require('../middlewares/generateToken');
 const { getUser } = require('../middlewares/getUserFromToken');
+const User_2 = require('../models/user'); 
+const Role = require('../models/role'); 
+const Subscription = require('../models/subscription'); 
 
-const dbName = 'sample_mflix';
+const mongoURI = process.env.MONGODB_URI
 
-const role = async (req, res) => {
-    let client; 
+const role = async (req, res, db) => {
     try {
         const { role: newRole, token } = req.body;
         const tokenTOUser = getUser(token);
         const email = tokenTOUser.email
 
-        const { client: connectedClient, collection: userCollection } = await connectToDatabase(dbName, 'users_2');
-        client = connectedClient;
-
-        const { collection: roleCollection } = await connectToDatabase(dbName, 'roles');
-        const { collection: subscriptionCollection } = await connectToDatabase(dbName, 'subscriptions');
-
-        const user = await userCollection.findOne({ email: email });
+        const user = await User_2.findOne({ email: email });
+        
+        const role = await Role.findOne({ email: email });
         
         
         // Update the role if a new role is provided
         if (newRole) {
-            await roleCollection.updateOne({ email: email }, { $set: { role: newRole } });
+            await Role.updateOne({ email: email }, { $set: { role: newRole } });
 
-            const subscription = await subscriptionCollection.findOne({ email: email });
+            const subscription = await Subscription.findOne({ email: email });
 
             const newToken = await generateToken(user, newRole, subscription);
 
             return res.status(200).json({ info: `Role updated to ${newRole}`, token: newToken });
         }
-        const role = await roleCollection.findOne({ email: email });
 
         return res.status(200).json({ 'role ': role});
 
@@ -39,12 +36,25 @@ const role = async (req, res) => {
         console.error("Error occurred during role update:", err);
         return res.status(500).json({ error: "Internal server error" });
     } finally {
-        if (client) {
-            await client.close();
+        // Close the database connection
+        if (db) {
+            await db.close();
+        }
+    }
+};
+
+const handleRole = async (req, res) => {
+    const db = await connectToDatabaseWithSchema(mongoURI);
+    try {
+        await role(req, res, db);
+    } finally {
+        // Close the database connection
+        if (db) {
+            await db.close();
         }
     }
 };
 
 module.exports = {
-    role: [verifyToken, role]
+    role: [verifyToken, handleRole]
 };
