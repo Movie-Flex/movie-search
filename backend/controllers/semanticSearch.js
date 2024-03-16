@@ -4,7 +4,7 @@ const OpenAI =require("openai");
 const {HfInference}=require( '@huggingface/inference');
 const  testVector =require( "../utils/testVector")
 
-const openai = new OpenAI();
+// const openai = new OpenAI();
 
 // async function getEmbedding(query) {
 //     try {

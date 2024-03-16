@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const generateToken = async (user, role, subscription) => {
+const generateToken = (user, role, subscription) => {
     try {
         const payload = {
             name: user.name,
@@ -10,14 +10,17 @@ const generateToken = async (user, role, subscription) => {
         };
 
         const options = {
-            expiresIn: process.env.EXPIRES_IN
+            expiresIn: process.env.EXPIRES_IN || '10m'
         };
-
-        return jwt.sign(payload, process.env.SECRET_KEY, options);
+        
+        const token = jwt.sign(payload, process.env.SECRET_KEY, options);
+        
+        return token
     } catch (err) {
         console.error("Error occurred while generating token:", err);
         throw err; 
     }
 };
+
 
 module.exports = { generateToken}

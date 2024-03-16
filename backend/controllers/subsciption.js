@@ -1,46 +1,44 @@
-const { connectToDatabase } = require('../databases/db');
+const { connectToDatabaseWithSchema } = require('../databases/db');
 const { verifyToken } = require('../middlewares/verifyToken');
 const { generateToken } = require('../middlewares/generateToken');
 const { getUser } = require('../middlewares/getUserFromToken');
+const User_2 = require('../models/user'); 
+const Role = require('../models/role'); 
+const Subscription = require('../models/subscription'); 
 
-const dbName = 'sample_mflix';
+const mongoURI = process.env.MONGODB_URI;
 
 const subscription = async (req, res) => {
-    let client; 
+    let db;
     try {
+        db = await connectToDatabaseWithSchema(mongoURI);
+
         const { subscription: newSubscription, token } = req.body;
-        const tokenTOUser = getUser(token);
-        const email = tokenTOUser.email
+        const tokenToUser = getUser(token);
+        const email = tokenToUser.email;
 
-        const { client: connectedClient, collection: userCollection } = await connectToDatabase(dbName, 'users_2');
-        client = connectedClient;
+        const user = await User_2.findOne({ email: email });
+        const userSubscription = await Subscription.findOne({ email: email });
 
-        const { collection: roleCollection } = await connectToDatabase(dbName, 'roles');
-        const { collection: subscriptionCollection } = await connectToDatabase(dbName, 'subscriptions');
-
-        const user = await userCollection.findOne({ email: email });
-        
-        
-        // Update the role if a new role is provided
+        // Update the subscription if a new subscription is provided
         if (newSubscription) {
-            await subscriptionCollection.updateOne({ email: email }, { $set: { subscription: newSubscription } });
+            await Subscription.updateOne({ email: email }, { $set: { subscription: newSubscription } });
 
-            const role = await roleCollection.findOne({ email: email });
+            const role = await Role.findOne({ email: email });
 
             const newToken = await generateToken(user, role, newSubscription);
 
             return res.status(200).json({ info: `Subscription updated to ${newSubscription}`, token: newToken });
         }
-        const subscription = await subscriptionCollection.findOne({ email: email });
 
-        return res.status(200).json({ 'subscription ': subscription});
+        return res.status(200).json({ subscription: userSubscription });
 
     } catch (err) {
         console.error("Error occurred during subscription update:", err);
         return res.status(500).json({ error: "Internal server error" });
     } finally {
-        if (client) {
-            await client.close();
+        if (db) {
+            await db.close(); 
         }
     }
 };
