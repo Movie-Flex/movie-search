@@ -11,11 +11,14 @@ const getUserFromToken = async (req, res) => {
         db = await connectToDatabaseWithSchema(mongoURI);
 
         const { token } = req.body;
+        if (!token) {
+            return res.status(403).json({"Error": "Token (in body) is required to get user."});
+          }
         const tokenToUser = getUser(token);
 
         // const user = await User_2.findOne({ email: email });
 
-        return res.status(200).json({user : tokenToUser});
+        return res.status(200).json({user : tokenToUser,token : token});
 
     } catch (err) {
         console.error("Error occurred during fetching user.", err);
