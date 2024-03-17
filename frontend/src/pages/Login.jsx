@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
 
 const Login = () => {
   const { login } = useLogin();
+  const navigate=useNavigate();
 
   const [loginData, setLoginData] = useState({
     email: "",
@@ -15,6 +16,7 @@ const Login = () => {
     console.log(loginData);
     try {
       await login(loginData);
+      navigate("/dummy")
     } catch (error) {
       console.log("Login Error", error);
     }

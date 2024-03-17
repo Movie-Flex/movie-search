@@ -22,7 +22,7 @@ export const useLogin = () => {
       toast.success("Login Successful");
     } catch (error) {
       setIsLoading(false);
-      toast.error(error.response.data.message);
+      toast.error("Login Failed");
     }
   };
 
