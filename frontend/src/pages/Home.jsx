@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import debounce from 'debounce';
 import {  useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const classNames = (...classes) => {
   return classes.filter(Boolean).join(' ');
@@ -84,6 +85,11 @@ export default function Home() {
           <div className="flex justify-between items-center w-full z-10 text-sm font-mono">
             <p>
               <span className="font-bold">MongoDB</span> Text Search
+            </p>
+          </div>
+          <div className="flex justify-between items-center w-full z-10 text-sm font-mono">
+            <p>
+              <Link  to="/login" className="font-bold">Login page</Link > 
             </p>
           </div>
 

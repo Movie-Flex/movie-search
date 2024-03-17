@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Semantic from './pages/Semantic';
 import Login from './pages/Login';
 import Signup from './pages/SignUp';
+import { Toaster } from 'react-hot-toast';
+import Dummy from './pages/Dummy';
 
 function App() {
   return (
@@ -17,6 +19,10 @@ function App() {
                 element={<Home />}
               />
               <Route
+              path="/dummy"
+              element={<Dummy/>}
+              />
+              <Route
                 path="/login"
                 element={<Login />}
               />
@@ -27,6 +33,7 @@ function App() {
             </Routes>
           </div>
         </BrowserRouter>
+        <Toaster/>
       </div>
     </>
   );

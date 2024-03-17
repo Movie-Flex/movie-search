@@ -14,13 +14,15 @@ export const useSignup = () => {
       try {
         setIsLoading(true);
         const response = await axios.post('http://localhost:3002/api/signup', signupData);
+
+        // if(!isLoading)
         setIsLoading(false);
         setToken(response.data.token)
-        setIsLoggedIn(true);
+        // setIsLoggedIn(true);
         toast.success("SignUp Successful")
       } catch (error) {
         setIsLoading(false);
-        toast.error(error.response.data.message); 
+        toast.error("Sign up Failed"); 
       }
     };
   

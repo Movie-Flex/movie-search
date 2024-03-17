@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import { useSignup } from "../hooks/useSignUp";
 
 
 
 const Signup = () => {
+  const navigate=useNavigate();
 
   const { signup } = useSignup();
+  
         const [signupData,setSignupData]=useState({
         name:'',
         username:'',
@@ -20,6 +22,7 @@ const Signup = () => {
           console.log(signupData)
           try {
             await signup(signupData);
+            navigate('/dummy')
           } catch (error) {
             console.error('Signup error:', error);
           }
@@ -111,7 +114,7 @@ const Signup = () => {
                 </label>
                 <input
                     onChange={(e)=>setSignupData({...signupData,confirmPassword:e.target.value})}
-                  type="confirm-password"
+                  type="password"
                   name="confirm-password"
                   id="confirm-password"
                   placeholder="••••••••"
