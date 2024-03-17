@@ -9,7 +9,7 @@ const UserContextProvider = (props) => {
         JSON.parse(localStorage.getItem("userData"))
     );
     const [token,setToken]=useState(
-        JSON.parse(localStorage.getItem("token"))
+        JSON.parse(JSON.stringify(localStorage.getItem("token")))
     )
     return (
         <UserContext.Provider
