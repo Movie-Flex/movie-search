@@ -7,11 +7,12 @@ const subscription = require('../controllers/subsciption');
 const authTest = require('../controllers/authTest');
 const { semanticMovies } = require('../controllers/semanticSearch');
 const { availableUser } = require('../controllers/availableUser');
+const getUserFromToken = require('../controllers/getUserFromToken');
 
 
 const router = express.Router();
 
-router.get('/login',loginUser);
+router.post('/login',loginUser);
 
 router.post('/signup',registerUser);
 
@@ -19,9 +20,11 @@ router.get('/authTest', authTest.welcome);
 
 router.get('/role', role.role);
 
+router.post('/getUser', getUserFromToken.getUserFromToken);
+
 router.get('/availableUser', availableUser);
 
-router.get('/subscription', subscription.subscription);
+router.post('/subscription', subscription.subscription);
 
 router.post('/autoSuggest', getMovies)
 
