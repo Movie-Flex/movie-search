@@ -1,17 +1,33 @@
 import './App.css';
 import Home from './pages/Home';
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Semantic from './pages/Semantic';
+import Login from './pages/Login';
+import Signup from './pages/SignUp';
 
 function App() {
   return (
     <>
-    {/* <Routes> */}
-      {/* <Route path="/" element={<Home />} /> */}
-      {/* <Route path="/semantic" element={<Semantic />} /> */}
-      {/* <Home/> */}
-      <Semantic/>
-    {/* </Routes> */}
+      <div className="App">
+        <BrowserRouter>
+          <div className="pages">
+            <Routes>
+              <Route
+                path="/"
+                element={<Home />}
+              />
+              <Route
+                path="/login"
+                element={<Login />}
+              />
+              <Route
+                path="/signup"
+                element={<Signup />}
+              />
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </div>
     </>
   );
 }

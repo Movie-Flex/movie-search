@@ -1,7 +1,7 @@
 const { connectToDatabaseWithSchema } = require('../databases/db');
 const { verifyToken } = require('../middlewares/verifyToken');
 const { getUser } = require('../middlewares/getUserFromToken');
-const User_2 = require('../models/user'); 
+const User_2 = require('../models/user');
 
 const mongoURI = process.env.MONGODB_URI;
 
@@ -25,7 +25,7 @@ const getUserFromToken = async (req, res) => {
         return res.status(500).json({ error: "Internal server error" });
     } finally {
         if (db) {
-            await db.close(); 
+            await db.close();
         }
     }
 };
