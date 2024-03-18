@@ -23,7 +23,7 @@ export default function SubscriptionDiamond() {
 
       <ul class="mb-8 space-y-4 text-left">
         {SubscriptionDiamondData.map((data, index) => (
-          <li class="flex items-center space-x-3">
+          <li key={index} class="flex items-center space-x-3">
             <svg
               class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400"
               fill="currentColor"
