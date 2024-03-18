@@ -21,13 +21,13 @@ export default function SubscriptionYearButton({yearly, setYearly}) {
           onClick={() => setYearly(true)}
         >
           Yearly{" "}
-          <span
+          {/* <span
             className={`${
               yearly ? "text-indigo-200" : "text-slate-400 dark:text-slate-500"
             }`}
           >
             -20%
-          </span>
+          </span> */}
         </button>
         <button
           className={`relative flex-1 text-sm font-medium h-8 rounded-full focus-visible:outline-none focus-visible:ring

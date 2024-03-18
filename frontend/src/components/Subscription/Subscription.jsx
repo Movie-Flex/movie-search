@@ -1,10 +1,22 @@
+import { useState } from "react";
 import SubscriptionDiamond from "./SubscriptionDiamond";
 import SubscriptionFree from "./SubscriptionFree";
 import SubscriptionHome from "./SubscriptionHome";
 import SubscriptionPremium from "./SubscriptionPremium";
+import { GetAmountDetails } from "../../hooks/usegetAmountDetails";
+
 
 export default function Subscription() {
   const [yearly, setYearly] = useState(false);
+
+  const [amountDetails, setAmountDetails] = useState();
+
+  GetAmountDetails().then((data) => {
+    setAmountDetails(data);
+    console.log(data);
+  })
+   
+
   return (
     <>
       <section class="bg-white dark:bg-gray-900">
