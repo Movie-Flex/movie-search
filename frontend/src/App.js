@@ -6,7 +6,7 @@ import Login from './pages/Login';
 import Signup from './pages/SignUp';
 import { Toaster } from 'react-hot-toast';
 import Dummy from './pages/Dummy';
-import Subscription from './components/Subscription';
+import Subscription from './components/Subscription/Subscription';
 
 function App() {
   return (
