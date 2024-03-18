@@ -17,6 +17,9 @@ const paymentDetailsSchema = new mongoose.Schema({
 	email :{
 		type : String
 	},
+	username :{
+		type : String
+	},
 	amount: {
 		type: Number
 	},
@@ -33,13 +36,16 @@ const paymentDetailsSchema = new mongoose.Schema({
 	status: {
 		type: String
 	},
-	SubscriptionType: {
+	subscription : {
+		type: String
+	},
+	role : {
 		type: String
 	},
 	duration : {
 		type : String,
-		enum: ['fee_monthly', 'fee_yearly'],
-        default: 'fee_monthly'
+		enum: ['feeMonthly', 'feeYearly'],
+        default: 'feeMonthly'
 	}
 })
 

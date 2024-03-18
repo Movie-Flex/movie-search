@@ -7,8 +7,10 @@ const subscription = require('../controllers/subsciption');
 const authTest = require('../controllers/authTest');
 const { semanticMovies } = require('../controllers/semanticSearch');
 const { availableUser } = require('../controllers/availableUser');
+const payment= require('../controllers/payment');
 const getUserFromToken = require('../controllers/getUserFromToken');
-const {checkout, verifyPayment, dashboard} = require('../controllers/payment');
+// const {checkout, verifyPayment, dashboard} = require('../controllers/paymentRender');
+
 
 
 const router = express.Router();
@@ -19,7 +21,7 @@ router.post('/signup',registerUser);
 
 router.get('/authTest', authTest.welcome);
 
-router.get('/role', role.role);
+router.post('/role', role.role);
 
 router.post('/getUser', getUserFromToken.getUserFromToken);
 
@@ -33,10 +35,10 @@ router.post('/fuzzySearch', fuzzySearch)
 
 router.post('/semantic', semanticMovies)
 
-
-router.get('/dashboard', dashboard)
-router.get('/checkout', checkout)
-router.post('/verify', verifyPayment)
+// payment router (token is required for verification)
+router.post('/dashboard', payment.dashboard)
+router.post('/order', payment.order)
+router.post('/verify', payment.verify)
 
 
 module.exports = router;

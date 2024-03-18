@@ -14,10 +14,16 @@ const mongoURI = process.env.MONGODB_URI;
 const dbName = 'sample_mflix';
 const collectionName = 'subscription_meta';
 
+const dashboardTest = async (req, res)=>{
+    const { client: connectedClient, collection } = await connectToDatabase(dbName, collectionName); 
+        client = connectedClient;
+        
+        const subscription_meta = await collection.findOne({}); 
+   res.render('../pages/dashboard', {subscription_meta : subscription_meta}); 
+}
+
 // need to add email ----------------------------------------- in database
-
-
-const checkout = async (req, res) => {
+const checkoutTest = async (req, res) => {
     let db;
     try {
         db = await connectToDatabaseWithSchema(mongoURI);
@@ -30,6 +36,9 @@ const checkout = async (req, res) => {
         const duration = req.query.dur; 
         const typeInfo = subscription_meta.subscription_types[0][SubscriptionType];
 
+        if(SubscriptionType === 'free'){
+            return res.status(200).json({Info :"You have activate one month free subscription."});
+        }
         if (!duration || !SubscriptionType) {
             return res.status(400).json({error :"Missing query type or dur "});
         }
@@ -46,7 +55,7 @@ const checkout = async (req, res) => {
         const paymentDetail = new PaymentDetail({
             orderId: response.id,
             receiptId: response.receipt,
-            
+            email : "test@gmail.com",
             currency: response.currency,
             subunit: typeInfo.subunit,
             amount: response.amount,
@@ -54,62 +63,64 @@ const checkout = async (req, res) => {
             SubscriptionType: SubscriptionType,
             duration: duration 
         });
+        //  try to save after successful payment --------------------- in next function
         await paymentDetail.save();
 
-        return res.status(200).json({razorpayKeyId : process.env.RAZORPAY_KEY_ID,paymentDetail: paymentDetail})
-
+        // Render order confirmation page
+        res.render('../pages/checkout', {
+            razorpayKeyId: process.env.RAZORPAY_KEY_ID,
+            paymentDetail: paymentDetail
+        });
     } catch (err) {
         // Handle errors
         console.error(err);
-        res.status(500).send("Internal Server Error");
+        res.status(500).json({error : "Internal Server Error"});
     }
 };
 
 
 
-const verifyPayment = async (req, res) => {
+const verifyPaymentTest = async (req, res) => {
     let db;
     try {
         db = await connectToDatabaseWithSchema(mongoURI);
-        const razorpay_order_id = req.body.razorpay_order_id
-        const razorpay_payment_id = req.body.razorpay_payment_id
-        const razorpay_signature = req.body.razorpay_signature
-
-        if(!razorpay_order_id){
-            return res.status(400).json({error : "Razorpay order id  (razorpay_order_id) missing."})  
-        }
-        if(!razorpay_payment_id){
-            return res.status(400).json({error : "Razorpay payment id (razorpay_payment_id) missing."})  
-        }
-        if(!razorpay_signature){
-            return res.status(400).json({error : "Razorpay signature  (razorpay_signature) missing."})  
-        }
-        const body = razorpay_order_id + "|" + razorpay_payment_id;
+        const body = req.body.razorpay_order_id + "|" + req.body.razorpay_payment_id;
         const crypto = require("crypto");
         const expectedSignature = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
             .update(body)
             .digest('hex');
         
-        if(expectedSignature === razorpay_signature) {
+        if(expectedSignature === req.body.razorpay_signature) {
             // If signature matches, update payment details
             const updatedPayment = await PaymentDetail.findOneAndUpdate(
-                { orderId: razorpay_order_id },
+                { orderId: req.body.razorpay_order_id },
                 {
-                    paymentId: razorpay_payment_id,
-                    signature:razorpay_signature,
+                    paymentId: req.body.razorpay_payment_id,
+                    signature: req.body.razorpay_signature,
                     status: "paid"
                 },
                 { new: true }
             ).exec();
-            
-            return res.status(200).json({ paymentDetail: updatedPayment})  
+
+            // Render payment success page if update is successful
+            res.render('../pages/success', {
+                title: "Payment verification successful",
+                paymentDetail: updatedPayment
+            });
         } else {
-            return res.status(400).json({error : "Payment verification failed due to mismatch of signature."})  
+            // If signature doesn't match, render failure page
+            res.render('../pages/fail', {
+                title: "Payment verification failed",
+            });
         }
     } catch (error) {
+        // Handle any errors that occurred during payment verification
         console.error("Error verifying payment:", error);
-        return res.status(500).json({error : "Internal server error"})
+        res.render('../pages/error', {
+            title: "An error occurred during payment verification",
+            error: error
+        });
     }
 };
 
-module.exports = { verifyPayment, checkout };
+module.exports = { verifyPaymentTest, checkoutTest , dashboardTest};
