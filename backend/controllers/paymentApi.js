@@ -14,6 +14,9 @@ const mongoURI = process.env.MONGODB_URI;
 const dbName = 'sample_mflix';
 const collectionName = 'subscription_meta';
 
+// need to add email ----------------------------------------- in database
+
+
 const checkout = async (req, res) => {
     let db;
     try {

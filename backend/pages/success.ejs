@@ -1,35 +1,51 @@
-<div class="row d-flex justify-content-center">
-    <div class="col-md-8">
-        <div class="card">
-            <h5 class="card-header">Payment Successful!</h5>
-            <div class="card-body">
-                <p class="card-text">Below are details.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
 
-                <dl class="row mt-2">
-                    <dt class="col-sm-3">Order ID</dt>
-                    <dd class="col-sm-9" id="orderId"><%- paymentDetail.orderId %>  </dd>
-                                        
-                    <dt class="col-sm-3">Transaction ID</dt>
-                    <dd class="col-sm-9" id="orderId"><%- paymentDetail.paymentId %>  </dd>
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <h5 class="card-header">Payment Successful!</h5>
+                <div class="card-body">
+                    <p class="card-text">Below are details.</p>
 
-                    <dt class="col-sm-3">Signature</dt>
-                    <dd class="col-sm-9" id="orderId"><%- paymentDetail.signature %>  </dd>
+                    <dl class="row mt-2">
+                        <dt class="col-sm-3">Order ID</dt>
+                        <dd class="col-sm-9" id="orderId"><%- paymentDetail.orderId %>  </dd>
+                                            
+                        <dt class="col-sm-3">Transaction ID</dt>
+                        <dd class="col-sm-9" id="transactionId"><%- paymentDetail.paymentId %>  </dd>
 
-                    <dt class="col-sm-3">Amount</dt>
-                    <dd class="col-sm-9"><%- paymentDetail.amount/100 %> Rs. </dd>
+                        <dt class="col-sm-3">Signature</dt>
+                        <dd class="col-sm-9" id="signature"><%- paymentDetail.signature %>  </dd>
 
-                    <dt class="col-sm-3">Created at</dt>
-                    <dd class="col-sm-9"><%- paymentDetail.createdAt %> </dd>
-                </dl>
+                        <dt class="col-sm-3">Amount</dt>
+                        <dd class="col-sm-9"><%- paymentDetail.amount/100 %> Rs. </dd>
 
-                <a href="" type="button" class="btn btn-primary" id="goHomeBtn">Go Home</a>
+                        <dt class="col-sm-3">Created at</dt>
+                        <dd class="col-sm-9"><%- paymentDetail.createdAt %> </dd>
+                    </dl>
+
+                    <a href="/payment/dashboard" type="button" class="btn btn-primary" id="goHomeBtn">Go Home</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<script>
+<!-- <script>
+    // Redirect to payment dashboard after 3 seconds
     setTimeout(function() {
-        window.location.href = "/payment/checkout";
+        window.location.href = "/payment/dashboard";
     }, 3000); 
-</script>
+</script> -->
+
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Dashboard</title>
+    <link rel="stylesheet" href="./style.css">
+
+    <style>
+        /* CSS styles */
+        body {
+            background: url(https://cache.desktopnexus.com/cropped-wallpapers/1642/1642982-1517x853-[DesktopNexus.com].jpg?st=zvU2Cg-ZDxNpHj0xWPBg1g&e=1571816273);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Roboto', sans-serif;
+            margin-bottom: 60px;
+        }
+
+        .pricing-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .pricing {
+            background-color: #fff;
+            border: 3px solid #ccaa4e;
+            margin: 10px;
+            text-align: center;
+        }
+
+        .pricing h3 {
+            color: #5CAEFE;
+            margin: 30px 0 0;
+        }
+
+        .pricing ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 40px 0;
+        }
+
+        .pricing ul li {
+            margin: 20px 30px;
+            max-width: 250px;
+        }
+
+        .pricing button {
+            background-color: #000;
+            border: 0;
+            border-radius: 2px;
+            color: #fff;
+            padding: 12px 20px;
+            margin-bottom: 30px;
+        }
+
+        h2,
+        h3 {
+            color: #fff;
+        }
+
+        /* Define styles for the button */
+        button {
+            background-color: #4CAF50;
+            /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+            /* Transition duration for smooth effect */
+            cursor: pointer;
+        }
+
+        /* Define styles for when the button is hovered over */
+        button:hover {
+            background-color: #45a049;
+            /* Darker green */
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Enjoy with a Subscription plan.</h2>
+    <br>
+    <div>
+        <h3>Select a plan to continue</h3>
+    </div>
+    &nbsp;
+    <div></div>
+    <br>
+    <div class="pricing-container">
+        <div class="pricing">
+            <h1>Free</h1>
+            <ul>
+                <li>Limited access to a selection of movies.</li>
+                <li>Ad-supported streaming experience.</li>
+                <li>Basic video quality (up to 480p).</li>
+                <li>No access to premium content or exclusive releases.</li>
+                <li>No offline downloads.</li>
+                <li>Limited customer support.</li>
+            </ul>
+            <h3>$00.00<small> for one month</small></h3>
+            <a href="http://localhost:3002/payment/checkout?dur=fee_monthly&type=free"><button>Try Free for one
+                    month!</button></a>
+        </div>
+
+        <div class="pricing">
+            <h1>Premium</h1>
+            <ul>
+                <li>Ad-free streaming experience.</li>
+                <li>High-definition (HD) video quality (up to 1080p).</li>
+                <li>Ability to download movies for offline viewing on supported devices.</li>
+                <li>Priority customer support.</li>
+                <li>Access to special features such as director's commentary on select movies.</li>
+             
+            </ul>
+            <h3>$19.00<small>/ month</small></h3>
+            <a href="http://localhost:3002/payment/checkout?dur=fee_monthly&type=premium"><button>Pay</button></a>
+            <h3>$210.00<small>/ year</small></h3>
+            <a href="http://localhost:3002/payment/checkout?dur=fee_yearly&type=premium"><button>Pay</button></a>
+        </div>
+
+        <div class="pricing">
+            <h1>Diamond</h1>
+            <ul>
+              <li>All features included in the Premium tier.</li>
+              <li>Access to ultra-high-definition (UHD) or 4K video quality where available.</li>
+              <li>Early access to new movie releases before they are available to other subscribers.</li>
+            
+              <li>Discounts on merchandise or movie-related products.</li>
+            </ul>
+            <h3>$39.00<small>/ month</small></h3>
+            <a href="http://localhost:3002/payment/checkout?dur=fee_monthly&type=diamond"><button>Pay</button></a>
+            <h3>$450.00<small>/ year</small></h3>
+            <a href="http://localhost:3002/payment/checkout?dur=fee_yearly&type=diamond"><button>Pay</button></a>
+        </div>
+    </div>
+</body>
+
+</html>

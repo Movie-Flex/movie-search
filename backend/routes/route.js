@@ -8,7 +8,7 @@ const authTest = require('../controllers/authTest');
 const { semanticMovies } = require('../controllers/semanticSearch');
 const { availableUser } = require('../controllers/availableUser');
 const getUserFromToken = require('../controllers/getUserFromToken');
-const {checkout, verifyPayment} = require('../controllers/payment');
+const {checkout, verifyPayment, dashboard} = require('../controllers/payment');
 
 
 const router = express.Router();
@@ -33,6 +33,10 @@ router.post('/fuzzySearch', fuzzySearch)
 
 router.post('/semantic', semanticMovies)
 
+
+router.get('/dashboard', dashboard)
 router.get('/checkout', checkout)
 router.post('/verify', verifyPayment)
+
+
 module.exports = router;

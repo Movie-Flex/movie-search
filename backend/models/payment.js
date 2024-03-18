@@ -14,6 +14,9 @@ const paymentDetailsSchema = new mongoose.Schema({
 	signature: {
 		type: String,
 	},
+	email :{
+		type : String
+	},
 	amount: {
 		type: Number
 	},

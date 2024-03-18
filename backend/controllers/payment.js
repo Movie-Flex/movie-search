@@ -14,6 +14,10 @@ const mongoURI = process.env.MONGODB_URI;
 const dbName = 'sample_mflix';
 const collectionName = 'subscription_meta';
 
+const dashboard = (req, res)=>{
+   res.render('../pages/dashboard', {}); 
+}
+
 // need to add email ----------------------------------------- in database
 const checkout = async (req, res) => {
     let db;
@@ -28,6 +32,9 @@ const checkout = async (req, res) => {
         const duration = req.query.dur; 
         const typeInfo = subscription_meta.subscription_types[0][SubscriptionType];
 
+        if(SubscriptionType === 'free'){
+            return res.status(200).json({Info :"You have activate one month free subscription."});
+        }
         if (!duration || !SubscriptionType) {
             return res.status(400).json({error :"Missing query type or dur "});
         }
@@ -44,7 +51,7 @@ const checkout = async (req, res) => {
         const paymentDetail = new PaymentDetail({
             orderId: response.id,
             receiptId: response.receipt,
-            
+            email : "test@gmail.com",
             currency: response.currency,
             subunit: typeInfo.subunit,
             amount: response.amount,
@@ -52,6 +59,7 @@ const checkout = async (req, res) => {
             SubscriptionType: SubscriptionType,
             duration: duration 
         });
+        //  try to save after successful payment --------------------- in next function
         await paymentDetail.save();
 
         // Render order confirmation page
@@ -111,4 +119,4 @@ const verifyPayment = async (req, res) => {
     }
 };
 
-module.exports = { verifyPayment, checkout };
+module.exports = { verifyPayment, checkout , dashboard};
