@@ -26,7 +26,7 @@ const dashboard = async (req, res) => {
         
         const subscription_meta = await collection.findOne({}); 
         
-        return res.status(200).json({ subscription_meta: subscription_meta });
+        return res.status(200).json({ data: subscription_meta.subscriptionTypes });
     } catch (error) {
         console.error("Error occurred:", error);
         return res.status(500).json({ error: "Internal Server Error" });
@@ -138,4 +138,5 @@ const verify = async (req, res) => {
 module.exports = { 
     verify :[verifyToken,verify], 
     order : [verifyToken,order] ,
-    dashboard : [verifyToken, dashboard]};
+    dashboard : [ dashboard]
+};

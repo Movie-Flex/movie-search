@@ -8,7 +8,9 @@ const SubscriptionPremiumData = [
     "Access to special features such as director's commentary on select movies.",
   ];
 
-export default function SubscriptionPremium() {
+export default function SubscriptionPremium({props,yearly,setYearly}) {
+  const {features, currency, subunit,feeYearly,feeMonthly}=props;
+
   return (
     <div className="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
       <h3 className="mb-4 text-2xl font-semibold">Premium</h3>
@@ -17,8 +19,8 @@ export default function SubscriptionPremium() {
       </p>
 
       <div className="flex justify-center items-baseline my-8">
-        <span className="mr-2 text-5xl font-extrabold">$29</span>
-        <span className="text-gray-500 dark:text-gray-400">/month</span>
+        <span className="mr-2 text-5xl font-extrabold">{currency} {yearly?feeYearly:feeMonthly}</span>
+        <span className="text-gray-500 dark:text-gray-400">{yearly?"/yearly":"/monthly"}</span>
       </div>
 
       <ul className="mb-8 space-y-4 text-left">
@@ -31,9 +33,9 @@ export default function SubscriptionPremium() {
            xmlns="http://www.w3.org/2000/svg"
          >
            <path
-             fill-rule="evenodd"
+             fillRule="evenodd"
              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-             clip-rule="evenodd"
+             clipRule="evenodd"
            ></path>
          </svg>
          <span>{data}</span>
