@@ -21,7 +21,7 @@ router.post('/signup',registerUser);
 
 router.get('/authTest', authTest.welcome);
 
-router.get('/role', role.role);
+router.post('/role', role.role);
 
 router.post('/getUser', getUserFromToken.getUserFromToken);
 
@@ -36,7 +36,7 @@ router.post('/fuzzySearch', fuzzySearch)
 router.post('/semantic', semanticMovies)
 
 // payment router (token is required for verification)
-router.get('/dashboard', payment.dashboard)
+router.post('/dashboard', payment.dashboard)
 router.post('/order', payment.order)
 router.post('/verify', payment.verify)
 

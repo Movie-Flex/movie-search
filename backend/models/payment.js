@@ -39,10 +39,13 @@ const paymentDetailsSchema = new mongoose.Schema({
 	subscription : {
 		type: String
 	},
+	role : {
+		type: String
+	},
 	duration : {
 		type : String,
-		enum: ['fee_monthly', 'fee_yearly'],
-        default: 'fee_monthly'
+		enum: ['feeMonthly', 'feeYearly'],
+        default: 'feeMonthly'
 	}
 })
 
