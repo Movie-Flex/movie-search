@@ -17,6 +17,9 @@ const paymentDetailsSchema = new mongoose.Schema({
 	email :{
 		type : String
 	},
+	username :{
+		type : String
+	},
 	amount: {
 		type: Number
 	},
@@ -33,7 +36,7 @@ const paymentDetailsSchema = new mongoose.Schema({
 	status: {
 		type: String
 	},
-	SubscriptionType: {
+	subscription : {
 		type: String
 	},
 	duration : {
