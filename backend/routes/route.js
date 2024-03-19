@@ -4,13 +4,12 @@ const { getMovies } = require('../controllers/autoSuggest');
 const { fuzzySearch } = require('../controllers/fuzzySearch');
 const role = require('../controllers/role');
 const subscription = require('../controllers/subsciption');
-const authTest = require('../controllers/authTest');
 const { semanticMovies } = require('../controllers/semanticSearch');
 const { availableUser } = require('../controllers/availableUser');
 const payment= require('../controllers/payment');
 const getUserFromToken = require('../controllers/getUserFromToken');
 const {orderTest, verifyTest, dashboardTest} = require('../controllers/paymentRender');  //testing
-
+const {addRecentMovies, getRecentMovies} = require('../controllers/recentMovies')
 
 
 const router = express.Router();
@@ -41,6 +40,13 @@ router.post('/order', payment.order)
 router.post('/verify', payment.verify)
 
 router.post('/refund', payment.refund)
+
+router.post('/addRecentMovies',addRecentMovies)
+
+router.get('/getRecentMovies',getRecentMovies)
+
+
+
 
 // testing payment 
 router.get('/dashboard', dashboardTest)
