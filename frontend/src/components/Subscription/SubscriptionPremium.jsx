@@ -1,4 +1,8 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const SubscriptionPremiumData = [
     "Ad-free streaming experience.",
@@ -10,6 +14,39 @@ const SubscriptionPremiumData = [
 
 export default function SubscriptionPremium({props,yearly,setYearly}) {
   const {features, currency, subunit,feeYearly,feeMonthly}=props;
+  const navigate=useNavigate()
+
+  const {
+    paymentGatewaySendingData,
+    setPaymentGatewaySendingData,
+    token,
+    paymentGatewayReceivingData,
+    setPaymentGatewayReceivingData,
+  } = useContext(UserContext);
+
+  const handlePremiumSubscription = async () => {
+    setPaymentGatewaySendingData({
+      dur: yearly ? "feeYearly" : "feeMonthly",
+      type: "premium",
+    });
+
+    try {
+      const response = await axios.post(
+        `http://localhost:3002/payment/order?dur=${paymentGatewaySendingData.dur}&type=${paymentGatewaySendingData.type}`,
+        { token: token }
+      );
+      if (response.status === 200) {
+        localStorage.setItem(
+          "paymentGatewayReceivingData",
+          JSON.stringify(response.data)
+        );
+        setPaymentGatewayReceivingData(response.data);
+        navigate("/paymentgateway");
+      } else {
+        console.log("error");
+      }
+    } catch (error) {}
+  };
 
   return (
     <div className="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
@@ -45,6 +82,7 @@ export default function SubscriptionPremium({props,yearly,setYearly}) {
 
       <Link
         to="/dummy"
+        onClick={()=>handlePremiumSubscription()}
         className="text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 
                 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white dark:focus:ring-primary-900">
         Pay

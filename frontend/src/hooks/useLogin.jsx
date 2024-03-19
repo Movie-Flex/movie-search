@@ -16,7 +16,7 @@ export const useLogin = () => {
       );
       setIsLoading(false);
       localStorage.setItem("token", response.data.token);
-      console.log(response);
+      // console.log(response);
       await TokenVerify(response.data.token);
       setIsLoggedIn(true);
       toast.success("Login Successful");
