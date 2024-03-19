@@ -17,10 +17,13 @@ export default function Dummy() {
   
   return (
       <div>
-        <h1>Dummy</h1>
-        {/* {user.name}
-        {user.email} */}
+        <h1 className="flex justify-center items-center">Dummy</h1>
+        <h1 className="flex justify-center items-center">Welcome: {user.name}</h1>
+        <h1 className="flex justify-center items-center">Email: {user.email}</h1>
 
+        <div
+        className="flex justify-center space-x-4 mt-4"
+        >
         <button 
         onClick={logout}
         className="bg-purple-500 text-white px-4 py-2 rounded-full transition duration-200 ease-in-out hover:bg-purple-700 active:bg-purple-900 focus:outline-none">
@@ -33,6 +36,7 @@ export default function Dummy() {
         className="bg-purple-500 text-white px-4 py-2 rounded-full transition duration-200 ease-in-out hover:bg-purple-700 active:bg-purple-900 focus:outline-none">
           Subscription
         </Link >
+        </div>
         
       </div>
     );

@@ -10,7 +10,7 @@ const PaymentGateway = () => {
   const [paymentSuccessModal, setPaymentSuccessModal] = useState(false);
   const [paymentVerifyModalData, setPaymentVerifyModalData] = useState({});
 
-  const { paymentGatewayReceivingData, token } = useContext(UserContext);
+  const { paymentGatewayReceivingData, token,isLoggedIn } = useContext(UserContext);
   // console.log(paymentGatewayReceivingData)
 
   function loadScript(src) {
@@ -98,6 +98,26 @@ const PaymentGateway = () => {
 
   //   // simulateButtonClick();
   // }, []);
+
+  if(!isLoggedIn){
+    return (
+      <section className="bg-white dark:bg-gray-900">
+        <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+          <h2 className="text-3xl font-semibold text-gray-900 dark:text-gray-100">Please Login to view Subscription Plans</h2>
+        </div>
+      </section>
+    );
+  }
+
+  if(!paymentGatewayReceivingData){
+    return (
+      <section className="bg-white dark:bg-gray-900">
+        <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+          <h2 className="text-3xl font-semibold text-gray-900 dark:text-gray-100">Loading...</h2>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <>
