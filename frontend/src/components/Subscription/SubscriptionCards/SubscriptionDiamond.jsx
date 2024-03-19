@@ -1,5 +1,8 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../../context/UserContext";
+
+import axios from "axios";
 
 const SubscriptionDiamondData = [
   "All features included in the Premium tier.",
@@ -8,8 +11,42 @@ const SubscriptionDiamondData = [
   "Discounts on merchandise or movie-related products.",
 ];
 
-export default function SubscriptionDiamond({props,yearly,setYearly}) {
-  const {features, currency, subunit,feeYearly,feeMonthly}=props;
+export default function SubscriptionDiamond({ props, yearly, setYearly }) {
+  const navigate = useNavigate();
+
+  const { features, currency, subunit, feeYearly, feeMonthly } = props;
+
+  const {
+    paymentGatewaySendingData,
+    setPaymentGatewaySendingData,
+    token,
+    paymentGatewayReceivingData,
+    setPaymentGatewayReceivingData,
+  } = useContext(UserContext);
+
+  const handleDiamondSubscription = async () => {
+    setPaymentGatewaySendingData({
+      dur: yearly ? "feeYearly" : "feeMonthly",
+      type: "diamond",
+    });
+
+    try {
+      const response = await axios.post(
+        `http://localhost:3002/payment/order?dur=${paymentGatewaySendingData.dur}&type=${paymentGatewaySendingData.type}`,
+        { token: token }
+      );
+      if (response.status === 200) {
+        localStorage.setItem(
+          "paymentGatewayReceivingData",
+          JSON.stringify(response.data)
+        );
+        setPaymentGatewayReceivingData(response.data);
+        navigate("/paymentgateway");
+      } else {
+        console.log("error");
+      }
+    } catch (error) {}
+  };
 
   return (
     <div className="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
@@ -17,11 +54,14 @@ export default function SubscriptionDiamond({props,yearly,setYearly}) {
       <p className="font-light text-gray-500 sm:text-lg dark:text-gray-400">
         Includes Diamond Features and Access
       </p>
-  {/* {yearly?"true":"false"} */}
-  {/* {feeYearly?feeYearly:} */}
+
       <div className="flex justify-center items-baseline my-8">
-        <span className="mr-2 text-5xl font-extrabold">{currency} {yearly?feeYearly:feeMonthly}</span>
-        <span className="text-gray-500 dark:text-gray-400">{yearly?"/yearly":"/monthly"}</span>
+        <span className="mr-2 text-5xl font-extrabold">
+          {currency} {yearly ? feeYearly : feeMonthly}
+        </span>
+        <span className="text-gray-500 dark:text-gray-400">
+          {yearly ? "/yearly" : "/monthly"}
+        </span>
       </div>
 
       <ul className="mb-8 space-y-4 text-left">
@@ -44,13 +84,13 @@ export default function SubscriptionDiamond({props,yearly,setYearly}) {
         ))}
       </ul>
 
-      <Link
-        to="/dummy"
+      <button
+        onClick={() => handleDiamondSubscription()}
         className="text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 
                 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white dark:focus:ring-primary-900"
       >
         Pay
-      </Link>
+      </button>
     </div>
   );
 }

@@ -1,23 +1,41 @@
-import { useEffect, useState } from "react";
-import SubscriptionDiamond from "./SubscriptionDiamond";
-import SubscriptionFree from "./SubscriptionFree";
+import { useContext, useEffect, useState } from "react";
 import SubscriptionHome from "./SubscriptionHome";
-import SubscriptionPremium from "./SubscriptionPremium";
+import SubscriptionDiamond from "./SubscriptionCards/SubscriptionDiamond";
+import SubscriptionFree from "./SubscriptionCards/SubscriptionFree";
+import SubscriptionPremium from "./SubscriptionCards/SubscriptionPremium";
 import { GetAmountDetails } from "../../hooks/usegetAmountDetails";
 import { tempSubscriptionData } from "../../utils/SubscriptionTempData";
+import { UserContext } from "../../context/UserContext";
 
 
 export default function Subscription() {
+  const {isLoggedIn}=useContext(UserContext)
+  
   const [yearly, setYearly] = useState(true);
-
   const [amountDetails, setAmountDetails] = useState(tempSubscriptionData);
 
- useEffect(() => {
-    GetAmountDetails().then((data) => {
-      setAmountDetails(data);
+  useEffect(() => {
+    const fetchAmountDetails = async () => {
+      try {
+        const data = await GetAmountDetails();
+        setAmountDetails(data);
+      } catch (error) {
+        console.error('Error fetching amount details:', error);
+      }
+    };
+    fetchAmountDetails();
+  }, []);
 
-    });
-  },[]);
+
+  if(!isLoggedIn){
+    return (
+      <section className="bg-white dark:bg-gray-900">
+        <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+          <h2 className="text-3xl font-semibold text-gray-900 dark:text-gray-100">Please Login to view Subscription Plans</h2>
+        </div>
+      </section>
+    );
+  }
    
 
   return (

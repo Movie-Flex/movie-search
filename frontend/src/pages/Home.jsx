@@ -21,7 +21,7 @@ export default function Home() {
     setAutocompleteResults([]);
     setValue('search', query);
     // const response = await axios.get(`http://localhost:3000/api/search?query=${query}`);
-    const response = await axios.post(`http://localhost:3002/api/fuzzySearch?q=${query}`);
+    const response = await axios.post(`${process.env.BACKEND_BASE_URL}/api/fuzzySearch?q=${query}`);
     console.log(response);
     setSearchResults(response.data);
     setLoading(false);
@@ -45,7 +45,7 @@ export default function Home() {
     setCurrentValue(query);
 
     if (query) {
-      const response = await axios.post(`http://localhost:3002/api/autoSuggest?q=${query}`);
+      const response = await axios.post(`${process.env.BACKEND_BASE_URL}+/api/autoSuggest?q=${query}`);
       // const response = await axios.get(`http://localhost:3000/api/autocomplete?query=${query}`);
       setAutocompleteResults(response.data.map((u) => u.title));
     } else {
