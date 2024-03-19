@@ -67,8 +67,8 @@
         const options = {
             "key": razorpayKeyId,
             "currency": "<%- paymentDetail.currency %>" ,
-            "name": "<%- paymentDetail.SubscriptionType %> subscription",
-            "description": "<%- paymentDetail.SubscriptionType %> subscription",
+            "name": "<%- paymentDetail.subscription %> subscription",
+            "description": "<%- paymentDetail.subscription %> subscription",
             "image": "https://th.bing.com/th/id/OIP.Ph7ASU7IV-pld1YGeGu0fgHaF3?rs=1&pid=ImgDetMain",
             "order_id": JSON.parse(orderId),
             "handler": function (response) {

@@ -5,8 +5,6 @@ const { generateToken } = require('../middlewares/generateToken');
 const { connectToDatabaseWithSchema, connectToDatabase } = require('../databases/db');
 const { v4: uuidv4 } = require('uuid');
 const { getUser } = require('../middlewares/getUserFromToken');
-const subsciption = require('./subsciption');
-// const { default: subscriptions } = require('razorpay/dist/types/subscriptions');
 
 // Create an instance of Razorpay
 const razorPayInstance = new Razorpay({
@@ -44,6 +42,12 @@ const order = async (req, res) => {
         const subscription_meta = await collection.findOne({}); 
         const {token} = req.body
         const subscription = req.query.type;
+
+        // handle free subscription 
+        if(subscription === 'free'){
+            return res.status(400).json({message :`Free subscription actiavted on ${Date.now}`});
+        }
+
         const duration = req.query.dur; 
         const typeInfo = subscription_meta.subscriptionTypes[0][subscription];
         if (!duration || !subscription) {
@@ -135,7 +139,56 @@ const verify = async (req, res) => {
     }
 };
 
+
+const refund = async (req, res) => {
+    try {
+        const { token, amount } = req.body;
+        const user = getUser(token);
+        const paymentDetail = await PaymentDetail.findOne({ email: user.email });
+
+        if (!paymentDetail) {
+            return res.status(404).json({ error: "Payment details not found for the user" });
+        }
+
+        const refundResponse = await razorPayInstance.payments.refund(paymentDetail.paymentId, {
+            amount: amount * 100 
+        });
+
+        if (refundResponse.status === 'processed') {
+            await PaymentDetail.findOneAndUpdate({ email: user.email }, { status: "refunded" });
+            return res.status(200).json({ message: "Refund successful", refundResponse });
+        } else {
+            return res.status(400).json({ error: "Refund failed", refundResponse });
+        }
+    } catch (error) {
+        console.error("Error occurred during refund:", error);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
+
+const upgrade = async(req, res) =>{
+    const subscriptionId = ""
+    const existingSubscription = await instance.subscriptions.fetch(subscriptionId);
+    const upgradedOptions = {
+        amount: 6900, 
+        currency: 'INR',
+        receipt: 'receipt_order_13',
+        notes: {
+        order_id: 'order_13',
+        },
+        };
+        
+        const upgradedSubscription = await instance.subscriptions.create(upgradedOptions);
+        
+        await instance.subscriptions.edit(subscriptionId, {
+        subscription: upgradedSubscription.id,
+        });
+}
+
 module.exports = { 
     verify :[verifyToken,verify], 
     order : [verifyToken,order] ,
-    dashboard : [verifyToken, dashboard]};
+    dashboard : [verifyToken, dashboard],
+    refund : [verifyToken, refund],
+    upgrade : [verifyToken, upgrade]};
