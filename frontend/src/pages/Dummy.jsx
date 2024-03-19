@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import { useLogout } from "../hooks/useLogout";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Dummy() {
 
@@ -23,12 +23,17 @@ export default function Dummy() {
 
         <button 
         onClick={logout}
-         className="button 
-        bg-primary-600 
-        ">
+        className="bg-purple-500 text-white px-4 py-2 rounded-full transition duration-200 ease-in-out hover:bg-purple-700 active:bg-purple-900 focus:outline-none">
           Logout
 
         </button >
+
+        <Link 
+        to="/subscription"
+        className="bg-purple-500 text-white px-4 py-2 rounded-full transition duration-200 ease-in-out hover:bg-purple-700 active:bg-purple-900 focus:outline-none">
+          Subscription
+        </Link >
+        
       </div>
     );
 }
