@@ -10,7 +10,7 @@ const PaymentGateway = () => {
   const [paymentSuccessModal, setPaymentSuccessModal] = useState(false);
   const [paymentVerifyModalData, setPaymentVerifyModalData] = useState({});
 
-  const { paymentGatewayReceivingData, token,isLoggedIn } = useContext(UserContext);
+  const { paymentGatewayReceivingData, token,isLoggedIn ,setToken} = useContext(UserContext);
   // console.log(paymentGatewayReceivingData)
 
   function loadScript(src) {
@@ -68,6 +68,7 @@ const PaymentGateway = () => {
           // navigate('/paymentsuccess')
           setPaymentSuccessModal(true);
           setPaymentVerifyModalData(result.data);
+          setToken(result.data.token);
           console.log(result.data);
         }
       },
@@ -143,11 +144,11 @@ const PaymentGateway = () => {
           </form>
           <button
             type="button"
-            className="btn btn-primary"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             onClick={(e) => Checkout(e)}
-          >
-            Pay
-          </button>
+            >
+              Continue to Pay
+            </button>
         </div>
       </div>
     </div>

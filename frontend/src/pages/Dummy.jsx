@@ -20,6 +20,7 @@ export default function Dummy() {
         <h1 className="flex justify-center items-center">Dummy</h1>
         <h1 className="flex justify-center items-center">Welcome: {user.name}</h1>
         <h1 className="flex justify-center items-center">Email: {user.email}</h1>
+        <h1 className="flex justify-center items-center">Subscription: {user.subscription}</h1>
 
         <div
         className="flex justify-center space-x-4 mt-4"

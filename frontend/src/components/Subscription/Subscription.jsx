@@ -14,11 +14,17 @@ export default function Subscription() {
   const [yearly, setYearly] = useState(true);
   const [amountDetails, setAmountDetails] = useState(tempSubscriptionData);
 
- useEffect(() => {
-    GetAmountDetails().then((data) => {
-      setAmountDetails(data);
-    });
-  },[]);
+  useEffect(() => {
+    const fetchAmountDetails = async () => {
+      try {
+        const data = await GetAmountDetails();
+        setAmountDetails(data);
+      } catch (error) {
+        console.error('Error fetching amount details:', error);
+      }
+    };
+    fetchAmountDetails();
+  }, []);
 
 
   if(!isLoggedIn){
