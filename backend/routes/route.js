@@ -2,14 +2,13 @@ const express = require('express');
 const {loginUser, registerUser} = require('../controllers/user');
 const { getMovies } = require('../controllers/autoSuggest');
 const { fuzzySearch } = require('../controllers/fuzzySearch');
-const role = require('../controllers/role');
-const subscription = require('../controllers/subsciption');
 const { semanticMovies } = require('../controllers/semanticSearch');
 const { availableUser } = require('../controllers/availableUser');
+const {addRecentMovies, getRecentMovies} = require('../controllers/recentMovies')
+const role = require('../controllers/role');
+const subscription = require('../controllers/subsciption');
 const payment= require('../controllers/payment');
 const getUserFromToken = require('../controllers/getUserFromToken');
-const {orderTest, verifyTest, dashboardTest} = require('../controllers/paymentRender');  //testing
-const {addRecentMovies, getRecentMovies} = require('../controllers/recentMovies')
 
 
 const router = express.Router();
@@ -32,26 +31,25 @@ router.post('/fuzzySearch', fuzzySearch)
 
 router.post('/semantic', semanticMovies)
 
-// payment routers (token is required for verification)
+router.post('/addRecentMovies',addRecentMovies)
+
+router.get('/getRecentMovies',getRecentMovies)
+
 router.post('/dashboard', payment.dashboard)
 
 router.post('/order', payment.order)
 
 router.post('/verify', payment.verify)
 
-router.post('/refund', payment.refund)
-
-router.post('/addRecentMovies',addRecentMovies)
-
-router.get('/getRecentMovies',getRecentMovies)
+router.post('/cancel', payment.cancel)
 
 
-
-
-// testing payment 
-router.get('/dashboard', dashboardTest)
-router.get('/order', orderTest)
-router.get('/verify', verifyTest)
-
+// For backend testing only (ignore)
+const {orderTest, verifyTest, dashboardTest,refundTest,upgradeSubscriptionTest} = require('../controllers/paymentTest'); 
+router.get('/dashboardTest', dashboardTest)
+router.get('/orderTest', orderTest)
+router.post('/verifyTest', verifyTest)
+router.get('/refundTest', refundTest)
+router.get('/upgradeTest', upgradeSubscriptionTest)
 
 module.exports = router;

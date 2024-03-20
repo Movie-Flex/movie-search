@@ -47,7 +47,7 @@ const PaymentGateway = () => {
       name: "Subscription",
       description: "Subscription payment",
       image:
-        "https://th.bing.com/th/id/OIP.Ph7ASU7IV-pld1YGeGu0fgHaF3?rs=1&pid=ImgDetMain",
+        "https://t  h.bing.com/th/id/OIP.Ph7ASU7IV-pld1YGeGu0fgHaF3?rs=1&pid=ImgDetMain",
       order_id: orderId,
       handler: async function (response) {
         const data = {
@@ -58,9 +58,11 @@ const PaymentGateway = () => {
           token: token,
         };
 
+        const  verificationObject={...data,...paymentGatewayReceivingData}
+
         const result = await axios.post(
           "http://localhost:3002/payment/verify",
-          data
+          verificationObject
         );
 
         if (result.status === 200) {

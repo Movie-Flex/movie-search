@@ -20,33 +20,64 @@ const paymentDetailsSchema = new mongoose.Schema({
 	username :{
 		type : String
 	},
-	amount: {
-		type: Number
-	},
-	subunit :{
-		type : Number
+	duration : {
+		type : String,
+		enum: ['feeMonthly', 'feeYearly'],
 	},
 	currency: {
 		type: String
 	},
-	createdAt: {
-        type: Date,
-        default: Date.now
-    },
-	status: {
-		type: String
+	subunit :{
+		type : Number
 	},
 	subscription : {
 		type: String
 	},
-	role : {
+
+	netAmount: { // overall amount left after paying or cancelled (left from taxes, etc.)
+		type: Number
+	},
+	status: { // current status like active or cancelled
 		type: String
 	},
-	duration : {
-		type : String,
-		enum: ['feeMonthly', 'feeYearly'],
-        default: 'feeMonthly'
-	}
+	
+	// for a new subscription
+	paymentDate: {
+        type: Date,
+		default: null
+    },
+	paymentStatus: {
+		type: String,
+		default: null
+	},
+	paidAmount :{
+		type:Number
+	},
+
+	// when subscription is cancelled 
+	refundId: {
+		type: String,
+		default:null
+	},
+	refundDate: {
+        type: Date,
+		default: null
+    },
+	refundStatus: {
+		type: String,
+		default:null
+	},
+	refundAmount:{
+		type : Number,
+		default: 0
+	},
+
+	
+	
+	
+	
 })
 
-module.exports = mongoose.model('PaymentDetail', paymentDetailsSchema)
+const PaymentDetail = mongoose.model('PaymentDetail', paymentDetailsSchema);
+
+module.exports = PaymentDetail;

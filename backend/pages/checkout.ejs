@@ -1,56 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Checkout</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<!-- Form for payment verification -->
+<form id="paymentVerifyForm" action="/payment/verifyTest" method="POST">
+    <input name="razorpay_payment_id" type="hidden" id="razorpay_payment_id" />
+    <input name="razorpay_order_id" type="hidden" id="razorpay_order_id" />
+    <input name="razorpay_signature" type="hidden" id="razorpay_signature" />
+    <input name="paymentDetail" type="hidden" id="paymentDetail" value="<%- paymentDetail %>" />
+</form>
 
-    <style>
-   
-        .row {
-            margin-top: 20px;
-        }
-    </style>
-
-</head>
-<body>
-
-<div class="container">
-    <div class="row d-flex justify-content-center">
-        <div class="col-sm-10 col-md-8 col-lg-5">
-            <!-- <div class="card">
-                <h1 class="card-header"><%- paymentDetail.SubscriptionType %></h1>
-                <div class="card-body">
-                    <p class="card-text">Find details below:</p>
-                    
-                    <dl class="row mt-2">
-                        <dt class="col-sm-3">Order ID</dt>
-                        <dd class="col-sm-9" id="orderId"><%- paymentDetail.orderId %></dd>
-                        <dt class="col-sm-3">Time</dt>
-                        <dd class="col-sm-9"><%- paymentDetail.createdAt %></dd>
-                        <dt class="col-sm-3">Amount</dt>
-                        <dd class="col-sm-9"><%- paymentDetail.currency %>  <%- paymentDetail.amount/paymentDetail.subunit %> </dd>
-                    </dl>
-                    
-
-                    <button type="button" class="btn btn-primary" onclick="checkout(event)" style="display: none;">Pay $<%- paymentDetail.amount/100 %></button>
-                </div>
-            </div> -->
-           
-
-            <!-- Form for payment verification -->
-            <form id="paymentVerifyForm" action="/payment/verify" method="POST">
-                <input name="razorpay_payment_id" type="hidden" id="razorpay_payment_id" />
-                <input name="razorpay_order_id" type="hidden" id="razorpay_order_id"/>
-                <input name="razorpay_signature" type="hidden" id="razorpay_signature"/>
-                <input name="paymentDetail" type="hidden" id="paymentDetail" value="<%- JSON.stringify(paymentDetail) %>"/>
-            </form>
-            
-            <button type="button" class="btn btn-primary" onclick="checkout(event)" style="display: none;">Pay $<%- paymentDetail.amount/100 %></button>
-        </div>
-    </div>
-</div>
+<button type="button" class="btn btn-primary" onclick="checkout(event)" style="display: none;">Pay $<%-
+        paymentDetail.amount/100 %></button>
 
 
 
@@ -66,9 +23,9 @@
         const orderId = '<%- JSON.stringify(paymentDetail.orderId) %>';
         const options = {
             "key": razorpayKeyId,
-            "currency": "<%- paymentDetail.currency %>" ,
-            "name": "<%- paymentDetail.subscription %> subscription",
-            "description": "<%- paymentDetail.subscription %> subscription",
+            "currency": "<%- paymentDetail.currency %>",
+            "name": "<%- paymentDetail.name %>",
+            "description": "<%- paymentDetail.description %>",
             "image": "https://th.bing.com/th/id/OIP.Ph7ASU7IV-pld1YGeGu0fgHaF3?rs=1&pid=ImgDetMain",
             "order_id": JSON.parse(orderId),
             "handler": function (response) {
@@ -78,7 +35,7 @@
                 document.getElementById("paymentVerifyForm").submit();
             },
             "modal": {
-                ondismiss: function() {
+                ondismiss: function () {
                     alert(`Payment Failed`);
                 }
             },
@@ -94,8 +51,8 @@
     }
 
     // Execute checkout function automatically when the page loads
-    
-    document.addEventListener('DOMContentLoaded', function() {
+
+    document.addEventListener('DOMContentLoaded', function () {
         // Find the button element
         var button = document.querySelector('.btn.btn-primary');
 
@@ -110,4 +67,5 @@
 </script>
 
 </body>
+
 </html>
