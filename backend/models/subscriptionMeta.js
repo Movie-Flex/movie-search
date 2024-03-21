@@ -40,7 +40,7 @@ const subscriptionTypesSchema = new mongoose.Schema({
 const mongoURI = process.env.MONGODB_URI;
 const SubscriptionMeta = mongoose.model('SubscriptionMeta', subscriptionTypesSchema);
 
-//  This function creates a new document only once
+//  This function creates a new meta document only once
 const createDefaultDocument = async () => {
     let db;
     try {
@@ -52,31 +52,46 @@ const createDefaultDocument = async () => {
                     name : 'Free Subsciption',
                     description :  "Free Subscription",
                     updatedDate : new Date,
-                    features: [],
+                    features: [
+                        "Limited access to premium content",
+                        "Basic support",
+                        "Ads-supported experience"
+                    ],
                     currency: "USD",
                     subunit: "100",
                     feeMonthly: 0,
-                    feeYearly: 0
+                    feeYearly: 0,
+                    charges : 0.1
                 },
                 premium: {
                     name : "Premium Subscription",
                     description :  "Premium Subscription",
                     updatedDate : new Date,
-                    features: [],
+                    features: [
+                        "Full access to premium content",
+                        "Priority support",
+                        "Ad-free experience"
+                    ],
                     currency: "USD",
                     subunit: "100",
                     feeMonthly: 19,
-                    feeYearly: 210
+                    feeYearly: 210,
+                    charges : 0.1
                 },
                 diamond: {
                     name : "Diamond Subscription",
                     description :  "Diamond Subscription",
                     updatedDate : new Date,
-                    features: [],
+                    features: [
+                        "VIP access to exclusive content",
+                        "24/7 dedicated support",
+                        "Ad-free experience"
+                    ],
                     currency: "USD",
                     subunit: "100",
                     feeMonthly: 39,
-                    feeYearly: 450
+                    feeYearly: 450,
+                    charges : 0.1
                 },
             };
             await SubscriptionMeta.create(defaultSubscriptionMeta);
