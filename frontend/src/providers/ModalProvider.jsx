@@ -18,7 +18,7 @@ const ModalProvider = ({
     setIsModalOpen
 }) => {
     console.log('movie', movie)
-    console.log('movies.genres', movie.genres)
+    // console.log('movies.genres', movie.genres)
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     return (
