@@ -8,6 +8,7 @@ import { Toaster } from 'react-hot-toast';
 import Dummy from './pages/Dummy';
 import Subscription from './components/Subscription/Subscription';
 import PaymentGateway from './components/PaymentGateway/PaymentGateway';
+import AdminLogin from './pages/AdminLogin.jsx'; //Imported AdminLogin component
 
 function App() {
   return (
@@ -39,6 +40,10 @@ function App() {
             <Route 
                 path="/paymentgateway"
                 element={<PaymentGateway/>}
+                />
+            <Route                        //Route for admin login added 
+                path="/adminlogin"
+                element={<AdminLogin/>}
                 />
             </Routes>
           </div>
