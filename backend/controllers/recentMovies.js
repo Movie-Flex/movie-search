@@ -10,7 +10,7 @@ const addRecentMovies = async (req, res) => {
     try {
         const { movieId, token } = req.body;
         if (!(token && movieId)) {
-            return res.status(204).json({ message: "Movie id or token missing." });
+            return res.status(209).json({ message: "Movie id or token missing." });
         }
         const user = getUser(token);
 
@@ -48,7 +48,7 @@ const getRecentMovies = async (req, res) => {
     try {
         const { token } = req.body;
         if (!token) {
-            return res.status(204).json({ message: "Token missing." });
+            return res.status(209).json({ message: "Token missing." });
         }
         const user = getUser(token);
 

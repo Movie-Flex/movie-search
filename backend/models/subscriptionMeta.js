@@ -29,6 +29,9 @@ const subscriptionTypeSchema = new mongoose.Schema({
     },
     updatedDate :{
         type : Date,
+    },
+    charges :{
+        type : Number
     }
 });
 

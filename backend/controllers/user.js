@@ -6,6 +6,7 @@ const { readKeys, encryptPassword, decryptPassword } = require('../middlewares/e
 const User_2 = require('../models/user'); 
 const Role = require('../models/role'); 
 const Subscription = require('../models/subscription'); 
+const { getUser } = require('../middlewares/getUserFromToken');
 
 const mongoURI = process.env.MONGODB_URI;
 
@@ -17,15 +18,19 @@ const registerUser = async (req, res) => {
         const { username, email, name, password } = req.body;
 
         if (!(email && name && username && password)) {
-            return res.status(204).json({ message: "All fields are required!" });
+            return res.status(209).json({ message: "All fields are required!" });
         }
 
         const existingUser = await User_2.findOne({ $or: [{ email: email }, { username: username }] });
         if (existingUser) {
 
-            return res.status(204).json({ message: "User already exists" });
+            return res.status(209).json({ message: "User already exists" });
         }
-
+        let role = "standard_user"
+        if(req.body.role){
+            role = req.body.role
+        }
+        const subscription = "free"
         // const hashedPassword = await bcrypt.hash(password, 10); // change this to rsa encryption
 
         // encryption using RSA public-key cryptography
@@ -40,20 +45,20 @@ const registerUser = async (req, res) => {
         });
 
         await newUser.save();
-
+        
         const newRole = new Role({
             email: email,
-            role: req.body.role ? req.body.role : 'standard_user'
+            role: role
         });
         await newRole.save();
 
         const newSubscription = new Subscription({
             email: email,
-            subscription: 'free',
+            subscription: subscription,
         });
         await newSubscription.save();
 
-        const token = generateToken(newUser, "role", "free");
+        const token = generateToken(newUser,role, subscription);
 
         return res.status(200).json({ message: "Account created successfully", token });
 
@@ -72,15 +77,16 @@ const loginUser = async (req, res) => {
     try {
         db = await connectToDatabaseWithSchema(mongoURI);
 
-        const { email, password } = req.body;
-        if (!(email && password)) {
-            return res.status(204).json({ message: "Email and password are required!" });
+        const { email, password, username } = req.body;
+        if (!(email && password || username&&password)) {
+            return res.status(209).json({ message: "Email and password are required!" });
         }
 
-        const user = await User_2.findOne({ email: email });
+        
+        const user = await User_2.findOne({ $or: [{ email: email }, { username: username }] });
 
         if (!user) {
-            return res.status(204).json({ message: "User not found" });
+            return res.status(209).json({ message: "User not found" });
         }
 
         // const passwordMatch = await bcrypt.compare(decryptedPassword, password);
@@ -96,7 +102,7 @@ const loginUser = async (req, res) => {
             return res.status(200).json({ token });
         }
 
-        return res.status(204).json({ message: "Invalid credentials" });
+        return res.status(209).json({ message: "Invalid credentials" });
 
     } catch (error) {
         console.error("Error occurred during login:", error);

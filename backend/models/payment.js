@@ -20,6 +20,9 @@ const paymentDetailsSchema = new mongoose.Schema({
 	username :{
 		type : String
 	},
+	subscription : {
+		type: String
+	},
 	duration : {
 		type : String,
 		enum: ['feeMonthly', 'feeYearly'],
@@ -29,9 +32,6 @@ const paymentDetailsSchema = new mongoose.Schema({
 	},
 	subunit :{
 		type : Number
-	},
-	subscription : {
-		type: String
 	},
 
 	netAmount: { // overall amount left after paying or cancelled (left from taxes, etc.)

@@ -5,8 +5,8 @@ const generateToken = (user, role, subscription) => {
             name: user.name,
             email: user.email,
             username : user.username,
-            role: role ? role.role : 'admin', // Use role if found, default to 'admin' otherwise
-            subscription: subscription ? subscription.subscription : 'free', // Use subscription type if found, default to 'free' otherwise
+            role: role ,
+            subscription: subscription ,
             issuedAt: Date.now()
         };
 
