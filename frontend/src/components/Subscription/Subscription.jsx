@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import SubscriptionHome from "./SubscriptionHome";
 import SubscriptionDiamond from "./SubscriptionCards/SubscriptionDiamond";
 import SubscriptionFree from "./SubscriptionCards/SubscriptionFree";
@@ -16,11 +16,14 @@ export default function Subscription() {
   const [yearly, setYearly] = useState(true);
   const [amountDetails, setAmountDetails] = useState(tempSubscriptionData);
 
+  const { getAmountDetails } = GetAmountDetails();
+
   useEffect(() => {
     const fetchAmountDetails = async () => {
       try {
-        const data = await GetAmountDetails();
+        const data = await getAmountDetails();
         setAmountDetails(data);
+        // console.log("Amount Details", data);
       } catch (error) {
         console.error('Error fetching amount details:', error);
       }

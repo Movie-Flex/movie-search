@@ -1,26 +1,36 @@
 import axios from "axios";
 import { UserContext } from "../context/UserContext";
 import { useContext } from "react";
+import toast from "react-hot-toast";
+import { useLogin } from "./useLogin";
 
+export const useCancelSubscription =  () => {
+  const { token, setToken } = useContext(UserContext);
 
+  const { TokenVerify } = useLogin();
 
-export const CancelSubscription=async()=>{
+  const  cancelSubscription = async () => {
+    try {
 
-   const {token}=useContext(UserContext);
+      const tokenObject = { token: token };
+      const response = await axios.post(
+        "http://localhost:3002/payment/cancel",
+        tokenObject
+      );
+      if (response.status === 200) {
+        toast.success(response.data.message);
+        setToken(response.data.newToken);
+        console.log("New Token", response.data.newToken);
 
+        await TokenVerify(response.data.newToken);
 
-//     const getAmountDetails=async ()=>{/
-       try{
-       const tokenObject={token:token};
-        const response =await  axios.post("http://localhost:3002/payment/cancel",tokenObject);
-     //    console.log(response);
-        return response.data.data[0];
-       }
-         catch(error){
-                console.log("Error",error);
-         }
-        
-//     }
+        return response.data;
+      }
+    } catch (error) {
+      console.log("Error", error);
+      toast.error("Subscription Cancellation Failed");
+    }
+  };
 
-//     return {getAmountDetails};
-}
+  return { cancelSubscription };
+};
