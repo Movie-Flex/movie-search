@@ -16,7 +16,7 @@ const Login = () => {
     console.log(loginData);
     try {
       await login(loginData);
-      navigate("/dummy")
+      
     } catch (error) {
       console.log("Login Error", error);
     }

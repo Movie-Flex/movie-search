@@ -2,10 +2,12 @@ import { useContext, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export const useLogin = () => {
   const { setIsLoggedIn, setUser } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate=useNavigate()
 
   const login = async (loginData) => {
     try {
@@ -20,6 +22,7 @@ export const useLogin = () => {
       await TokenVerify(response.data.token);
       setIsLoggedIn(true);
       toast.success("Login Successful");
+      navigate("/dummy")
     } catch (error) {
       setIsLoading(false);
       toast.error("Login Failed");

@@ -22,7 +22,7 @@ const Signup = () => {
           console.log(signupData)
           try {
             await signup(signupData);
-            navigate('/dummy')
+            
           } catch (error) {
             console.error('Signup error:', error);
           }
