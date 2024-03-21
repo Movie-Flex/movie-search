@@ -28,7 +28,7 @@ const subscription = async (req, res) => {
 
             const newToken = await generateToken(user, role, newSubscription);
 
-            return res.status(200).json({ info: `Subscription updated to ${newSubscription}`, token: newToken });
+            return res.status(200).json({ message: `Subscription updated to ${newSubscription}`, token: newToken });
         }
 
         return res.status(200).json({ subscription: userSubscription });

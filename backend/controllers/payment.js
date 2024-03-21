@@ -50,17 +50,17 @@ const order = async (req, res) => {
         const oldPaymentDetail = await PaymentDetail.findOne({ email: email }).sort({ updatedDate: -1 });
         console.log(oldPaymentDetail)
         if (oldPaymentDetail && oldPaymentDetail.subscription === 'premium'&& oldPaymentDetail.status === 'active') {
-            return res.status(400).json({ message: "Premium subscription is Active." });
+            return res.status(204).json({ message: "Premium subscription is Active." });
         } else if (oldPaymentDetail && oldPaymentDetail.subscription === 'diamond' && oldPaymentDetail.status === 'active') {
-            return res.status(400).json({ message: "Diamond subscription is Active." });
+            return res.status(204).json({ message: "Diamond subscription is Active." });
         }
 
         if (!duration || !subscription) {
-            return res.status(400).json({ error: "Missing query type / dur" });
+            return res.status(204).json({ message: "Missing query type / dur" });
         }
 
         if (subscription === 'free') {
-            return res.status(400).json({ message: "Free subscription activated" });
+            return res.status(204).json({ message: "Free subscription activated" });
         }
 
         const typeInfo = subscriptionMeta[subscription];
@@ -116,13 +116,13 @@ const verify = async (req, res) => {
         const user = getUser(token)
 
         if (!razorpay_order_id) {
-            return res.status(400).json({ error: "Razorpay order id  (razorpay_order_id) missing." })
+            return res.status(204).json({ message: "Razorpay order id  (razorpay_order_id) missing." })
         }
         if (!razorpay_payment_id) {
-            return res.status(400).json({ error: "Razorpay payment id (razorpay_payment_id) missing." })
+            return res.status(204).json({ message: "Razorpay payment id (razorpay_payment_id) missing." })
         }
         if (!razorpay_signature) {
-            return res.status(400).json({ error: "Razorpay signature  (razorpay_signature) missing." })
+            return res.status(204).json({ message: "Razorpay signature  (razorpay_signature) missing." })
         }
         const body = razorpay_order_id + "|" + razorpay_payment_id;
         const crypto = require("crypto");
@@ -162,7 +162,7 @@ const verify = async (req, res) => {
 
             return res.status(200).json({ paymentDetail: successPayment, token: newToken })
         } else {
-            return res.status(400).json({ error: "Payment verification failed. Try again!" })
+            return res.status(204).json({ message : "Payment verification failed. Try again!" })
         }
     } catch (error) {
         console.error("Error verifying payment:", error);
@@ -184,11 +184,11 @@ const refund = async (req, res) => {
         const paymentDetail = await PaymentDetail.findOne({ email: user.email });
 
         if (!paymentDetail) {
-            return res.status(204).json({ error: "Payment details not found for the user" });
+            return res.status(204).json({ message: "Payment details not found for the user" });
         }else if(paymentDetail.subscription === 'free'){
-            return res.status(200).json({ message: "Free subscription." });
+            return res.status(204).json({ message: "Free subscription." });
         }else if(paymentDetail.status === 'cancelled'){
-            return res.status(200).json({ message: "Subscription cancelled." });
+            return res.status(204).json({ message: "Subscription alrady cancelled." });
         }
         
         
@@ -202,7 +202,7 @@ const refund = async (req, res) => {
         if((duration === 'feeMonthly' && daysUsed >31 || duration === 'feeYearly' && daysUsed >365)){
             await Subscriptions.findOneAndUpdate({ email: user.email }, { $set: { subscription: "free"} });
             const newToken = generateToken(user, user.role,"free")
-            return res.status(200).json({ message: "Subsciption expired", newToken });
+            return res.status(204).json({ message: "Subsciption expired", newToken });
         }
 
         // calculating amount based on remaining days and subscription
@@ -242,7 +242,7 @@ const refund = async (req, res) => {
         return res.status(200).json({ message: "Subscription cancelled and refund processed.", newToken, cancelledSubscription });
 
         } else {
-            return res.status(400).json({ error: "Refund failed", refundResponse });
+            return res.status(204).json({ message: "Refund failed", refundResponse });
         }
     } catch (error) {
         console.error("Error occurred during refund:", error);
