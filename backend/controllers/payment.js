@@ -7,6 +7,7 @@ const { v4: uuidv4 } = require('uuid');
 const { getUser } = require('../middlewares/getUserFromToken');
 const { SubscriptionMeta } = require('../models/subscriptionMeta')
 const Subscriptions = require('../models/subscription');
+// const { default: subscriptions } = require('razorpay/dist/types/subscriptions');
 
 
 
@@ -28,6 +29,7 @@ const dashboard = async (req, res) => {
 
         return res.status(200).json({ subscriptionMeta: subscriptionMeta });
     } catch (error) {
+        console.log("Error occurred: ", err);
         return res.status(500).json({ error: "Internal Server Error" });
     }
 }
@@ -56,7 +58,7 @@ const order = async (req, res) => {
             return res.status(209).json({ message: "Missing query type / dur" });
         }
 
-        if (subscription === 'free') {
+        if (subscription == 'free') {
             return res.status(200).json({ message: "Free subscription activated" });
         }
 
@@ -91,6 +93,7 @@ const order = async (req, res) => {
         return res.status(200).json({ razorpayKeyId: process.env.RAZORPAY_KEY_ID, paymentDetail: paymentDetail })
 
     } catch (err) {
+        console.log("Error occurred: ", err);
         res.status(500).send("Internal Server Error");
     } finally {
         if (db) {
@@ -159,6 +162,7 @@ const verify = async (req, res) => {
             return res.status(209).json({ message : "Payment verification failed. Try again!" })
         }
     } catch (error) {
+        console.log("Error occurred: ", err);
         return res.status(500).json({ error: "Internal server error" })
     }finally {
         if (db) {
@@ -173,6 +177,7 @@ const refund = async (req, res) => {
     try {
         db = await connectToDatabaseWithSchema(mongoURI);
         const { token } = req.body;
+        const q = req.query.q;
         const user = getUser(token);
         const paymentDetail = await PaymentDetail.findOne({ email: user.email });
 
@@ -180,67 +185,84 @@ const refund = async (req, res) => {
             return res.status(209).json({ message: "Payment details not found for the user" });
         }else if(paymentDetail.subscription === 'free'){
             return res.status(209).json({ message: "Free subscription." });
-        }else if(paymentDetail.status === 'cancelled'){
-            return res.status(209).json({ message: "Subscription alrady cancelled." });
+        }else if(paymentDetail.status === 'inactive'){
+            return res.status(209).json({ message: "Subscription is inactive." });
         }
         
         
         const duration = paymentDetail.duration
+        const subscription = paymentDetail.subscription
         const paymentDate = paymentDetail.paymentDate
         const paidAmount = paymentDetail.paidAmount
         const millisecondsUsed = new Date() - paymentDate;
         const daysUsed = Math.floor(millisecondsUsed / ( 1000 * 60 * 60 * 24));
 
+        const daysInMonth = new Date(paymentDate.getFullYear(), paymentDate.getMonth() + 1, 0).getDate();
+        const daysInYear = (paymentDate.getFullYear()) % 4 == 0 ? 366 : 365;
+
         // checking a expired subscription
-        if((duration === 'feeMonthly' && daysUsed >31 || duration === 'feeYearly' && daysUsed >365)){
+        if((duration == 'feeMonthly' && daysUsed >daysInMonth || duration == 'feeYearly' && daysUsed >daysInYear)){
             await Subscriptions.findOneAndUpdate({ email: user.email }, { $set: { subscription: "free"} });
             const newToken = generateToken(user, user.role,"free")
             return res.status(209).json({ message: "Subsciption expired", newToken });
         }
 
         // calculating amount based on remaining days and subscription
+        const subscriptionMeta = await SubscriptionMeta.findOne({}).sort({ updatedDate: -1 });
+        const charges = subscriptionMeta[subscription].charges;  // in decimal proportion
+
         let netRefund = 0
-        if(duration === 'feeMonthly' && daysUsed <= 31){
-            const remainingAmount = paidAmount*(1 - daysUsed/31)    // in paisa
-            netRefund = remainingAmount - remainingAmount*0.1      // taxes and transaction charges : 10%
-            // console.log(daysUsed, "\n", remainingAmount , "\n", netRefund)
+        if(duration == 'feeMonthly' && daysUsed <= daysInMonth){
+            const remainingAmount = paidAmount*(1 - daysUsed/daysInMonth)    // in paisa
+            netRefund = remainingAmount - remainingAmount*charges     // taxes and transaction charges : 10%
         }
        
 
-        if(duration === 'feeYearly' && daysUsed <= 365){
-            const remainingAmount = paidAmount*(1 - daysUsed/365)    // in paisa
-            netRefund = remainingAmount - remainingAmount*0.1      // taxes and transaction charges : 10%
-            // console.log(daysUsed, "\n", remainingAmount , "\n", netRefund)
+        if(duration == 'feeYearly' && daysUsed <= daysInYear){
+            const remainingAmount = paidAmount*(1 - daysUsed/daysInYear) 
+            netRefund = remainingAmount - remainingAmount*charges 
         }
-        
 
-        const refundResponse = await razorPayInstance.payments.refund(paymentDetail.paymentId, {
-            amount: netRefund
-        });
+        if(q == 'refundInfo'){
+            const refundDetails = {
+                subscriptionDate : paymentDate,
+                subscriptionType : subscription,
+                status : paymentDetail.status,
+                paidAmount : paidAmount,
+                refundableAmount : netRefund,
+                charges : charges*100 + " %",
+                daysUsed : daysUsed
+            }
+            return res.status(200).json({refundDetails });
+            
+        }else if(q == 'refundTrue'){
+            const refundResponse = await razorPayInstance.payments.refund(paymentDetail.paymentId, {
+                amount: netRefund
+            });
+    
+            if (refundResponse.status == 'processed') {
+                await PaymentDetail.findOneAndUpdate({ email: user.email }, {
+                     status: "inactive" ,
+                     refundAmount : refundResponse.amount,
+                     refundDate : new Date,
+                     refundId : refundResponse.id,
+                     refundStatus : "refunded",
+                     netAmount : paymentDetail.netAmount - refundResponse.amount,
+                     subscription : "free"
+                    });
+    
+            await Subscriptions.findOneAndUpdate({ email: user.email }, { $set: { subscription: "free"} });
+            const newToken = generateToken(user, user.role,"free")
+            const cancelledSubscription = await PaymentDetail.findOne({ email: user.email });
 
-        if (refundResponse.status === 'processed') {
-            await PaymentDetail.findOneAndUpdate({ email: user.email }, {
-                 status: "cancelled" ,
-                 refundAmount : refundResponse.amount,
-                 refundDate : new Date,
-                 refundId : refundResponse.id,
-                 refundStatus : "refunded",
-                 netAmount : paymentDetail.netAmount - refundResponse.amount,
-                 subscription : "free"
-                });
-
-        await Subscriptions.findOneAndUpdate({ email: user.email }, { $set: { subscription: "free"} });
-        const newToken = generateToken(user, user.role,"free")
-        const cancelledSubscription = await PaymentDetail.findOne({ email: user.email });
-        const user = getUser(newToken)
-        console.log(user)
-        return res.status(200).json({ message: "Subscription cancelled and refund processed.", newToken, cancelledSubscription });
-
-        } else {
-            return res.status(209).json({ message: "Refund failed", refundResponse });
-        }
-    } catch (error) {
-
+            return res.status(200).json({ message: "Subscription cancelled and refund processed.", newToken,refundInfo :  cancelledSubscription });
+    
+            } else {
+                return res.status(209).json({ message: "Refund failed", refundResponse });
+            }
+        } 
+    } catch (err) {
+        console.log("Error occurred: ", err);
         return res.status(500).json({ error: "Internal Server Error" });
     }finally {
         if (db) {
