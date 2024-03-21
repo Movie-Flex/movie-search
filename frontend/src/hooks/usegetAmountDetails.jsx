@@ -4,17 +4,17 @@ import { UserContext } from "../context/UserContext";
 import { tempSubscriptionData } from "../utils/SubscriptionTempData";
 
 
-export const GetAmountDetails=async()=>{
+export const GetAmountDetails=()=>{
 
    const {token}=useContext(UserContext);
 
 
-//     const getAmountDetails=async ()=>{/
+    const getAmountDetails=async ()=>{
        try{
        const tokenObject={token:token};
         const response =await  axios.post("http://localhost:3002/payment/dashboard",tokenObject);
-     //    console.log(response);
-        return response.data.data[0];
+      //   console.log(response.data.subscriptionMeta);
+        return response.data.subscriptionMeta;
       
 
        }
@@ -23,7 +23,7 @@ export const GetAmountDetails=async()=>{
               return tempSubscriptionData;
          }
         
-//     }
+    }
 
-//     return {getAmountDetails};
+    return {getAmountDetails};
 }

@@ -34,6 +34,7 @@ export const useLogin = () => {
 
   const TokenVerify = async (token) => {
     try {
+      console.log("TokenVerify", token);
       const tokenObject = { token: token };
       const response = await axios.post(
         "http://localhost:3002/api/getUser",
@@ -51,5 +52,5 @@ export const useLogin = () => {
     }
   };
 
-  return { login };
+  return { login,TokenVerify };
 };
