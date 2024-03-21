@@ -13,6 +13,10 @@ export const useSignup = () => {
     
   
     const signup = async (signupData) => {
+      if(signupData.password!==signupData.confirmPassword){
+        toast.error("Password and Confirm Password do not match");
+        return;
+      }
       try {
         setIsLoading(true);
         const response = await axios.post('http://localhost:3002/api/signup', signupData);
