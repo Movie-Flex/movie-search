@@ -87,20 +87,20 @@ const PaymentGateway = () => {
     razorpay.open();
   }
 
-  // useEffect(() => {
-  //   Checkout();
-  //   // const simulateButtonClick = () => {
-  //   //   const button = document.querySelector('.btn.btn-primary');
-  //   //   const event = new MouseEvent('click', {
-  //   //     bubbles: true,
-  //   //     cancelable: true,
-  //   //     view: window
-  //   //   });
-  //   //   button.dispatchEvent(event);
-  //   // };
+  useEffect(() => {
+    Checkout();
+    const simulateButtonClick = () => {
+      const button = document.querySelector('.btn.btn-primary');
+      const event = new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+        view: window
+      });
+      button.dispatchEvent(event);
+    };
 
-  //   // simulateButtonClick();
-  // }, []);
+    simulateButtonClick();
+  }, []);
 
   if(!isLoggedIn){
     return (
@@ -148,6 +148,7 @@ const PaymentGateway = () => {
             type="button"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             onClick={(e) => Checkout(e)}
+            
             >
               Continue to Pay
             </button>
