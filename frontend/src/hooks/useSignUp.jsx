@@ -22,15 +22,25 @@ export const useSignup = () => {
         const response = await axios.post('http://localhost:3002/api/signup', signupData);
         console.log(response.data.token);
 
-        // if(!isLoading)
-        setIsLoading(false);
-        localStorage.setItem('token', response.data.token);
-        await TokenVerify(response.data.token);
-        setToken(response.data.token)
-        setIsLoggedIn(true);
-        toast.success("SignUp Successful")
-        navigate('/dummy')
+       if(response.status===200){
+         // if(!isLoading)
+         setIsLoading(false);
+         localStorage.setItem('token', response.data.token);
+         await TokenVerify(response.data.token);
+         setToken(response.data.token)
+         setIsLoggedIn(true);
+         toast.success("SignUp Successful")
+         navigate('/dummy')
+       }
+
+      //  if(error.status===409){
+      //    setIsLoading(false);
+      //    toast.error("User already exists");
+      // }
+      
       } catch (error) {
+
+
         setIsLoading(false);
         toast.error("Sign up Failed"); 
       }

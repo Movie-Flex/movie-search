@@ -72,6 +72,7 @@ const PaymentGateway = () => {
           setPaymentVerifyModalData(result.data);
           setToken(result.data.token);
           console.log(result.data);
+          
         }
       },
       modal: {
@@ -87,20 +88,20 @@ const PaymentGateway = () => {
     razorpay.open();
   }
 
-  useEffect(() => {
-    Checkout();
-    const simulateButtonClick = () => {
-      const button = document.querySelector('.btn.btn-primary');
-      const event = new MouseEvent('click', {
-        bubbles: true,
-        cancelable: true,
-        view: window
-      });
-      button.dispatchEvent(event);
-    };
+  // useEffect(() => {
+  //   Checkout();
+  //   const simulateButtonClick = () => {
+  //     const button = document.querySelector('.btn.btn-primary');
+  //     const event = new MouseEvent('click', {
+  //       bubbles: true,
+  //       cancelable: true,
+  //       view: window
+  //     });
+  //     button.dispatchEvent(event);
+  //   };
 
-    simulateButtonClick();
-  }, []);
+  //   simulateButtonClick();
+  // }, []);
 
   if(!isLoggedIn){
     return (

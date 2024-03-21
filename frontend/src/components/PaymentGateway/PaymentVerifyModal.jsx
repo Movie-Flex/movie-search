@@ -19,7 +19,7 @@ export default function PaymentVerifyModal({props,setPaymentSuccessModal}){
                                 </h3>
                                 <div className="mt-2">
                                     <p className="text-sm text-gray-500">
-                                        Payment of {props.paymentDetail.amount/props.paymentDetail.subunit} {props.paymentDetail.currency} for {props.paymentDetail.subscription} subscription is successful.
+                                        Payment of {props.paymentDetail.netAmount/props.paymentDetail.subunit} {props.paymentDetail.currency} for {props.paymentDetail.subscription} subscription is successful.
                                     </p>
                                 </div>
                             </div>
