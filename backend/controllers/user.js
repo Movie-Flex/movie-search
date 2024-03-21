@@ -74,13 +74,13 @@ const loginUser = async (req, res) => {
 
         const { email, password } = req.body;
         if (!(email && password)) {
-            return res.status(400).json({ error: "Email and password are required!" });
+            return res.status(204).json({ error: "Email and password are required!" });
         }
 
         const user = await User_2.findOne({ email: email });
 
         if (!user) {
-            return res.status(400).json({ error: "User not found" });
+            return res.status(204).json({ error: "User not found" });
         }
 
         // const passwordMatch = await bcrypt.compare(decryptedPassword, password);
@@ -96,7 +96,7 @@ const loginUser = async (req, res) => {
             return res.status(200).json({ token });
         }
 
-        return res.status(400).json({ error: "Invalid credentials" });
+        return res.status(204).json({ error: "Invalid credentials" });
 
     } catch (error) {
         console.error("Error occurred during login:", error);

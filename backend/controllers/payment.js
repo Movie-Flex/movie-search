@@ -175,7 +175,7 @@ const verify = async (req, res) => {
 };
 
 
-const cancel = async (req, res) => {
+const refund = async (req, res) => {
     let db;
     try {
         db = await connectToDatabaseWithSchema(mongoURI);
@@ -184,7 +184,7 @@ const cancel = async (req, res) => {
         const paymentDetail = await PaymentDetail.findOne({ email: user.email });
 
         if (!paymentDetail) {
-            return res.status(404).json({ error: "Payment details not found for the user" });
+            return res.status(204).json({ error: "Payment details not found for the user" });
         }else if(paymentDetail.subscription === 'free'){
             return res.status(200).json({ message: "Free subscription." });
         }else if(paymentDetail.status === 'cancelled'){
@@ -215,7 +215,7 @@ const cancel = async (req, res) => {
        
 
         if(duration === 'feeYearly' && daysUsed <= 365){
-            const remainingAmount = paidAmount*(1 - daysUsed/31)    // in paisa
+            const remainingAmount = paidAmount*(1 - daysUsed/365)    // in paisa
             netRefund = remainingAmount - remainingAmount*0.1      // taxes and transaction charges : 10%
             console.log(daysUsed, "\n", remainingAmount , "\n", netRefund)
         }
@@ -260,5 +260,5 @@ module.exports = {
     dashboard: [verifyToken, dashboard],
     order: [verifyToken, order],
     verify: [verifyToken, verify],
-    cancel: [verifyToken, cancel],
+    refund: [verifyToken, refund],
 };
