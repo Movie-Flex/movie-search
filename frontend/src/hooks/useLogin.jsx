@@ -43,7 +43,7 @@ export const useLogin = () => {
       console.log(response);
 
       if (response.status === 200) {
-        console.log(response.data);
+        console.log("vskvcdvhdvbvf",response.data);
         localStorage.setItem("userData", JSON.stringify(response.data.user));
         setUser(response.data.user);
       }
