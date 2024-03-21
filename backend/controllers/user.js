@@ -17,13 +17,13 @@ const registerUser = async (req, res) => {
         const { username, email, name, password } = req.body;
 
         if (!(email && name && username && password)) {
-            return res.status(400).json({ error: "All fields are required!" });
+            return res.status(204).json({ message: "All fields are required!" });
         }
 
         const existingUser = await User_2.findOne({ $or: [{ email: email }, { username: username }] });
         if (existingUser) {
 
-            return res.status(409).json({ Info: "User already exists" });
+            return res.status(204).json({ message: "User already exists" });
         }
 
         // const hashedPassword = await bcrypt.hash(password, 10); // change this to rsa encryption
@@ -74,13 +74,13 @@ const loginUser = async (req, res) => {
 
         const { email, password } = req.body;
         if (!(email && password)) {
-            return res.status(204).json({ error: "Email and password are required!" });
+            return res.status(204).json({ message: "Email and password are required!" });
         }
 
         const user = await User_2.findOne({ email: email });
 
         if (!user) {
-            return res.status(204).json({ error: "User not found" });
+            return res.status(204).json({ message: "User not found" });
         }
 
         // const passwordMatch = await bcrypt.compare(decryptedPassword, password);
@@ -96,7 +96,7 @@ const loginUser = async (req, res) => {
             return res.status(200).json({ token });
         }
 
-        return res.status(204).json({ error: "Invalid credentials" });
+        return res.status(204).json({ message: "Invalid credentials" });
 
     } catch (error) {
         console.error("Error occurred during login:", error);
