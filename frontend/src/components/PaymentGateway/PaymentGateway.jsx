@@ -3,10 +3,12 @@ import { UserContext } from "../../context/UserContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import PaymentVerifyModal from "./PaymentVerifyModal";
+import { useLogin } from "../../hooks/useLogin";
 
 const PaymentGateway = () => {
   // const navigate=useNavigate()
-
+  
+  const { TokenVerify } = useLogin();
   const [paymentSuccessModal, setPaymentSuccessModal] = useState(false);
   const [paymentVerifyModalData, setPaymentVerifyModalData] = useState({});
 
@@ -71,6 +73,7 @@ const PaymentGateway = () => {
           setPaymentSuccessModal(true);
           setPaymentVerifyModalData(result.data);
           setToken(result.data.token);
+          await TokenVerify(result.data.token);
           console.log(result.data);
           
         }
