@@ -1,5 +1,5 @@
 import './App.css';
-import Home from './pages/Home';
+import Homee from './pages/Homee';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Semantic from './pages/Semantic';
 import Login from './pages/Login';
@@ -19,7 +19,7 @@ function App() {
             <Routes>
               <Route
                 path="/"
-                element={<Home />}
+                element={<Homee />}
               />
               <Route
               path="/dummy"

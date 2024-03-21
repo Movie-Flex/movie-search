@@ -9,7 +9,7 @@ const fuzzySearch = async (req, res) => {
     const  query  = req.query.q;
 
     if (!query) {
-      return res.status(400).json({ error: 'Query is required' });
+      return res.status(204).json({ message: 'Query is required' });
     }
 
     // Connect to the database and get client and collection
@@ -35,7 +35,7 @@ const fuzzySearch = async (req, res) => {
 
     const movies = await collection.aggregate(pipeline).toArray();
 
-    res.json(movies);
+    res.status(200).json(movies);
   } catch (err) {
     console.error('Error retrieving movies:', err);
     res.status(500).json({ error: 'Internal server error' });

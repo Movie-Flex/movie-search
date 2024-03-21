@@ -41,7 +41,7 @@ router.post('/order', payment.order)
 
 router.post('/verify', payment.verify)
 
-router.post('/cancel', payment.cancel)
+router.post('/cancel', payment.refund)
 
 
 // For backend testing only (ignore)

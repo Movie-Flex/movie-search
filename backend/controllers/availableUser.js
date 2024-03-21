@@ -14,9 +14,9 @@ const availableUser = async (req, res) => {
         const existingUsernameUser = await User_2.findOne({ username: username });
 
         if (existingUsernameUser) {
-            return res.status(400).json({ error: "Username already in use" });
+            return res.status(204).json({ message: "Username already in use" });
         }else if (existingEmailUser){
-            return res.status(400).json({ error: "Email already in use" });
+            return res.status(204).json({ message: "Email already in use" });
         }
          else {
             return res.status(200).json({ message: "Available" });

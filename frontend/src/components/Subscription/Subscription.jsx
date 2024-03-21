@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import SubscriptionHome from "./SubscriptionHome";
 import SubscriptionDiamond from "./SubscriptionCards/SubscriptionDiamond";
 import SubscriptionFree from "./SubscriptionCards/SubscriptionFree";
@@ -9,16 +9,21 @@ import { UserContext } from "../../context/UserContext";
 
 
 export default function Subscription() {
-  const {isLoggedIn}=useContext(UserContext)
+  const {isLoggedIn,user}=useContext(UserContext)
+
+  var subscriptionfree = user.subscription==="free"?true:false;
   
   const [yearly, setYearly] = useState(true);
   const [amountDetails, setAmountDetails] = useState(tempSubscriptionData);
 
+  const { getAmountDetails } = GetAmountDetails();
+
   useEffect(() => {
     const fetchAmountDetails = async () => {
       try {
-        const data = await GetAmountDetails();
+        const data = await getAmountDetails();
         setAmountDetails(data);
+        // console.log("Amount Details", data);
       } catch (error) {
         console.error('Error fetching amount details:', error);
       }
@@ -46,9 +51,9 @@ export default function Subscription() {
 
         <SubscriptionHome yearly={yearly} setYearly={setYearly} />
 
-          <div className="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
+          <div className="flex justify-center items-center lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
 
-            <SubscriptionFree yearly={yearly} setYearly={setYearly} props={amountDetails.free}/>
+            {subscriptionfree &&<SubscriptionFree yearly={yearly} setYearly={setYearly} props={amountDetails.free}/>}
 
             <SubscriptionPremium yearly={yearly} setYearly={setYearly} props={amountDetails.premium}/>
             

@@ -3,10 +3,12 @@ import { UserContext } from "../../context/UserContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import PaymentVerifyModal from "./PaymentVerifyModal";
+import { useLogin } from "../../hooks/useLogin";
 
 const PaymentGateway = () => {
   // const navigate=useNavigate()
-
+  
+  const { TokenVerify } = useLogin();
   const [paymentSuccessModal, setPaymentSuccessModal] = useState(false);
   const [paymentVerifyModalData, setPaymentVerifyModalData] = useState({});
 
@@ -71,7 +73,9 @@ const PaymentGateway = () => {
           setPaymentSuccessModal(true);
           setPaymentVerifyModalData(result.data);
           setToken(result.data.token);
+          await TokenVerify(result.data.token);
           console.log(result.data);
+          
         }
       },
       modal: {
@@ -89,17 +93,17 @@ const PaymentGateway = () => {
 
   // useEffect(() => {
   //   Checkout();
-  //   // const simulateButtonClick = () => {
-  //   //   const button = document.querySelector('.btn.btn-primary');
-  //   //   const event = new MouseEvent('click', {
-  //   //     bubbles: true,
-  //   //     cancelable: true,
-  //   //     view: window
-  //   //   });
-  //   //   button.dispatchEvent(event);
-  //   // };
+  //   const simulateButtonClick = () => {
+  //     const button = document.querySelector('.btn.btn-primary');
+  //     const event = new MouseEvent('click', {
+  //       bubbles: true,
+  //       cancelable: true,
+  //       view: window
+  //     });
+  //     button.dispatchEvent(event);
+  //   };
 
-  //   // simulateButtonClick();
+  //   simulateButtonClick();
   // }, []);
 
   if(!isLoggedIn){
@@ -148,6 +152,7 @@ const PaymentGateway = () => {
             type="button"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             onClick={(e) => Checkout(e)}
+            
             >
               Continue to Pay
             </button>
