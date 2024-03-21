@@ -1,27 +1,34 @@
-import axios from 'axios';
-import { useForm } from 'react-hook-form';
-import debounce from 'debounce';
-import {  useState } from 'react';
-import { Link } from 'react-router-dom';
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import debounce from "debounce";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 const classNames = (...classes) => {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(" ");
 };
 
 export default function Home() {
+  const navigate = useNavigate();
+  const { isLoggedIn } = useContext(UserContext);
+
   const { register, handleSubmit, setValue } = useForm();
-  const [currentValue, setCurrentValue] = useState('');
+  const [currentValue, setCurrentValue] = useState("");
   const [autocompleteResults, setAutocompleteResults] = useState([]);
-  const [selectedAutocompleteResultIndex, setSelectedAutocompleteResultIndex] = useState(null);
+  const [selectedAutocompleteResultIndex, setSelectedAutocompleteResultIndex] =
+    useState(null);
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
   const runSearch = async (query) => {
     setLoading(true);
     setAutocompleteResults([]);
-    setValue('search', query);
+    setValue("search", query);
     // const response = await axios.get(`http://localhost:3000/api/search?query=${query}`);
-    const response = await axios.post(`${process.env.BACKEND_BASE_URL}/api/fuzzySearch?q=${query}`);
+    const response = await axios.post(
+      `${process.env.BACKEND_BASE_URL}/api/fuzzySearch?q=${query}`
+    );
     console.log(response);
     setSearchResults(response.data);
     setLoading(false);
@@ -45,7 +52,9 @@ export default function Home() {
     setCurrentValue(query);
 
     if (query) {
-      const response = await axios.post(`${process.env.BACKEND_BASE_URL}+/api/autoSuggest?q=${query}`);
+      const response = await axios.post(
+        `${process.env.BACKEND_BASE_URL}+/api/autoSuggest?q=${query}`
+      );
       // const response = await axios.get(`http://localhost:3000/api/autocomplete?query=${query}`);
       setAutocompleteResults(response.data.map((u) => u.title));
     } else {
@@ -55,16 +64,22 @@ export default function Home() {
   };
 
   const onInputKeypress = (event) => {
-    if (event.code === 'ArrowDown') {
-      const current = selectedAutocompleteResultIndex === null ? -1 : selectedAutocompleteResultIndex;
+    if (event.code === "ArrowDown") {
+      const current =
+        selectedAutocompleteResultIndex === null
+          ? -1
+          : selectedAutocompleteResultIndex;
       if (current === autocompleteResults.length - 1) {
         setSelectedAutocompleteResultIndex(0);
       } else {
         setSelectedAutocompleteResultIndex(current + 1);
       }
     }
-    if (event.code === 'ArrowUp') {
-      const current = selectedAutocompleteResultIndex === null ? autocompleteResults.length : selectedAutocompleteResultIndex;
+    if (event.code === "ArrowUp") {
+      const current =
+        selectedAutocompleteResultIndex === null
+          ? autocompleteResults.length
+          : selectedAutocompleteResultIndex;
       if (current === 0) {
         setSelectedAutocompleteResultIndex(autocompleteResults.length - 1);
       } else {
@@ -72,6 +87,10 @@ export default function Home() {
       }
     }
   };
+
+  if (!isLoggedIn) {
+    navigate("/login");
+  }
 
   return (
     <>
@@ -87,17 +106,30 @@ export default function Home() {
               <span className="font-bold">MongoDB</span> Text Search
             </p>
           </div>
-          <div className="flex justify-between items-center w-full z-10 text-sm font-mono">
-            <p>
-              <Link  to="/login" className="font-bold">Login page</Link > 
-            </p>
-          </div>
+          {!isLoggedIn && (
+            <div className="flex justify-between items-center w-full z-10 text-sm font-mono">
+              <p>
+                <Link to="/login" className="font-bold">
+                  Login page
+                </Link>
+              </p>
+            </div>
+          )}
+          {isLoggedIn && (
+            <div className="flex justify-between items-center w-full z-10 text-sm font-mono">
+              <p>
+                <Link to="/dummy" className="font-bold">
+                  Dummy page
+                </Link>
+              </p>
+            </div>
+          )}
 
           <div className="py-8 w-full max-w-md">
             {/* Input field */}
             <form className="pb-2" onSubmit={handleSubmit(onFormSubmit)}>
               <input
-                {...register('search')}
+                {...register("search")}
                 className="py-2 px-4 rounded-full w-full border-2 border-gray-300"
                 onChange={debounce(onInputChange, 100)}
                 onKeyDown={onInputKeypress}
@@ -112,11 +144,16 @@ export default function Home() {
                     <div
                       key={index}
                       onClick={() => runSearch(result)}
-                      onMouseOver={() => setSelectedAutocompleteResultIndex(index)}
-                      onMouseOut={() => setSelectedAutocompleteResultIndex(null)}
+                      onMouseOver={() =>
+                        setSelectedAutocompleteResultIndex(index)
+                      }
+                      onMouseOut={() =>
+                        setSelectedAutocompleteResultIndex(null)
+                      }
                       className={classNames(
-                        selectedAutocompleteResultIndex === index && 'bg-gray-100',
-                        'px-4 py-2 border-b border-gray-100 cursor-pointer'
+                        selectedAutocompleteResultIndex === index &&
+                          "bg-gray-100",
+                        "px-4 py-2 border-b border-gray-100 cursor-pointer"
                       )}
                     >
                       {result}
@@ -134,7 +171,11 @@ export default function Home() {
               {searchResults.map((result, index) => {
                 return (
                   <div key={index} className="flex items-center space-x-4">
-                    <img src={result.poster} alt="avatar" className="w-16 rounded-full"></img>
+                    <img
+                      src={result.poster}
+                      alt="avatar"
+                      className="w-16 rounded-full"
+                    ></img>
                     <div>
                       <p className="font-bold">{result.title}</p>
                       <p className="font-mono text-sm">{result.plot}</p>
