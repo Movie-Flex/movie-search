@@ -23,6 +23,9 @@ export const useLogin = () => {
       setIsLoggedIn(true);
       toast.success("Login Successful");
       navigate("/dummy")
+
+      
+
     } catch (error) {
       setIsLoading(false);
       toast.error("Login Failed");
