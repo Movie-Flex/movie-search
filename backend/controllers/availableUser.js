@@ -13,10 +13,13 @@ const availableUser = async (req, res) => {
         const existingEmailUser = await User_2.findOne({ email: email });
         const existingUsernameUser = await User_2.findOne({ username: username });
 
-        if (existingEmailUser || existingUsernameUser) {
-            return res.status(400).json({ error: "Email or username already in use" });
-        } else {
-            return res.status(200).json({ message: "Email and username are available" });
+        if (existingUsernameUser) {
+            return res.status(204).json({ message: "Username already in use" });
+        }else if (existingEmailUser){
+            return res.status(204).json({ message: "Email already in use" });
+        }
+         else {
+            return res.status(200).json({ message: "Available" });
         }
 
     } catch (error) {

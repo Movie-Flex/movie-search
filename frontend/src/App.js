@@ -6,6 +6,8 @@ import Login from './pages/Login';
 import Signup from './pages/SignUp';
 import { Toaster } from 'react-hot-toast';
 import Dummy from './pages/Dummy';
+import Subscription from './components/Subscription/Subscription';
+import PaymentGateway from './components/PaymentGateway/PaymentGateway';
 
 function App() {
   return (
@@ -30,6 +32,14 @@ function App() {
                 path="/signup"
                 element={<Signup />}
               />
+              <Route 
+                path="/subscription"
+                element={<Subscription/>}
+                />
+            <Route 
+                path="/paymentgateway"
+                element={<PaymentGateway/>}
+                />
             </Routes>
           </div>
         </BrowserRouter>
