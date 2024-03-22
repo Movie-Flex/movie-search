@@ -9,7 +9,7 @@ const getMovies = async (req, res) => {
     const  query  = req.query.q; 
 
     if (!query) {
-      return res.status(204).json({ message: 'Query parameter is required' });
+      return res.status(209).json({ message: 'Query parameter is required' });
     }
 
     const { client : connectedClient, collection } = await connectToDatabase(dbName, collectionName); 

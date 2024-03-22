@@ -17,13 +17,18 @@ export const useLogin = () => {
         loginData
       );
       setIsLoading(false);
+     if(response.status===200){
       localStorage.setItem("token", response.data.token);
-      // console.log(response);
       await TokenVerify(response.data.token);
       setIsLoggedIn(true);
       toast.success("Login Successful");
       navigate("/dummy")
+     }
 
+     else{
+      setIsLoading(false);
+      toast.error(response.data.message);
+     }
       
 
     } catch (error) {
@@ -40,10 +45,9 @@ export const useLogin = () => {
         "http://localhost:3002/api/getUser",
         tokenObject
       );
-      console.log(response);
+      // console.log(response);
 
       if (response.status === 200) {
-        console.log(response.data);
         localStorage.setItem("userData", JSON.stringify(response.data.user));
         setUser(response.data.user);
       }

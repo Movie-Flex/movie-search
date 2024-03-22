@@ -74,7 +74,7 @@ const PaymentGateway = () => {
           setPaymentVerifyModalData(result.data);
           setToken(result.data.token);
           await TokenVerify(result.data.token);
-          console.log(result.data);
+          // console.log(result.data);
           
         }
       },

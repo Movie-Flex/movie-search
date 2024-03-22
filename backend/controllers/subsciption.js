@@ -26,8 +26,7 @@ const subscription = async (req, res) => {
 
             const role = await Role.findOne({ email: email });
 
-            const newToken = await generateToken(user, role, newSubscription);
-
+            const newToken = await generateToken(user, role.role, newSubscription);
             return res.status(200).json({ message: `Subscription updated to ${newSubscription}`, token: newToken });
         }
 

@@ -12,7 +12,7 @@ const getUserFromToken = async (req, res) => {
 
         const { token } = req.body;
         if (!token) {
-            return res.status(204).json({message: "Token (in body) is required to get user."});
+            return res.status(209).json({message: "Token is required to get user."});
           }
         const tokenToUser = getUser(token);
 

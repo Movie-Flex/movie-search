@@ -9,7 +9,7 @@ const fuzzySearch = async (req, res) => {
     const  query  = req.query.q;
 
     if (!query) {
-      return res.status(204).json({ message: 'Query is required' });
+      return res.status(209).json({ message: 'Query is required' });
     }
 
     // Connect to the database and get client and collection
