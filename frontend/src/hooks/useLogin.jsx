@@ -45,10 +45,9 @@ export const useLogin = () => {
         "http://localhost:3002/api/getUser",
         tokenObject
       );
-      console.log(response);
+      // console.log(response);
 
       if (response.status === 200) {
-        console.log("vskvcdvhdvbvf",response.data);
         localStorage.setItem("userData", JSON.stringify(response.data.user));
         setUser(response.data.user);
       }

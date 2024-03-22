@@ -20,7 +20,7 @@ const Signup = () => {
 
   const handleSignup = async (e, signupData) => {
     e.preventDefault();
-    console.log(signupData);
+    // console.log(signupData);
     try {
       await signup(signupData);
     } catch (error) {
