@@ -7,9 +7,6 @@ const { v4: uuidv4 } = require('uuid');
 const { getUser } = require('../middlewares/getUserFromToken');
 const { SubscriptionMeta } = require('../models/subscriptionMeta')
 const Subscriptions = require('../models/subscription');
-const { getuid } = require('process');
-// const { default: subscriptions } = require('razorpay/dist/types/subscriptions');
-
 
 
 // Create an instance of Razorpay

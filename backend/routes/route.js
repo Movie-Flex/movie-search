@@ -5,6 +5,8 @@ const { fuzzySearch } = require('../controllers/fuzzySearch');
 const { semanticMovies } = require('../controllers/semanticSearch');
 const { availableUser } = require('../controllers/availableUser');
 const {addRecentMovies, getRecentMovies} = require('../controllers/recentMovies')
+const {addFavouriteMovies, getFavouriteMovies} = require('../controllers/favouriteMovies')
+const {addWatchLaterMovies, getWatchLaterMovies} = require('../controllers/watchLater')
 const role = require('../controllers/role');
 const subscription = require('../controllers/subsciption');
 const payment= require('../controllers/payment');
@@ -34,6 +36,14 @@ router.post('/semantic', semanticMovies)
 router.post('/addRecentMovies',addRecentMovies)
 
 router.get('/getRecentMovies',getRecentMovies)
+
+router.post('/addFavouriteMovies',addFavouriteMovies)
+
+router.get('/getFavouriteMovies',getFavouriteMovies)
+
+router.post('/addWatchLaterMovies',addWatchLaterMovies)
+
+router.get('/getWatchLaterMovies',getWatchLaterMovies)
 
 router.post('/dashboard', payment.dashboard)
 
