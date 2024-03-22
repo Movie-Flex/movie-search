@@ -63,7 +63,7 @@ export default function CancelSubscriptionModal({ closeModal, refundInfo }) {
         </div>
       </div>
 
-      {/* {RefundedAmountDetails && <RefundedAmountDetailsModal refundInfo={RefundedAmountDetails.refundInfo} />} */}
+      {/* {RefundedAmountDetails && <RefundedAmountDetailsModal RefundedAmountDetails={RefundedAmountDetails} />} */}
     </div>
   );
 }
