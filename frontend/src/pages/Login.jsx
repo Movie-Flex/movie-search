@@ -7,7 +7,7 @@ const Login = () => {
   const navigate=useNavigate();
 
   const [loginData, setLoginData] = useState({
-    email: "",
+    userId: "",
     password: "",
   });
 
@@ -36,7 +36,7 @@ const Login = () => {
                   for="email"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Your email
+                  Your Email/Username
                 </label>
                 <input
                   onChange={(e) =>
