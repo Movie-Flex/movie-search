@@ -15,6 +15,8 @@ export default function Dummy() {
 
   const {cancelSubscriptionInfo}=useCancelSubscription();
 
+
+
   if(!isLoggedIn) {
     navigate("/login")
   }
@@ -34,7 +36,7 @@ export default function Dummy() {
   
   return (
       <div>
-        <h1 className="flex justify-center items-center">Dummy</h1>
+        <h1 className="flex justify-center items-center">Dummy Page just made for testing</h1>
         {user &&(
          <UserDetails user={user}/>
         )}
@@ -55,14 +57,14 @@ export default function Dummy() {
           Subscription
         </Link >
         
-        <button 
+        {user.subscription!=="free" &&<button 
         onClick={() => {
           setCancelSubscriptionButton(true)
           refundDetailsFetch()
         }}
         className="bg-purple-500 text-white px-4 py-2 rounded-full transition duration-200 ease-in-out hover:bg-purple-700 active:bg-purple-900 focus:outline-none">
           Cancel Subscription
-        </button >
+        </button >}
 
         {cancelSubscriptionButton && <CancelSubscriptionModal  refundInfo={refundInfo} closeModal={setCancelSubscriptionButton}/>}
         </div>       

@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useCancelSubscription } from "../../hooks/useCancelSubscription";
 import CancelSubscriptionDetailsForm from "./CancelSubscriptionDetailsForm";
 import RefundedAmountDetailsModal from "./RefundedAmountDetailsModal";
+import { UserContext } from "../../context/UserContext";
 
 export default function CancelSubscriptionModal({ closeModal, refundInfo }) {
   const { cancelSubscription } = useCancelSubscription();
   console.log("Refund Info", refundInfo);
 
   const [RefundedAmountDetails, setRefundedAmountDetails] = useState({});
+ 
 
   const cancel = async () => {
     try {

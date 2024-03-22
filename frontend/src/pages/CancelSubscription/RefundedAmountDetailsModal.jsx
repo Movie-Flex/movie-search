@@ -1,4 +1,31 @@
-
+const ee={
+    "message": "Subscription cancelled and refund processed.",
+    "newToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiengiLCJlbWFpbCI6Inp4QGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiengiLCJyb2xlIjoic3RhbmRhcmRfdXNlciIsInN1YnNjcmlwdGlvbiI6ImZyZWUiLCJpc3N1ZWRBdCI6MTcxMTEyMDk3ODc3OCwiaWF0IjoxNzExMTIwOTc4LCJleHAiOjE3MTExMjY5Nzh9.OuWGOiPx_8nIkFaz5G_kgcGNEpuUW2PPxsSYrO0Hs9w",
+    "refundInfo": {
+        "_id": "65fda19b98c45f68b3f2fc6c",
+        "orderId": "order_NpRp0H8Ir31amD",
+        "receiptId": "2bd79fc4-755d-4227-b66a-5adbc2d3748c",
+        "paymentId": "pay_NpRqBwToIXssXe",
+        "signature": "f686e7ab4b37172b2e9865f4a583337d93088402fdf4dc7720f7d7d4aa95bf3d",
+        "email": "zx@gmail.com",
+        "username": "zx",
+        "subscription": "free",
+        "duration": "feeYearly",
+        "currency": "USD",
+        "subunit": 100,
+        "netAmount": 390,
+        "status": "inactive",
+        "updatedDate": "2024-03-22T15:22:58.454Z",
+        "paymentDate": "2024-03-22T15:19:55.694Z",
+        "paymentStatus": "paid",
+        "paidAmount": 45000,
+        "refundId": "rfnd_NpRtayFnrg7hcR",
+        "refundDate": "2024-03-22T15:22:58.454Z",
+        "refundStatus": "refunded",
+        "refundAmount": 3510,
+        "__v": 0
+    }
+}
 
 export default function RefundedAmountDetailsModal ({ RefundedAmountDetails }) {
 
