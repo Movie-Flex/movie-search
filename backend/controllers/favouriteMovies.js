@@ -27,7 +27,7 @@ const addFavouriteMovies = async (req, res) => {
             );
             
             
-            return res.status(200).json({ message: "Successfully updated user's favourite movies." });
+            return res.status(200).json({ message: "Successfully updated  favourite movies." });
         } else {
             const newFavouriteMovies = new FavouriteMovies({
                 email: user.email,
@@ -35,7 +35,7 @@ const addFavouriteMovies = async (req, res) => {
                 lastUpdated: new Date()
             });
             newFavouriteMovies.save();
-            return res.status(200).json({ message: "Successfully added user's favourite movies." });
+            return res.status(200).json({ message: "Successfully added to favourite movies." });
         }
     } catch (err) {
         console.log("Error occurred: ", err);

@@ -51,9 +51,15 @@ const ratedMoviesSchema = new Schema({
         type : String,
         unique : true
     },
-    movieId :{
-        type : [String],
-        default : []
+    vote :{
+        movieId:{
+            type : [String], 
+            default : []
+        },
+        rating :{
+            type : [Number],
+            default :[]
+        }
     },
     lastUpdated :{
         type : Date,

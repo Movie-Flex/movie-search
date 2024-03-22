@@ -27,7 +27,7 @@ const addWatchLaterMovies = async (req, res) => {
             );
             
             
-            return res.status(200).json({ message: "Successfully updated user's watch later movies." });
+            return res.status(200).json({ message: "Successfully updated  watch later movies." });
         } else {
             const newWatchLater = new WatchLater({
                 email: user.email,

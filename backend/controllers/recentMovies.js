@@ -28,7 +28,7 @@ const addRecentMovies = async (req, res) => {
             );
             
             
-            return res.status(200).json({ message: "Successfully updated user's recent movies." });
+            return res.status(200).json({ message: "Successfully updated recent movies." });
         } else {
             const newRecentMovie = new RecentMovies({
                 email: user.email,
@@ -36,7 +36,7 @@ const addRecentMovies = async (req, res) => {
                 lastUpdated: new Date()
             });
             newRecentMovie.save();
-            return res.status(200).json({ message: "Successfully added user's recent movies." });
+            return res.status(200).json({ message: "Successfully added to recent movies." });
         }
     } catch (err) {
         console.log("Error occurred: ", err);
