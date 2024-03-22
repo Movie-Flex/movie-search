@@ -58,9 +58,7 @@ const registerUser = async (req, res) => {
             subscription: subscription,
         });
         await newSubscription.save();
-
-        const token = generateToken(newUser, role, subscription);
-
+        const token = generateToken(newUser, newRole.role, newSubscription.subscription);
         return res.status(200).json({ message: "Account created successfully", token });
 
     } catch (error) {
@@ -119,7 +117,7 @@ const loginUser = async (req, res) => {
 
             const role = await Role.findOne({ email: email });
             const subscription = await Subscription.findOne({ email: email });
-            const token = generateToken(user, role, subscription);
+            const token = generateToken(user, role.role, subscription.subscription);
             return res.status(200).json({ token });
         }
 

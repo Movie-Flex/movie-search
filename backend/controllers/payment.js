@@ -7,6 +7,7 @@ const { v4: uuidv4 } = require('uuid');
 const { getUser } = require('../middlewares/getUserFromToken');
 const { SubscriptionMeta } = require('../models/subscriptionMeta')
 const Subscriptions = require('../models/subscription');
+const { getuid } = require('process');
 // const { default: subscriptions } = require('razorpay/dist/types/subscriptions');
 
 
@@ -183,9 +184,9 @@ const refund = async (req, res) => {
 
         if (!paymentDetail) {
             return res.status(209).json({ message: "Payment details not found for the user" });
-        }else if(paymentDetail.subscription === 'free'){
+        }else if(paymentDetail.subscription == 'free'){
             return res.status(209).json({ message: "Free subscription." });
-        }else if(paymentDetail.status === 'inactive'){
+        }else if(paymentDetail.status == 'inactive'){
             return res.status(209).json({ message: "Subscription is inactive." });
         }
         
