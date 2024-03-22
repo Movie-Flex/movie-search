@@ -46,10 +46,10 @@ const PaymentGateway = () => {
     const options = {
       key: razorpayKeyId,
       currency: paymentGatewayReceivingData.paymentDetail.currency,
-      name: "Subscription",
-      description: "Subscription payment",
+      name: paymentGatewayReceivingData.paymentDetail.name,
+      description: paymentGatewayReceivingData.paymentDetail.description,
       image:
-        "https://t  h.bing.com/th/id/OIP.Ph7ASU7IV-pld1YGeGu0fgHaF3?rs=1&pid=ImgDetMain",
+        "https://th.bing.com/th/id/OIP.Ph7ASU7IV-pld1YGeGu0fgHaF3?rs=1&pid=ImgDetMain",
       order_id: orderId,
       handler: async function (response) {
         const data = {
