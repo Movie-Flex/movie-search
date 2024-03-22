@@ -97,9 +97,8 @@ const loginUser = async (req, res) => {
         if (decryptedPassword == password) {
 
             // checking if subscription of user expired or not
-            const paymentDetail = await PaymentDetail.findOne({ email: user.email });
+            const paymentDetail = await PaymentDetail.findOne({ email: user.email }).sort({ updatedDate: -1 });
             if (paymentDetail) {
-                console.log(paymentDetail)
                 const paymentDate = paymentDetail.paymentDate
                 const millisecondsUsed = new Date() - paymentDate;
                 const daysUsed = Math.floor(millisecondsUsed / (1000 * 60 * 60 * 24));

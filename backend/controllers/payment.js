@@ -48,10 +48,11 @@ const order = async (req, res) => {
         const user = getUser(token)
 
         const oldPaymentDetail = await PaymentDetail.findOne({ email: user.email }).sort({ updatedDate: -1 });
+        console.log(oldPaymentDetail, "old payemnt")
 
-        if (oldPaymentDetail && oldPaymentDetail.subscription == 'premium'&& oldPaymentDetail.status == 'active') {
+        if (oldPaymentDetail && oldPaymentDetail.subscription == 'premium') {
             return res.status(209).json({ message: "Premium subscription is already Active." });
-        } else if (oldPaymentDetail && oldPaymentDetail.subscription == 'diamond' && oldPaymentDetail.status == 'active') {
+        } else if (oldPaymentDetail && oldPaymentDetail.subscription == 'diamond') {
             return res.status(209).json({ message: "Diamond subscription is already Active." });
         }
 
@@ -84,6 +85,7 @@ const order = async (req, res) => {
             currency: response.currency,
             subunit: typeInfo.subunit,
             netAmount: response.amount,
+            updatedDate : new Date,
             status: response.status,
             subscription: subscription,
             email: user.email,
@@ -146,6 +148,7 @@ const verify = async (req, res) => {
                     currency: paymentDetail.currency,
                     subunit: paymentDetail.subunit,
                     netAmount: paymentDetail.netAmount,
+                    updatedDate: new Date,
 
                     paymentStatus: "paid",
                     paymentDate: new Date,
@@ -156,7 +159,8 @@ const verify = async (req, res) => {
                 }
             );
             await successPayment.save();
-            await Subscriptions.findOneAndUpdate({ email: paymentDetail.email }, { $set: { subscription: paymentDetail.subscription } });
+            const newSubscription = await Subscriptions.findOneAndUpdate({ email: paymentDetail.email }, { $set: { subscription: paymentDetail.subscription } });
+            console.log(newSubscription)
             const newToken = generateToken(user, user.role ,paymentDetail.subscription)
             return res.status(200).json({ paymentDetail: successPayment, token: newToken })
         } else {
@@ -180,14 +184,12 @@ const refund = async (req, res) => {
         const { token } = req.body;
         const q = req.query.q;
         const user = getUser(token);
-        const paymentDetail = await PaymentDetail.findOne({ email: user.email });
+        const paymentDetail = await PaymentDetail.findOne({ email: user.email }).sort({ updatedDate: -1 });
 
         if (!paymentDetail) {
             return res.status(209).json({ message: "Payment details not found for the user" });
-        }else if(paymentDetail.subscription == 'free'){
-            return res.status(209).json({ message: "Free subscription." });
-        }else if(paymentDetail.status == 'inactive'){
-            return res.status(209).json({ message: "Subscription is inactive." });
+        }else if(paymentDetail.subscription == 'free' || paymentDetail.status == 'inactive'){
+            return res.status(209).json({ message: "No active subscription to cancel." });
         }
         
         
@@ -244,6 +246,7 @@ const refund = async (req, res) => {
             if (refundResponse.status == 'processed') {
                 await PaymentDetail.findOneAndUpdate({ email: user.email }, {
                      status: "inactive" ,
+                     updatedDate : new Date,
                      refundAmount : refundResponse.amount,
                      refundDate : new Date,
                      refundId : refundResponse.id,
@@ -254,7 +257,7 @@ const refund = async (req, res) => {
     
             await Subscriptions.findOneAndUpdate({ email: user.email }, { $set: { subscription: "free"} });
             const newToken = generateToken(user, user.role,"free")
-            const cancelledSubscription = await PaymentDetail.findOne({ email: user.email });
+            const cancelledSubscription = await PaymentDetail.findOne({ email: user.email }).sort({ updatedDate: -1 });
 
             return res.status(200).json({ message: "Subscription cancelled and refund processed.", newToken,refundInfo :  cancelledSubscription });
     

@@ -40,6 +40,10 @@ const paymentDetailsSchema = new mongoose.Schema({
 	status: { // current status like active or cancelled
 		type: String
 	},
+	updatedDate :{
+		type :Date,
+		default : null
+	},
 	
 	// for a new subscription
 	paymentDate: {
