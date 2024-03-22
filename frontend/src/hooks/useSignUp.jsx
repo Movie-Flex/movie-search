@@ -17,13 +17,18 @@ export const useSignup = () => {
         toast.error("Password and Confirm Password do not match");
         return;
       }
+      
+      if(signupData.password.length<8){
+        toast.error("Password must be atleast 8 characters long");
+        return;
+      }
+
       try {
         setIsLoading(true);
         const response = await axios.post('http://localhost:3002/api/signup', signupData);
         console.log(response.data.token);
 
        if(response.status===200){
-         // if(!isLoading)
          setIsLoading(false);
          localStorage.setItem('token', response.data.token);
          await TokenVerify(response.data.token);
@@ -39,8 +44,6 @@ export const useSignup = () => {
       }
       
       } catch (error) {
-
-
         setIsLoading(false);
         toast.error("Sign up Failed"); 
       }
