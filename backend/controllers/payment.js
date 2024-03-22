@@ -48,7 +48,6 @@ const order = async (req, res) => {
         const user = getUser(token)
 
         const oldPaymentDetail = await PaymentDetail.findOne({ email: user.email }).sort({ updatedDate: -1 });
-        console.log(oldPaymentDetail, "old payemnt")
 
         if (oldPaymentDetail && oldPaymentDetail.subscription == 'premium') {
             return res.status(209).json({ message: "Premium subscription is already Active." });
@@ -92,8 +91,9 @@ const order = async (req, res) => {
             username: user.username,
 
         });
+        const subscriptionDetails = {name : typeInfo.name, description : typeInfo.description}
         // await paymentDetail.save();
-        return res.status(200).json({ razorpayKeyId: process.env.RAZORPAY_KEY_ID, paymentDetail: paymentDetail })
+        return res.status(200).json({ razorpayKeyId: process.env.RAZORPAY_KEY_ID, paymentDetail: paymentDetail ,subscriptionDetails})
 
     } catch (err) {
         console.log("Error occurred: ", err);
@@ -160,7 +160,6 @@ const verify = async (req, res) => {
             );
             await successPayment.save();
             const newSubscription = await Subscriptions.findOneAndUpdate({ email: paymentDetail.email }, { $set: { subscription: paymentDetail.subscription } });
-            console.log(newSubscription)
             const newToken = generateToken(user, user.role ,paymentDetail.subscription)
             return res.status(200).json({ paymentDetail: successPayment, token: newToken })
         } else {
