@@ -9,12 +9,29 @@ export const useCancelSubscription =  () => {
 
   const { TokenVerify } = useLogin();
 
+  const cancelSubscriptionInfo=async()=>{
+    try {
+      const tokenObject = { token: token };
+      const response = await axios.post(
+        `http://localhost:3002/payment/cancel?q=refundInfo`,
+        tokenObject
+      );
+      if (response.status === 200) {
+        toast.success("refund info fetched Successfully");
+        return response.data;
+      }
+    } catch (error) {
+      console.log("Error", error);
+      toast.error("Subscription Cancellation Failed");
+    }
+  }
+
   const  cancelSubscription = async () => {
     try {
 
       const tokenObject = { token: token };
       const response = await axios.post(
-        "http://localhost:3002/payment/cancel",
+        `http://localhost:3002/payment/cancel?q=refundTrue`,
         tokenObject
       );
       if (response.status === 200) {
@@ -32,5 +49,5 @@ export const useCancelSubscription =  () => {
     }
   };
 
-  return { cancelSubscription };
+  return { cancelSubscription ,cancelSubscriptionInfo};
 };

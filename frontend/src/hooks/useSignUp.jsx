@@ -26,7 +26,7 @@ export const useSignup = () => {
       try {
         setIsLoading(true);
         const response = await axios.post('http://localhost:3002/api/signup', signupData);
-        console.log(response.data.token);
+        // console.log(response.data.token);
 
        if(response.status===200){
          setIsLoading(false);
@@ -56,7 +56,7 @@ export const useSignup = () => {
           "http://localhost:3002/api/getUser",
           tokenObject
         );
-        console.log(response);
+        // console.log(response);
   
         if (response.status === 200) {
           console.log(response.data);
