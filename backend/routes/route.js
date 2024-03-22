@@ -54,12 +54,4 @@ router.post('/verify', payment.verify)
 router.post('/cancel', payment.refund)
 
 
-// For backend testing only (ignore)
-const {orderTest, verifyTest, dashboardTest,refundTest,upgradeSubscriptionTest} = require('../controllers/paymentTest'); 
-router.get('/dashboardTest', dashboardTest)
-router.get('/orderTest', orderTest)
-router.post('/verifyTest', verifyTest)
-router.get('/refundTest', refundTest)
-router.get('/upgradeTest', upgradeSubscriptionTest)
-
 module.exports = router;
