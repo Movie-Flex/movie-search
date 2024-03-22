@@ -7,6 +7,8 @@ const { v4: uuidv4 } = require('uuid');
 const { getUser } = require('../middlewares/getUserFromToken');
 const { SubscriptionMeta } = require('../models/subscriptionMeta')
 const Subscriptions = require('../models/subscription');
+const { getuid } = require('process');
+// const { default: subscriptions } = require('razorpay/dist/types/subscriptions');
 
 
 
@@ -28,7 +30,7 @@ const dashboard = async (req, res) => {
 
         return res.status(200).json({ subscriptionMeta: subscriptionMeta });
     } catch (error) {
-        console.error("Error occurred:", error);
+        console.log("Error occurred: ", err);
         return res.status(500).json({ error: "Internal Server Error" });
     }
 }
@@ -44,23 +46,21 @@ const order = async (req, res) => {
         const duration = req.query.dur;
         const { token } = req.body
         const user = getUser(token)
-        console.log(user)
-        const email = user.email
 
-        const oldPaymentDetail = await PaymentDetail.findOne({ email: email }).sort({ updatedDate: -1 });
-        console.log(oldPaymentDetail)
-        if (oldPaymentDetail && oldPaymentDetail.subscription === 'premium'&& oldPaymentDetail.status === 'active') {
-            return res.status(204).json({ message: "Premium subscription is Active." });
-        } else if (oldPaymentDetail && oldPaymentDetail.subscription === 'diamond' && oldPaymentDetail.status === 'active') {
-            return res.status(204).json({ message: "Diamond subscription is Active." });
+        const oldPaymentDetail = await PaymentDetail.findOne({ email: user.email }).sort({ updatedDate: -1 });
+
+        if (oldPaymentDetail && oldPaymentDetail.subscription == 'premium') {
+            return res.status(209).json({ message: "Premium subscription is already Active." });
+        } else if (oldPaymentDetail && oldPaymentDetail.subscription == 'diamond') {
+            return res.status(209).json({ message: "Diamond subscription is already Active." });
         }
 
         if (!duration || !subscription) {
-            return res.status(204).json({ message: "Missing query type / dur" });
+            return res.status(209).json({ message: "Missing query type / dur" });
         }
 
-        if (subscription === 'free') {
-            return res.status(204).json({ message: "Free subscription activated" });
+        if (subscription == 'free') {
+            return res.status(200).json({ message: "Free subscription activated" });
         }
 
         const typeInfo = subscriptionMeta[subscription];
@@ -84,18 +84,19 @@ const order = async (req, res) => {
             currency: response.currency,
             subunit: typeInfo.subunit,
             netAmount: response.amount,
+            updatedDate : new Date,
             status: response.status,
             subscription: subscription,
             email: user.email,
-            username: user.username
+            username: user.username,
 
         });
-
+        const subscriptionDetails = {name : typeInfo.name, description : typeInfo.description}
         // await paymentDetail.save();
-        return res.status(200).json({ razorpayKeyId: process.env.RAZORPAY_KEY_ID, paymentDetail: paymentDetail })
+        return res.status(200).json({ razorpayKeyId: process.env.RAZORPAY_KEY_ID, paymentDetail: paymentDetail ,subscriptionDetails})
 
     } catch (err) {
-        console.error(err);
+        console.log("Error occurred: ", err);
         res.status(500).send("Internal Server Error");
     } finally {
         if (db) {
@@ -116,13 +117,13 @@ const verify = async (req, res) => {
         const user = getUser(token)
 
         if (!razorpay_order_id) {
-            return res.status(204).json({ message: "Razorpay order id  (razorpay_order_id) missing." })
+            return res.status(209).json({ message: "Razorpay order id  (razorpay_order_id) missing." })
         }
         if (!razorpay_payment_id) {
-            return res.status(204).json({ message: "Razorpay payment id (razorpay_payment_id) missing." })
+            return res.status(209).json({ message: "Razorpay payment id (razorpay_payment_id) missing." })
         }
         if (!razorpay_signature) {
-            return res.status(204).json({ message: "Razorpay signature  (razorpay_signature) missing." })
+            return res.status(209).json({ message: "Razorpay signature  (razorpay_signature) missing." })
         }
         const body = razorpay_order_id + "|" + razorpay_payment_id;
         const crypto = require("crypto");
@@ -147,25 +148,25 @@ const verify = async (req, res) => {
                     currency: paymentDetail.currency,
                     subunit: paymentDetail.subunit,
                     netAmount: paymentDetail.netAmount,
+                    updatedDate: new Date,
 
                     paymentStatus: "paid",
                     paymentDate: new Date,
                     paidAmount: paymentDetail.netAmount,
 
                     subscription: paymentDetail.subscription,
+                    
                 }
             );
             await successPayment.save();
-
-            await Subscriptions.findOneAndUpdate({ email: paymentDetail.email }, { $set: { subscription: paymentDetail.subscription } });
-            const newToken = generateToken(user, user.role, successPayment.subscription)
-
+            const newSubscription = await Subscriptions.findOneAndUpdate({ email: paymentDetail.email }, { $set: { subscription: paymentDetail.subscription } });
+            const newToken = generateToken(user, user.role ,paymentDetail.subscription)
             return res.status(200).json({ paymentDetail: successPayment, token: newToken })
         } else {
-            return res.status(204).json({ message : "Payment verification failed. Try again!" })
+            return res.status(209).json({ message : "Payment verification failed. Try again!" })
         }
     } catch (error) {
-        console.error("Error verifying payment:", error);
+        console.log("Error occurred: ", err);
         return res.status(500).json({ error: "Internal server error" })
     }finally {
         if (db) {
@@ -180,72 +181,91 @@ const refund = async (req, res) => {
     try {
         db = await connectToDatabaseWithSchema(mongoURI);
         const { token } = req.body;
+        const q = req.query.q;
         const user = getUser(token);
-        const paymentDetail = await PaymentDetail.findOne({ email: user.email });
+        const paymentDetail = await PaymentDetail.findOne({ email: user.email }).sort({ updatedDate: -1 });
 
         if (!paymentDetail) {
-            return res.status(204).json({ message: "Payment details not found for the user" });
-        }else if(paymentDetail.subscription === 'free'){
-            return res.status(204).json({ message: "Free subscription." });
-        }else if(paymentDetail.status === 'cancelled'){
-            return res.status(204).json({ message: "Subscription alrady cancelled." });
+            return res.status(209).json({ message: "Payment details not found for the user" });
+        }else if(paymentDetail.subscription == 'free' || paymentDetail.status == 'inactive'){
+            return res.status(209).json({ message: "No active subscription to cancel." });
         }
         
         
         const duration = paymentDetail.duration
+        const subscription = paymentDetail.subscription
         const paymentDate = paymentDetail.paymentDate
         const paidAmount = paymentDetail.paidAmount
         const millisecondsUsed = new Date() - paymentDate;
         const daysUsed = Math.floor(millisecondsUsed / ( 1000 * 60 * 60 * 24));
 
+        const daysInMonth = new Date(paymentDate.getFullYear(), paymentDate.getMonth() + 1, 0).getDate();
+        const daysInYear = (paymentDate.getFullYear()) % 4 == 0 ? 366 : 365;
+
         // checking a expired subscription
-        if((duration === 'feeMonthly' && daysUsed >31 || duration === 'feeYearly' && daysUsed >365)){
+        if((duration == 'feeMonthly' && daysUsed >daysInMonth || duration == 'feeYearly' && daysUsed >daysInYear)){
             await Subscriptions.findOneAndUpdate({ email: user.email }, { $set: { subscription: "free"} });
             const newToken = generateToken(user, user.role,"free")
-            return res.status(204).json({ message: "Subsciption expired", newToken });
+            return res.status(209).json({ message: "Subsciption expired", newToken });
         }
 
         // calculating amount based on remaining days and subscription
+        const subscriptionMeta = await SubscriptionMeta.findOne({}).sort({ updatedDate: -1 });
+        const charges = subscriptionMeta[subscription].charges;  // in decimal proportion
+
         let netRefund = 0
-        if(duration === 'feeMonthly' && daysUsed <= 31){
-            const remainingAmount = paidAmount*(1 - daysUsed/31)    // in paisa
-            netRefund = remainingAmount - remainingAmount*0.1      // taxes and transaction charges : 10%
-            console.log(daysUsed, "\n", remainingAmount , "\n", netRefund)
+        if(duration == 'feeMonthly' && daysUsed <= daysInMonth){
+            const remainingAmount = paidAmount*(1 - daysUsed/daysInMonth)    // in paisa
+            netRefund = remainingAmount - remainingAmount*charges     // taxes and transaction charges : 10%
         }
        
 
-        if(duration === 'feeYearly' && daysUsed <= 365){
-            const remainingAmount = paidAmount*(1 - daysUsed/365)    // in paisa
-            netRefund = remainingAmount - remainingAmount*0.1      // taxes and transaction charges : 10%
-            console.log(daysUsed, "\n", remainingAmount , "\n", netRefund)
+        if(duration == 'feeYearly' && daysUsed <= daysInYear){
+            const remainingAmount = paidAmount*(1 - daysUsed/daysInYear) 
+            netRefund = remainingAmount - remainingAmount*charges 
         }
-        
 
-        const refundResponse = await razorPayInstance.payments.refund(paymentDetail.paymentId, {
-            amount: netRefund
-        });
+        if(q == 'refundInfo'){
+            const refundDetails = {
+                subscriptionDate : paymentDate,
+                subscriptionType : subscription,
+                status : paymentDetail.status,
+                paidAmount : paidAmount,
+                refundableAmount : netRefund,
+                charges : charges*100 + " %",
+                daysUsed : daysUsed
+            }
+            return res.status(200).json({refundDetails });
+            
+        }else if(q == 'refundTrue'){
+            const refundResponse = await razorPayInstance.payments.refund(paymentDetail.paymentId, {
+                amount: netRefund
+            });
+    
+            if (refundResponse.status == 'processed') {
+                await PaymentDetail.findOneAndUpdate({ email: user.email }, {
+                     status: "inactive" ,
+                     updatedDate : new Date,
+                     refundAmount : refundResponse.amount,
+                     refundDate : new Date,
+                     refundId : refundResponse.id,
+                     refundStatus : "refunded",
+                     netAmount : paymentDetail.netAmount - refundResponse.amount,
+                     subscription : "free"
+                    });
+    
+            await Subscriptions.findOneAndUpdate({ email: user.email }, { $set: { subscription: "free"} });
+            const newToken = generateToken(user, user.role,"free")
+            const cancelledSubscription = await PaymentDetail.findOne({ email: user.email }).sort({ updatedDate: -1 });
 
-        if (refundResponse.status === 'processed') {
-            await PaymentDetail.findOneAndUpdate({ email: user.email }, {
-                 status: "cancelled" ,
-                 refundAmount : refundResponse.amount,
-                 refundDate : new Date,
-                 refundId : refundResponse.id,
-                 refundStatus : "refunded",
-                 netAmount : paymentDetail.netAmount - refundResponse.amount,
-                });
-
-        await Subscriptions.findOneAndUpdate({ email: user.email }, { $set: { subscription: "free"} });
-        const newToken = generateToken(user, user.role,"free")
-        const cancelledSubscription = await PaymentDetail.findOne({ email: user.email });
-        
-        return res.status(200).json({ message: "Subscription cancelled and refund processed.", newToken, cancelledSubscription });
-
-        } else {
-            return res.status(204).json({ message: "Refund failed", refundResponse });
-        }
-    } catch (error) {
-        console.error("Error occurred during refund:", error);
+            return res.status(200).json({ message: "Subscription cancelled and refund processed.", newToken,refundInfo :  cancelledSubscription });
+    
+            } else {
+                return res.status(209).json({ message: "Refund failed", refundResponse });
+            }
+        } 
+    } catch (err) {
+        console.log("Error occurred: ", err);
         return res.status(500).json({ error: "Internal Server Error" });
     }finally {
         if (db) {

@@ -25,6 +25,10 @@ function App() {
               element={<Dummy/>}
               />
               <Route
+                path="/semantic"
+                element={<Semantic />}
+                />
+              <Route
                 path="/login"
                 element={<Login />}
               />

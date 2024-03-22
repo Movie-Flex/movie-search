@@ -19,7 +19,7 @@ export default function Semantic() {
     setLoading(true);
     setAutocompleteResults([]);
     setValue('search', query);
-    const response = await axios.post(`${process.env.BACKEND_BASE_URL}/api/fuzzySearch?q=${query}`);
+    const response = await axios.post(`http://localhost:3002/api/semantic?q=${query}`);
     // const response = await axios.post(`http://localhost:3002/api/fuzzySearch?q=${query}`);
     console.log(response);
     setSearchResults(response.data);
