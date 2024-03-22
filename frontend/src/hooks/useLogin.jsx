@@ -17,13 +17,18 @@ export const useLogin = () => {
         loginData
       );
       setIsLoading(false);
+     if(response.status===200){
       localStorage.setItem("token", response.data.token);
-      // console.log(response);
       await TokenVerify(response.data.token);
       setIsLoggedIn(true);
       toast.success("Login Successful");
       navigate("/dummy")
+     }
 
+     else{
+      setIsLoading(false);
+      toast.error(response.data.message);
+     }
       
 
     } catch (error) {

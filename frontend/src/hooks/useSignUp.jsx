@@ -33,10 +33,10 @@ export const useSignup = () => {
          navigate('/dummy')
        }
 
-      //  if(error.status===409){
-      //    setIsLoading(false);
-      //    toast.error("User already exists");
-      // }
+       if(response.status===209){
+         setIsLoading(false);
+         toast.error(response.data.message);
+      }
       
       } catch (error) {
 
