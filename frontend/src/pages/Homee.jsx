@@ -17,7 +17,7 @@ import CardProvider from '../providers/CardProvider.jsx';
 import CardProviderOnHover from '../providers/CardProviderOnHover.jsx';
 import ModalProvider from '../providers/ModalProvider.jsx';
 import VideoPlayer from './VideoPlayer.jsx'
-import DropDown from '../components/DropDown.jsx';
+import DropDownHomeMenu from '../components/DropDownHomeMenu.jsx';
 import { UserContext } from '../context/UserContext.jsx';
 import { CircularProgress } from '@chakra-ui/react';
 const classNames = (...classes) => {
@@ -222,7 +222,7 @@ const Homee = () => {
                  </div>
                    ):(
                     
-                   <DropDown/>
+                   <DropDownHomeMenu/>
                 
                    )}
                 </div>

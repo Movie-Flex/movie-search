@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useLogout } from "../hooks/useLogout";
 
 
-export default function DropDown() {
+export default function DropDownHomeMenu() {
     const [dropDownModal, setDropDownModal] = useState(false)
 
     const navigate=useNavigate()
