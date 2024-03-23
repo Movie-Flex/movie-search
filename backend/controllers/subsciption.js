@@ -13,7 +13,16 @@ const subscription = async (req, res) => {
     try {
         db = await connectToDatabaseWithSchema(mongoURI);
 
-        const { subscription: newSubscription, token } = req.body;
+        const bearer = req.headers['authorization'];
+        if (!bearer) {
+            return res.status(209).json({ message: 'No bearer token' });
+        }
+        const token = bearer.split(" ")[1];
+        if (!token) {
+            return res.status(209).json({ message: 'No authentication token found in bearer.' });
+        }
+
+        const { subscription: newSubscription } = req.body;
         const tokenToUser = getUser(token);
         const email = tokenToUser.email;
 

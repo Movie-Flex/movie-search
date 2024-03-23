@@ -1,22 +1,28 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useCancelSubscription } from "../../hooks/useCancelSubscription";
 import CancelSubscriptionDetailsForm from "./CancelSubscriptionDetailsForm";
 import RefundedAmountDetailsModal from "./RefundedAmountDetailsModal";
+import { UserContext } from "../../context/UserContext";
 
 export default function CancelSubscriptionModal({ closeModal, refundInfo }) {
   const { cancelSubscription } = useCancelSubscription();
   console.log("Refund Info", refundInfo);
 
   const [RefundedAmountDetails, setRefundedAmountDetails] = useState({});
+  const[fetchRefundAmountDetails,setFetchRefundAmountDetails]=useState(false);
+  const {afterCancelSubscriptionModal, setAfterCancelSubscriptionModal}=useState(false);
+ 
 
   const cancel = async () => {
     try {
       const response= await cancelSubscription();
       setRefundedAmountDetails(response);
+      setFetchRefundAmountDetails(true);
+      setAfterCancelSubscriptionModal(true);
     } catch (error) {
       console.log("Error", error);
     }
-    closeModal(false);
+    // closeModal(false);
   };
 
   return (
@@ -63,7 +69,14 @@ export default function CancelSubscriptionModal({ closeModal, refundInfo }) {
         </div>
       </div>
 
-      {/* {RefundedAmountDetails && <RefundedAmountDetailsModal RefundedAmountDetails={RefundedAmountDetails} />} */}
+      {fetchRefundAmountDetails && (
+        <RefundedAmountDetailsModal
+          RefundedAmountDetails={RefundedAmountDetails}
+          closeModal={closeModal}
+        />
+      )}
+
+     
     </div>
   );
 }

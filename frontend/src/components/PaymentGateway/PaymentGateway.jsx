@@ -7,12 +7,13 @@ import { useLogin } from "../../hooks/useLogin";
 
 const PaymentGateway = () => {
   // const navigate=useNavigate()
-  
+
   const { TokenVerify } = useLogin();
   const [paymentSuccessModal, setPaymentSuccessModal] = useState(false);
   const [paymentVerifyModalData, setPaymentVerifyModalData] = useState({});
 
-  const { paymentGatewayReceivingData, token,isLoggedIn ,setToken} = useContext(UserContext);
+  const { paymentGatewayReceivingData, token, isLoggedIn, setToken } =
+    useContext(UserContext);
   // console.log(paymentGatewayReceivingData)
 
   function loadScript(src) {
@@ -46,10 +47,10 @@ const PaymentGateway = () => {
     const options = {
       key: razorpayKeyId,
       currency: paymentGatewayReceivingData.paymentDetail.currency,
-      name: "Subscription",
-      description: "Subscription payment",
+      name: paymentGatewayReceivingData.subscriptionDetails.name,
+      description: paymentGatewayReceivingData.subscriptionDetails.description,
       image:
-        "https://t  h.bing.com/th/id/OIP.Ph7ASU7IV-pld1YGeGu0fgHaF3?rs=1&pid=ImgDetMain",
+        "https://th.bing.com/th/id/OIP.Ph7ASU7IV-pld1YGeGu0fgHaF3?rs=1&pid=ImgDetMain",
       order_id: orderId,
       handler: async function (response) {
         const data = {
@@ -60,12 +61,18 @@ const PaymentGateway = () => {
           token: token,
         };
 
-        const  verificationObject={...data,...paymentGatewayReceivingData}
+        const verificationObject = { ...data, ...paymentGatewayReceivingData };
 
         const result = await axios.post(
           "http://localhost:3002/payment/verify",
-          verificationObject
-        );
+
+          verificationObject,
+
+          {
+            headers: {
+              'authorization': `Bearer ${token}`,
+            },
+          });
 
         if (result.status === 200) {
           // alert(`Payment Successful`);
@@ -75,7 +82,6 @@ const PaymentGateway = () => {
           setToken(result.data.token);
           await TokenVerify(result.data.token);
           // console.log(result.data);
-          
         }
       },
       modal: {
@@ -106,21 +112,25 @@ const PaymentGateway = () => {
   //   simulateButtonClick();
   // }, []);
 
-  if(!isLoggedIn){
+  if (!isLoggedIn) {
     return (
       <section className="bg-white dark:bg-gray-900">
         <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-          <h2 className="text-3xl font-semibold text-gray-900 dark:text-gray-100">Please Login to view Subscription Plans</h2>
+          <h2 className="text-3xl font-semibold text-gray-900 dark:text-gray-100">
+            Please Login to view Subscription Plans
+          </h2>
         </div>
       </section>
     );
   }
 
-  if(!paymentGatewayReceivingData){
+  if (!paymentGatewayReceivingData) {
     return (
       <section className="bg-white dark:bg-gray-900">
         <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-          <h2 className="text-3xl font-semibold text-gray-900 dark:text-gray-100">Loading...</h2>
+          <h2 className="text-3xl font-semibold text-gray-900 dark:text-gray-100">
+            Loading...
+          </h2>
         </div>
       </section>
     );
@@ -128,40 +138,44 @@ const PaymentGateway = () => {
 
   return (
     <>
-    <div className="container">
-      <div className="row d-flex justify-content-center">
-        <div className="col-sm-10 col-md-8 col-lg-5">
-          <form id="paymentVerifyForm">
-            <input
-              name="razorpay_payment_id"
-              type="hidden"
-              id="razorpay_payment_id"
-            />
-            <input
-              name="razorpay_order_id"
-              type="hidden"
-              id="razorpay_order_id"
-            />
-            <input
-              name="razorpay_signature"
-              type="hidden"
-              id="razorpay_signature"
-            />
-          </form>
-          <button
-            type="button"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={(e) => Checkout(e)}
-            
+      <div className="container">
+        <div className="row d-flex justify-content-center">
+          <div className="col-sm-10 col-md-8 col-lg-5">
+            <form id="paymentVerifyForm">
+              <input
+                name="razorpay_payment_id"
+                type="hidden"
+                id="razorpay_payment_id"
+              />
+              <input
+                name="razorpay_order_id"
+                type="hidden"
+                id="razorpay_order_id"
+              />
+              <input
+                name="razorpay_signature"
+                type="hidden"
+                id="razorpay_signature"
+              />
+            </form>
+            <button
+              type="button"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={(e) => Checkout(e)}
             >
               Continue to Pay
             </button>
+          </div>
         </div>
       </div>
-    </div>
 
-    {paymentSuccessModal && <PaymentVerifyModal props={paymentVerifyModalData} setPaymentSuccessModal={setPaymentSuccessModal}/>}
-              </>
+      {paymentSuccessModal && (
+        <PaymentVerifyModal
+          props={paymentVerifyModalData}
+          setPaymentSuccessModal={setPaymentSuccessModal}
+        />
+      )}
+    </>
   );
 };
 

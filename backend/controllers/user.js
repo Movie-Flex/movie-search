@@ -76,13 +76,13 @@ const loginUser = async (req, res) => {
     try {
         db = await connectToDatabaseWithSchema(mongoURI);
 
-        const { email, password, username } = req.body;
-        if (!(email && password || username && password)) {
-            return res.status(209).json({ message: "Email and password are required!" });
+        const { userId, password } = req.body;
+        if (!(userId && password )) {
+            return res.status(209).json({ message: "Email/username and password are required!" });
         }
 
 
-        const user = await User_2.findOne({ $or: [{ email: email }, { username: username }] });
+        const user = await User_2.findOne({ $or: [{ email:userId }, { username:userId }] });
 
         if (!user) {
             return res.status(209).json({ message: "User not found" });
@@ -114,8 +114,8 @@ const loginUser = async (req, res) => {
             }
 
 
-            const role = await Role.findOne({ email: email });
-            const subscription = await Subscription.findOne({ email: email });
+            const role = await Role.findOne({ email: user.email });
+            const subscription = await Subscription.findOne({ email: user.email });
             const token = generateToken(user, role.role, subscription.subscription);
             return res.status(200).json({ token });
         }

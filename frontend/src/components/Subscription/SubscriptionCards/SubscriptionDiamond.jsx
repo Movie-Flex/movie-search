@@ -17,6 +17,7 @@ export default function SubscriptionDiamond({ props, yearly, setYearly }) {
   const { features, currency, subunit, feeYearly, feeMonthly } = props;
 
   const {
+    user,
     paymentGatewaySendingData,
     setPaymentGatewaySendingData,
     token,
@@ -33,8 +34,13 @@ export default function SubscriptionDiamond({ props, yearly, setYearly }) {
     try {
       const response = await axios.post(
         `http://localhost:3002/payment/order?dur=${paymentGatewaySendingData.dur}&type=${paymentGatewaySendingData.type}`,
-        { token: token }
-      );
+      
+        {} ,{
+          headers: {
+            'authorization': `Bearer ${token}`,
+          },
+        });
+      
       if (response.status === 200) {
         localStorage.setItem(
           "paymentGatewayReceivingData",
@@ -84,13 +90,36 @@ export default function SubscriptionDiamond({ props, yearly, setYearly }) {
         ))}
       </ul>
 
-      <button
-        onClick={() => handleDiamondSubscription()}
+     { user.subscription!=="diamond" ?(
+
+        user.subscription==="free"?
+        (<button
+          onClick={() => handleDiamondSubscription()}
+          className=" bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 
+                  font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white dark:focus:ring-primary-900"
+        >
+          Pay
+        </button>)
+        :
+        (
+        <button
+          className=" bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 
+                  font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white dark:focus:ring-primary-900"
+        >
+          Please Cancel to Buy Another Subscription
+        </button>
+        )
+
+      ):
+      (
+        <button
+        onClick={() => navigate("/profile")}
         className=" bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 
                 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white dark:focus:ring-primary-900"
       >
-        Pay
+        Cancel
       </button>
+      )}
     </div>
   );
 }

@@ -4,15 +4,21 @@ const { getMovies } = require('../controllers/autoSuggest');
 const { fuzzySearch } = require('../controllers/fuzzySearch');
 const { semanticMovies } = require('../controllers/semanticSearch');
 const { availableUser } = require('../controllers/availableUser');
-const {addRecentMovies, getRecentMovies} = require('../controllers/recentMovies')
+const {addToWatchHistory, getWatchHistory} = require('../controllers/watchHistory')
+const {addFavouriteMovies, getFavouriteMovies, deleteFavouriteMovie} = require('../controllers/favouriteMovies')
+const {addWatchLaterMovies, getWatchLaterMovies} = require('../controllers/watchLater')
+const {rateMovie} = require('../controllers/rateMovie')
 const role = require('../controllers/role');
 const subscription = require('../controllers/subsciption');
 const payment= require('../controllers/payment');
 const getUserFromToken = require('../controllers/getUserFromToken');
+const {addMovie, deleteMovie, updateMovie} = require('../controllers/admin');
 
 
 const router = express.Router();
 
+
+// account related api's
 router.get('/availableUser', availableUser);
 
 router.post('/login',loginUser);
@@ -25,16 +31,46 @@ router.post('/getUser', getUserFromToken.getUserFromToken);
 
 router.post('/subscription', subscription.subscription);
 
+
+// search related api's
 router.post('/autoSuggest', getMovies)
 
 router.post('/fuzzySearch', fuzzySearch)
 
 router.post('/semantic', semanticMovies)
 
-router.post('/addRecentMovies',addRecentMovies)
 
-router.get('/getRecentMovies',getRecentMovies)
+// user action related api's
+router.post('/addToWatchHistory/:id',addToWatchHistory)
 
+// router.delete('deleteHistoryMovie/:id',deleteHistoryMovie)
+
+router.get('/getWatchHistory',getWatchHistory)
+
+router.post('/addFavouriteMovies/:id',addFavouriteMovies)
+
+router.delete('/deleteFavouriteMovie/:id',deleteFavouriteMovie)
+
+router.get('/getFavouriteMovies',getFavouriteMovies)
+
+router.post('/addWatchLaterMovies/:id',addWatchLaterMovies)
+
+// router.delete('deleteWatchLaterMovie/:id',deleteWatchLaterMovie)
+
+router.get('/getWatchLaterMovies',getWatchLaterMovies)
+
+router.post('/rateMovie/:movieId/:rating', rateMovie)
+
+
+// admin action related api's
+router.post('/add-movie', addMovie);
+
+router.delete('/delete-movie/:id', deleteMovie);
+
+router.post('/update-movie/:id', updateMovie);
+
+
+// payment related api's
 router.post('/dashboard', payment.dashboard)
 
 router.post('/order', payment.order)
@@ -43,13 +79,5 @@ router.post('/verify', payment.verify)
 
 router.post('/cancel', payment.refund)
 
-
-// For backend testing only (ignore)
-const {orderTest, verifyTest, dashboardTest,refundTest,upgradeSubscriptionTest} = require('../controllers/paymentTest'); 
-router.get('/dashboardTest', dashboardTest)
-router.get('/orderTest', orderTest)
-router.post('/verifyTest', verifyTest)
-router.get('/refundTest', refundTest)
-router.get('/upgradeTest', upgradeSubscriptionTest)
 
 module.exports = router;
