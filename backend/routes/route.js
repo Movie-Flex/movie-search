@@ -4,9 +4,9 @@ const { getMovies } = require('../controllers/autoSuggest');
 const { fuzzySearch } = require('../controllers/fuzzySearch');
 const { semanticMovies } = require('../controllers/semanticSearch');
 const { availableUser } = require('../controllers/availableUser');
-const {addToWatchHistory, getWatchHistory} = require('../controllers/watchHistory')
+const {addToWatchHistory, getWatchHistory, deleteWatchHistory} = require('../controllers/watchHistory')
 const {addFavouriteMovies, getFavouriteMovies, deleteFavouriteMovie} = require('../controllers/favouriteMovies')
-const {addWatchLaterMovies, getWatchLaterMovies} = require('../controllers/watchLater')
+const {addWatchLaterMovies, getWatchLaterMovies, deleteWatchLaterMovie} = require('../controllers/watchLater')
 const {rateMovie} = require('../controllers/rateMovie')
 const role = require('../controllers/role');
 const subscription = require('../controllers/subsciption');
@@ -41,24 +41,31 @@ router.post('/semantic', semanticMovies)
 
 
 // user action related api's
+
+// Watch History crud
 router.post('/addToWatchHistory/:id',addToWatchHistory)
 
-// router.delete('deleteHistoryMovie/:id',deleteHistoryMovie)
+router.delete('/deleteWatchHistory/:id',deleteWatchHistory)
 
 router.get('/getWatchHistory',getWatchHistory)
 
+
+// Favourite Movies crud
 router.post('/addFavouriteMovies/:id',addFavouriteMovies)
 
 router.delete('/deleteFavouriteMovie/:id',deleteFavouriteMovie)
 
 router.get('/getFavouriteMovies',getFavouriteMovies)
 
+// Watch later crud
 router.post('/addWatchLaterMovies/:id',addWatchLaterMovies)
 
-// router.delete('deleteWatchLaterMovie/:id',deleteWatchLaterMovie)
+router.delete('/deleteWatchLaterMovie/:id',deleteWatchLaterMovie)
 
 router.get('/getWatchLaterMovies',getWatchLaterMovies)
 
+
+// new/update rating
 router.post('/rateMovie/:movieId/:rating', rateMovie)
 
 

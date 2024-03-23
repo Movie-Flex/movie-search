@@ -98,11 +98,49 @@ const getWatchHistory = async (req, res) => {
     }
 };
 
+const deleteWatchHistory = async (req, res) => {
+    let db;
+    try {
+        
+        const bearer = req.headers['authorization'];
+        if (!bearer) {
+            return res.status(209).json({ message: 'No bearer token' });
+        }
+        const token = bearer.split(" ")[1];
+        if (!token) {
+            return res.status(209).json({ message: 'No authentication token found in bearer.' });
+        }
+        const movieId = req.params.id
 
+        if (!(movieId)) {
+            return res.status(209).json({ message: "Movie id missing." });
+        }
+        const user = getUser(token);
+
+        db = await connectToDatabaseWithSchema(mongoURI)
+
+        const existingUser = await watchHistory.findOne({ email: user.email });
+        if (existingUser) {
+            await existingUser.updateOne({ $pull: { movieId: movieId } });
+            return res.status(200).json({ message: "Successfully deleted movie from history." });
+        }else {
+
+        return res.status(209).json({ message: "Nothing to delete." });
+    }
+} catch (err) {
+    console.log("Error occurred: ", err);
+    return res.status(500).json({ error: "Internal server error" });
+} finally {
+    if (db) {
+        db.close();
+    }
+}
+};
 
 
 
 module.exports = {
     addToWatchHistory: [verifyToken, addToWatchHistory],
-    getWatchHistory: [verifyToken, getWatchHistory]
+    getWatchHistory: [verifyToken, getWatchHistory],
+    deleteWatchHistory : [verifyToken, deleteWatchHistory]
 };
