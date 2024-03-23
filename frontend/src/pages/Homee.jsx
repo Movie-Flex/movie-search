@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react'
-import React, { useState, useEffect, useContext } from 'react'
 import { FaClock } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -18,8 +17,6 @@ import CardProvider from '../providers/CardProvider.jsx';
 import CardProviderOnHover from '../providers/CardProviderOnHover.jsx';
 import ModalProvider from '../providers/ModalProvider.jsx';
 import VideoPlayer from './VideoPlayer.jsx'
-import { useLogout } from '../hooks/useLogout.jsx';
-import { UserContext } from '../context/UserContext.jsx';
 import DropDown from '../components/DropDown.jsx';
 import { UserContext } from '../context/UserContext.jsx';
 import { CircularProgress } from '@chakra-ui/react';
