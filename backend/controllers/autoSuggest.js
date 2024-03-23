@@ -54,6 +54,9 @@ const getMovies = async (req, res) => {
         }
       },
       {
+        $limit:8
+      },
+      {
         $project: {
           _id: 0,
           title: 1,
