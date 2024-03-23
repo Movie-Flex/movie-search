@@ -36,12 +36,23 @@ const dashboard = async (req, res) => {
 const order = async (req, res) => {
     let db;
     try {
-        db = await connectToDatabaseWithSchema(mongoURI);
-        const subscriptionMeta = await SubscriptionMeta.findOne({}).sort({ updatedDate: -1 });
+        
 
         const subscription = req.query.type;
         const duration = req.query.dur;
-        const { token } = req.body
+
+        const bearer = req.headers['authorization'];
+        if (!bearer) {
+            return res.status(209).json({ message: 'No bearer token' });
+        }
+        const token = bearer.split(" ")[1];
+        if (!token) {
+            return res.status(209).json({ message: 'No authentication token found in bearer.' });
+        }
+
+        db = await connectToDatabaseWithSchema(mongoURI);
+        const subscriptionMeta = await SubscriptionMeta.findOne({}).sort({ updatedDate: -1 });
+        
         const user = getUser(token)
 
         const oldPaymentDetail = await PaymentDetail.findOne({ email: user.email }).sort({ updatedDate: -1 });
@@ -110,8 +121,16 @@ const verify = async (req, res) => {
         const razorpay_order_id = req.body.razorpay_order_id
         const razorpay_payment_id = req.body.razorpay_payment_id
         const razorpay_signature = req.body.razorpay_signature
-        const token = req.body.token
-        const user = getUser(token)
+
+        const bearer = req.headers['authorization'];
+        if (!bearer) {
+            return res.status(209).json({ message: 'No bearer token' });
+        }
+        const token = bearer.split(" ")[1];
+        if (!token) {
+            return res.status(209).json({ message: 'No authentication token found in bearer.' });
+        }
+        
 
         if (!razorpay_order_id) {
             return res.status(209).json({ message: "Razorpay order id  (razorpay_order_id) missing." })
@@ -122,6 +141,9 @@ const verify = async (req, res) => {
         if (!razorpay_signature) {
             return res.status(209).json({ message: "Razorpay signature  (razorpay_signature) missing." })
         }
+
+        const user = getUser(token)
+
         const body = razorpay_order_id + "|" + razorpay_payment_id;
         const crypto = require("crypto");
         const expectedSignature = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
@@ -177,7 +199,16 @@ const refund = async (req, res) => {
     let db;
     try {
         db = await connectToDatabaseWithSchema(mongoURI);
-        const { token } = req.body;
+
+        const bearer = req.headers['authorization'];
+        if (!bearer) {
+            return res.status(209).json({ message: 'No bearer token' });
+        }
+        const token = bearer.split(" ")[1];
+        if (!token) {
+            return res.status(209).json({ message: 'No authentication token found in bearer.' });
+        }
+        
         const q = req.query.q;
         const user = getUser(token);
         const paymentDetail = await PaymentDetail.findOne({ email: user.email }).sort({ updatedDate: -1 });

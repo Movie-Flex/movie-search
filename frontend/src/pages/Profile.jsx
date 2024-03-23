@@ -6,7 +6,7 @@ import { useCancelSubscription } from "../hooks/useCancelSubscription";
 import CancelSubscriptionModal from "./CancelSubscription/CancelSubscriptionModal";
 import UserDetails from "../components/UserDetails";
 
-export default function Dummy() {
+export default function Profile() {
 
   const navigate=useNavigate()
   const {logout}=useLogout();
@@ -36,7 +36,7 @@ export default function Dummy() {
   
   return (
       <div>
-        <h1 className="flex justify-center items-center">Dummy Page just made for testing</h1>
+        <h1 className="flex justify-center items-center">Profile Page just made for testing</h1>
         {user &&(
          <UserDetails user={user}/>
         )}
@@ -44,6 +44,12 @@ export default function Dummy() {
         <div
         className="flex justify-center space-x-4 mt-4"
         >
+        <button 
+        onClick={()=>navigate("/")}
+        className="bg-purple-500 text-white px-4 py-2 rounded-full transition duration-200 ease-in-out hover:bg-purple-700 active:bg-purple-900 focus:outline-none">
+          Home
+
+        </button >
         <button 
         onClick={logout}
         className="bg-purple-500 text-white px-4 py-2 rounded-full transition duration-200 ease-in-out hover:bg-purple-700 active:bg-purple-900 focus:outline-none">

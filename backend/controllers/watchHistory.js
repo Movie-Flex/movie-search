@@ -8,13 +8,19 @@ const dbName = 'sample_mflix';
 const collectionName = 'embedded_movies';
 const mongoURI = process.env.MONGODB_URI;
 
-const addRecentMovies = async (req, res) => {
+const addToWatchHistory = async (req, res) => {
     let db;
     try {
-        const { movieId, token } = req.body;
-        if (!(token && movieId)) {
-            return res.status(209).json({ message: "Movie id or token missing." });
+        const bearer = req.headers['authorization'];
+        if (!bearer) {
+            return res.status(209).json({ message: 'No bearer token' });
         }
+        const token = bearer.split(" ")[1];
+        if (!token) {
+            return res.status(209).json({ message: 'No authentication token found in bearer.' });
+        }
+        const movieId = req.params.id
+
         const user = getUser(token);
 
         db = await connectToDatabaseWithSchema(mongoURI)
@@ -48,14 +54,19 @@ const addRecentMovies = async (req, res) => {
     }
 };
 
-const getRecentMovies = async (req, res) => {
+const getWatchHistory = async (req, res) => {
     let client;
     let db;
     try {
-        const { token } = req.body;
-        if (!token) {
-            return res.status(209).json({ message: "Token missing." });
+        const bearer = req.headers['authorization'];
+        if (!bearer) {
+            return res.status(209).json({ message: 'No bearer token' });
         }
+        const token = bearer.split(" ")[1];
+        if (!token) {
+            return res.status(209).json({ message: 'No authentication token found in bearer.' });
+        }
+
         const user = getUser(token);
 
         db = await connectToDatabaseWithSchema(mongoURI)
@@ -72,7 +83,7 @@ const getRecentMovies = async (req, res) => {
             { _id: { $in: recentMoviesIds.map(id => new ObjectId(id)) } }, { plot_embedding: 0 } // Exclude the plot_embedding field(not working ??)
         ).toArray();
 
-        return res.status(200).json({ recentMovies: allMovies });
+        return res.status(200).json({ watchHistory: allMovies });
 
     } catch (err) {
         console.log("Error occurred: ", err);
@@ -89,6 +100,6 @@ const getRecentMovies = async (req, res) => {
 
 
 module.exports = {
-    addRecentMovies: [verifyToken, addRecentMovies],
-    getRecentMovies: [verifyToken, getRecentMovies]
+    addToWatchHistory: [verifyToken, addToWatchHistory],
+    getWatchHistory: [verifyToken, getWatchHistory]
 };

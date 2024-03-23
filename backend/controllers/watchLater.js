@@ -11,10 +11,16 @@ const mongoURI = process.env.MONGODB_URI;
 const addWatchLaterMovies = async (req, res) => {
     let db;
     try {
-        const { movieId, token } = req.body;
-        if (!(token && movieId)) {
-            return res.status(209).json({ message: "Movie id or token missing." });
+        const bearer = req.headers['authorization'];
+        if (!bearer) {
+            return res.status(209).json({ message: 'No bearer token' });
         }
+        const token = bearer.split(" ")[1];
+        if (!token) {
+            return res.status(209).json({ message: 'No authentication token found in bearer.' });
+        }
+        const movieId = req.params.id
+        
         const user = getUser(token);
 
         db = await connectToDatabaseWithSchema(mongoURI)
@@ -51,10 +57,15 @@ const getWatchLaterMovies = async (req, res) => {
     let client;
     let db;
     try {
-        const { token } = req.body;
-        if (!token) {
-            return res.status(209).json({ message: "Token missing." });
+        const bearer = req.headers['authorization'];
+        if (!bearer) {
+            return res.status(400).json({ error: 'No bearer token' });
         }
+        const token = bearer.split(" ")[1];
+        if (!token) {
+            return res.status(400).json({ error: 'No authentication token found in bearer.' });
+        }
+
         const user = getUser(token);
 
         db = await connectToDatabaseWithSchema(mongoURI)

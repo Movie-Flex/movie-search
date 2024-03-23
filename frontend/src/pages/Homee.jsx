@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { FaClock } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -11,11 +12,15 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { useForm } from 'react-hook-form';
 import logo from "../assets/images/logo.png"
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import CardProvider from '../providers/CardProvider.jsx';
 import CardProviderOnHover from '../providers/CardProviderOnHover.jsx';
 import ModalProvider from '../providers/ModalProvider.jsx';
+import VideoPlayer from './VideoPlayer.jsx'
+import { useLogout } from '../hooks/useLogout.jsx';
+import { UserContext } from '../context/UserContext.jsx';
+import DropDown from '../components/DropDown.jsx';
 import { UserContext } from '../context/UserContext.jsx';
 import { CircularProgress } from '@chakra-ui/react';
 const classNames = (...classes) => {
@@ -23,7 +28,8 @@ const classNames = (...classes) => {
 };
 
 const Homee = () => {
-    const [genreSelected, setGenreSelected] = useState()
+    const [genreSelected, setGenreSelected] = useState()  const {user}=useContext(UserContext);
+
     const { register, handleSubmit, setValue } = useForm();
     const [currentValue, setCurrentValue] = useState('');
     const [autocompleteResults, setAutocompleteResults] = useState([]);
@@ -37,6 +43,7 @@ const Homee = () => {
     const user = useContext(UserContext);
     const [movieLoading, setMovieLoading] = useState(null)
     console.log('user', user)
+
 
     const runSearch = async (query) => {
         setLoading(true);
@@ -115,6 +122,7 @@ const Homee = () => {
         }
     };
 
+   
     useEffect(() => {
         axios.post("http://localhost:3002/api/autoSuggest",
             {},
@@ -141,6 +149,8 @@ const Homee = () => {
 
 
     }, [])
+
+
 
 
     return (
@@ -206,11 +216,17 @@ const Homee = () => {
                     </div>
                 </div>
                 <div className="mx-2 flex justify-center items-center p-2 bg-white rounded-xl">
-                    <div className="text-[#171D21] font-semibold flex justify-center items-center gap-1">
-                        <span className='hover:border-b-2 hover:border-[#171D21]'><Link to="/login">LogIn</Link></span>
-                        <span>/</span>
-                        <span className='hover:border-b-2 hover:border-[#171D21]'><Link to="/signup">SignUp</Link></span>
-                    </div>
+                   {!user?(
+                     <div className="text-[#171D21] font-semibold flex justify-center items-center gap-1">
+                     <span className='hover:border-b-2 hover:border-[#171D21]'><Link to="/login">LogIn</Link></span>
+                     <span>/</span>
+                     <span className='hover:border-b-2 hover:border-[#171D21]'><Link to="/signup">SignUp</Link></span>
+                 </div>
+                   ):(
+                    
+                   <DropDown/>
+                
+                   )}
                 </div>
             </div>
             <div className="w-full">
@@ -227,8 +243,42 @@ const Homee = () => {
                     className="mySwiper"
                 >
                     <SwiperSlide>
-                        <div className="w-full h-[500px] sm:h-[400px] pl-5 flex flex-col justify-center bg-spiderman bg-cover bg-no-repeat">
-                            <div className="w-full sm:w-3/4 p-10 flex flex-col justify-center items-start gap-y-3 sm:gap-y-6">
+                        <div className="w-full h-[500px] sm:h-[400px] pl-5 flex flex-col justify-center ">
+                            <video src="https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/video1.mp4?alt=media&token=46ac4bba-0850-495d-bcff-8eea28621da5" autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
+                            </video>
+                            <div className="w-full sm:w-3/4 p-10 flex flex-col justify-center items-start gap-y-3 sm:gap-y-6 relative z-10">
+                                <div className="text-[#fff] font-bold text-4xl">
+                                    Spider-Man: Across the Spider-Verse
+                                </div>
+                                <div className="text-[#fff] flex gap-4">
+                                    <div className="flex justify-center items-center gap-1">
+                                        <span><FaClock className='text-[15px]' /></span>
+                                        <span>2h 20min</span>
+                                    </div>
+                                    <div className="flex justify-center items-center gap-1">
+                                        <span>Family/Action</span>
+                                    </div>
+                                    <div className="flex justify-center items-center gap-1">
+                                        <span>2023</span>
+                                    </div>
+                                </div>
+                                <div className="">
+                                    {/* <button className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
+                                        Watch Now
+                                    </button> */}
+                                    <Link to="/video" className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
+                                        Watch Now
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    </SwiperSlide>
+
+                    <SwiperSlide>
+                        <div className="w-full h-[500px] sm:h-[400px] pl-5 flex flex-col justify-center ">
+                            <video src="https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/video2.mp4?alt=media&token=46ac4bba-0850-495d-bcff-8eea28621da5" autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
+                            </video>
+                            <div className="w-full sm:w-3/4 p-10 flex flex-col justify-center items-start gap-y-3 sm:gap-y-6 relative z-10">
                                 <div className="text-[#fff] font-bold text-4xl">
                                     Spider-Man: Across the Spider-Verse
                                 </div>
@@ -254,35 +304,10 @@ const Homee = () => {
                     </SwiperSlide>
 
                     <SwiperSlide>
-                        <div className="w-full h-[500px] sm:h-[400px] pl-5 flex flex-col justify-center bg-spiderman bg-cover bg-no-repeat">
-                            <div className="w-full sm:w-3/4 p-10 flex flex-col justify-center items-start gap-y-3 sm:gap-y-6">
-                                <div className="text-[#fff] font-bold text-4xl">
-                                    Spider-Man: Across the Spider-Verse
-                                </div>
-                                <div className="text-[#fff] flex gap-4">
-                                    <div className="flex justify-center items-center gap-1">
-                                        <span><FaClock className='text-[15px]' /></span>
-                                        <span>2h 20min</span>
-                                    </div>
-                                    <div className="flex justify-center items-center gap-1">
-                                        <span>Family/Action</span>
-                                    </div>
-                                    <div className="flex justify-center items-center gap-1">
-                                        <span>2023</span>
-                                    </div>
-                                </div>
-                                <div className="">
-                                    <button className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
-                                        Watch Now
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </SwiperSlide>
-
-                    <SwiperSlide>
-                        <div className="w-full h-[500px] sm:h-[400px] pl-5 flex flex-col justify-center bg-spiderman bg-cover bg-no-repeat">
-                            <div className="w-full sm:w-3/4 p-10 flex flex-col justify-center items-start gap-y-3 sm:gap-y-6">
+                        <div className="w-full h-[500px] sm:h-[400px] pl-5 flex flex-col justify-center ">
+                            <video src="https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/video3.mp4?alt=media&token=46ac4bba-0850-495d-bcff-8eea28621da5" autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
+                            </video>
+                            <div className="w-full sm:w-3/4 p-10 flex flex-col justify-center items-start gap-y-3 sm:gap-y-6 relative z-10">
                                 <div className="text-[#fff] font-bold text-4xl">
                                     Spider-Man: Across the Spider-Verse
                                 </div>
@@ -312,7 +337,7 @@ const Homee = () => {
 
 
             <div className="mt-5">
-                {!loadingRecommended && (<div className="w-full p-5 flex flex-col">
+                {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
                     <div className="text-3xl text-white font-bold">Recommended Movies</div>
                     <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
                         {!loadingRecommended && recommendedMovies && recommendedMovies.map((movie) => {

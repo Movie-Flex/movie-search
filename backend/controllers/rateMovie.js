@@ -12,10 +12,18 @@ const rateMovie = async (req, res) => {
     let db;
     let client
     try {
-        const { movieId,rating, token } = req.body;
-        if (!(token && movieId&& rating)) {
-            return res.status(209).json({ message: "Movie id or token or rating missing." });
+
+        const bearer = req.headers['authorization'];
+        if (!bearer) {
+            return res.status(209).json({ message: 'No bearer token' });
         }
+        const token = bearer.split(" ")[1];
+        if (!token) {
+            return res.status(209).json({ message: 'No authentication token found in bearer.' });
+        }
+        const movieId = req.params.movieId
+        const rating = req.params.rating
+
         const user = getUser(token);
 
         db = await connectToDatabaseWithSchema(mongoURI)

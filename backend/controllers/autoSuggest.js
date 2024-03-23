@@ -9,11 +9,11 @@ const getMovies = async (req, res) => {
   try {
     const bearer = req.headers['authorization'];
     if (!bearer) {
-      return res.status(400).json({ error: 'No authentication token' });
+      return res.status(209).json({ message: 'No authentication token' });
     }
     const token = bearer.split(" ")[1];
     if (!token) {
-      return res.status(400).json({ error: 'No authentication token found' });
+      return res.status(209).json({ message: 'No authentication token found' });
     }
     const query = req.query.q;
     let { toSearch } = req.body;
@@ -52,6 +52,9 @@ const getMovies = async (req, res) => {
             must: must
           }
         }
+      },
+      {
+        $limit:8
       },
       {
         $project: {

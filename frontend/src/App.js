@@ -5,9 +5,10 @@ import Semantic from './pages/Semantic';
 import Login from './pages/Login';
 import Signup from './pages/SignUp';
 import { Toaster } from 'react-hot-toast';
-import Dummy from './pages/Dummy';
+import Profile from './pages/Profile';
 import Subscription from './components/Subscription/Subscription';
 import PaymentGateway from './components/PaymentGateway/PaymentGateway';
+import VideoPlayer from './pages/VideoPlayer'
 
 function App() {
   return (
@@ -21,8 +22,8 @@ function App() {
                 element={<Homee />}
               />
               <Route
-              path="/dummy"
-              element={<Dummy/>}
+              path="/profile"
+              element={<Profile/>}
               />
               <Route
                 path="/semantic"
@@ -43,6 +44,9 @@ function App() {
             <Route 
                 path="/paymentgateway"
                 element={<PaymentGateway/>}
+                />
+            <Route path ="/video" 
+                element={<VideoPlayer/>} 
                 />
             </Routes>
           </div>

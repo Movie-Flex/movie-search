@@ -10,7 +10,18 @@ const mongoURI = process.env.MONGODB_URI
 
 const role = async (req, res, db) => {
     try {
-        const { role: newRole, token } = req.body;
+        const bearer = req.headers['authorization'];
+        if (!bearer) {
+            return res.status(209).json({ message: 'No bearer token' });
+        }
+        const token = bearer.split(" ")[1];
+        if (!token) {
+            return res.status(209).json({ message: 'No authentication token found in bearer.' });
+        }
+        const movieId = req.params.id
+
+        const { role: newRole } = req.body;
+        
         const tokenTOUser = getUser(token);
         const email = tokenTOUser.email
 
