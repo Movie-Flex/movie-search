@@ -290,8 +290,8 @@ export default function Home() {
           {isLoggedIn && (
             <div className="flex justify-between items-center w-full z-10 text-sm font-mono">
               <p>
-                <Link to="/dummy" className="font-bold">
-                  Dummy page
+                <Link to="/profile" className="font-bold">
+                  profile page
                 </Link>
               </p>
             </div>

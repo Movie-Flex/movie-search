@@ -22,7 +22,7 @@ export const useLogin = () => {
       await TokenVerify(response.data.token);
       setIsLoggedIn(true);
       toast.success("Login Successful");
-      navigate("/dummy")
+      navigate("/")
      }
 
      else{

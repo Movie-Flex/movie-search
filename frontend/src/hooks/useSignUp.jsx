@@ -35,7 +35,7 @@ export const useSignup = () => {
          setToken(response.data.token)
          setIsLoggedIn(true);
          toast.success("SignUp Successful")
-         navigate('/dummy')
+         navigate('/')
        }
 
        if(response.status===209){

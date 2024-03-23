@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { FaClock } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -11,16 +11,21 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { useForm } from 'react-hook-form';
 import logo from "../assets/images/logo.png"
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import CardProvider from '../providers/CardProvider.jsx';
 import CardProviderOnHover from '../providers/CardProviderOnHover.jsx';
 import ModalProvider from '../providers/ModalProvider.jsx';
+import { UserContext } from '../context/UserContext.jsx';
+import { useLogout } from '../hooks/useLogout.jsx';
 const classNames = (...classes) => {
     return classes.filter(Boolean).join(' ');
 };
 
 const Homee = () => {
+    const navigate=useNavigate()
+  const {logout}=useLogout();
+  const {user,isLoggedIn}=useContext(UserContext);
 
     const { register, handleSubmit, setValue } = useForm();
     const [currentValue, setCurrentValue] = useState('');
@@ -32,6 +37,7 @@ const Homee = () => {
     const [loadingRecommended, setLoadingRecommended] = useState(true);
     const [modalMovie, setModalMovie] = useState();
     const [isModalOpen, setIsModalOpen] = useState(false);
+
 
     const runSearch = async (query) => {
         setLoading(true);
@@ -90,6 +96,13 @@ const Homee = () => {
         }
     };
 
+    const logoutAction=()=>{
+        logout();
+        navigate('/')
+        window.location.reload();
+    
+    }
+
     useEffect(() => {
         axios.post("http://localhost:3002/api/autoSuggest",
         {},
@@ -113,6 +126,8 @@ const Homee = () => {
 
 
     }, [])
+
+
 
 
     return (
@@ -167,11 +182,27 @@ const Homee = () => {
                     </div>
                 </div>
                 <div className="mx-2 flex justify-center items-center p-2 bg-white rounded-xl">
+                   {!user?(
+                     <div className="text-[#171D21] font-semibold flex justify-center items-center gap-1">
+                     <span className='hover:border-b-2 hover:border-[#171D21]'><Link to="/login">LogIn</Link></span>
+                     <span>/</span>
+                     <span className='hover:border-b-2 hover:border-[#171D21]'><Link to="/signup">SignUp</Link></span>
+                 </div>
+                   ):(
+                    
                     <div className="text-[#171D21] font-semibold flex justify-center items-center gap-1">
-                        <span className='hover:border-b-2 hover:border-[#171D21]'><Link to="/login">LogIn</Link></span>
-                        <span>/</span>
-                        <span className='hover:border-b-2 hover:border-[#171D21]'><Link to="/signup">SignUp</Link></span>
-                    </div>
+                    <span className='hover:border-b-2 hover:border-[#171D21]'><Link to="/profile">Profile</Link></span>
+                    <span>/</span>
+                    <span className='hover:border-b-2 hover:border-[#171D21]'>
+                        <button 
+                       onClick={logoutAction}
+                    >
+                        Logout
+                        </button >
+                        </span>
+                </div>
+                
+                   )}
                 </div>
             </div>
             <div className="w-full">
