@@ -19,14 +19,13 @@ import ModalProvider from '../providers/ModalProvider.jsx';
 import VideoPlayer from './VideoPlayer.jsx'
 import { useLogout } from '../hooks/useLogout.jsx';
 import { UserContext } from '../context/UserContext.jsx';
+import DropDown from '../components/DropDown.jsx';
 const classNames = (...classes) => {
     return classes.filter(Boolean).join(' ');
 };
 
 const Homee = () => {
-    const navigate=useNavigate()
-  const {logout}=useLogout();
-  const {user,isLoggedIn}=useContext(UserContext);
+  const {user}=useContext(UserContext);
 
     const { register, handleSubmit, setValue } = useForm();
     const [currentValue, setCurrentValue] = useState('');
@@ -97,13 +96,7 @@ const Homee = () => {
         }
     };
 
-    const logoutAction=()=>{
-        logout();
-        navigate('/')
-        window.location.reload();
-    
-    }
-
+   
     useEffect(() => {
         axios.post("http://localhost:3002/api/autoSuggest",
             {},
@@ -191,17 +184,7 @@ const Homee = () => {
                  </div>
                    ):(
                     
-                    <div className="text-[#171D21] font-semibold flex justify-center items-center gap-1">
-                    <span className='hover:border-b-2 hover:border-[#171D21]'><Link to="/profile">Profile</Link></span>
-                    <span>/</span>
-                    <span className='hover:border-b-2 hover:border-[#171D21]'>
-                        <button 
-                       onClick={logoutAction}
-                    >
-                        Logout
-                        </button >
-                        </span>
-                </div>
+                   <DropDown/>
                 
                    )}
                 </div>
