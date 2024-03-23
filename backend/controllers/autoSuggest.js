@@ -20,8 +20,8 @@ const getMovies = async (req, res) => {
     if (!query) {
       return res.status(209).json({ message: 'Query parameter is required' });
     }
-    if (!toSearch) {
-      toSearch = "all";
+    if (!toSearch || toSearch.length==0) {
+      toSearch = ["all"];
     }
     const { client: connectedClient, collection } = await connectToDatabase(dbName, collectionName);
     client = connectedClient;
@@ -35,7 +35,7 @@ const getMovies = async (req, res) => {
         }
       },
     ]
-    if(toSearch!=="all"){
+    if(toSearch[0]!=="all"){
       must.push({
         text: {
           query: toSearch,
