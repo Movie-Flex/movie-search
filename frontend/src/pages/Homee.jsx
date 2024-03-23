@@ -28,7 +28,8 @@ const classNames = (...classes) => {
 };
 
 const Homee = () => {
-    const [genreSelected, setGenreSelected] = useState()  const {user}=useContext(UserContext);
+    const [genreSelected, setGenreSelected] = useState() 
+     const {user} =useContext(UserContext);
 
     const { register, handleSubmit, setValue } = useForm();
     const [currentValue, setCurrentValue] = useState('');
@@ -40,7 +41,7 @@ const Homee = () => {
     const [loadingRecommended, setLoadingRecommended] = useState(true);
     const [modalMovie, setModalMovie] = useState();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const user = useContext(UserContext);
+    const userData = useContext(UserContext);
     const [movieLoading, setMovieLoading] = useState(null)
     console.log('user', user)
 
@@ -86,7 +87,7 @@ const Homee = () => {
                     q: query
                 },
                 headers: {
-                    Authorization: `Bearer ${user.token}`
+                    Authorization: `Bearer ${userData.token}`
                 }
             }).then((response) => {
                 console.log('response.data', response.data)
@@ -131,7 +132,7 @@ const Homee = () => {
                     q: "love"
                 },
                 headers: {
-                    Authorization: `Bearer ${user.token}`
+                    Authorization: `Bearer ${userData.token}`
                 }
             })
             .then((response) => {
