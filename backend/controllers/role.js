@@ -18,7 +18,6 @@ const role = async (req, res, db) => {
         if (!token) {
             return res.status(209).json({ message: 'No authentication token found in bearer.' });
         }
-        const movieId = req.params.id
 
         const { role: newRole } = req.body;
         
