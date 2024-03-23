@@ -12,13 +12,13 @@ const addFavouriteMovies = async (req, res) => {
     let db;
     try {
         // const { movieId, token } = req.body;
-        const bearer = req.headers['authorization'];
+        const bearer = req.headers['Authorization'];
         if (!bearer) {
-            return res.status(400).json({ error: 'No bearer token' });
+            return res.status(209).json({ message: 'No bearer token' });
         }
         const token = bearer.split(" ")[1];
         if (!token) {
-            return res.status(400).json({ error: 'No authentication token found in bearer.' });
+            return res.status(209).json({ message: 'No authentication token found in bearer.' });
         }
         const movieId = req.params.id
 
@@ -61,13 +61,13 @@ const getFavouriteMovies = async (req, res) => {
     let client;
     let db;
     try {
-        const bearer = req.headers['authorization'];
+        const bearer = req.headers['Authorization'];
         if (!bearer) {
-            return res.status(400).json({ error: 'No bearer token' });
+            return res.status(209).json({ message: 'No bearer token' });
         }
         const token = bearer.split(" ")[1];
         if (!token) {
-            return res.status(400).json({ error: 'No authentication token found in bearer.' });
+            return res.status(209).json({ message: 'No authentication token found in bearer.' });
         }
 
         const user = getUser(token);
