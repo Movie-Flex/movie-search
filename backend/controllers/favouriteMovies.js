@@ -11,8 +11,7 @@ const mongoURI = process.env.MONGODB_URI;
 const addFavouriteMovies = async (req, res) => {
     let db;
     try {
-        // const { movieId, token } = req.body;
-        const bearer = req.headers['Authorization'];
+        const bearer = req.headers['authorization'];
         if (!bearer) {
             return res.status(209).json({ message: 'No bearer token' });
         }
@@ -61,7 +60,7 @@ const getFavouriteMovies = async (req, res) => {
     let client;
     let db;
     try {
-        const bearer = req.headers['Authorization'];
+        const bearer = req.headers['authorization'];
         if (!bearer) {
             return res.status(209).json({ message: 'No bearer token' });
         }

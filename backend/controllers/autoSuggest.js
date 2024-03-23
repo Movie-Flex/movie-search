@@ -7,7 +7,7 @@ const collectionName = 'embedded_movies';
 const getMovies = async (req, res) => {
   let client;
   try {
-    const bearer = req.headers['Authorization'];
+    const bearer = req.headers['authorization'];
     if (!bearer) {
       return res.status(209).json({ message: 'No authentication token' });
     }
