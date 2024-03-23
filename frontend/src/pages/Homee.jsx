@@ -276,7 +276,7 @@ const Homee = () => {
                 {!loadingRecommended && (<div className="w-full p-5 flex flex-col">
                     <div className="text-3xl text-white font-bold">Recommended Movies</div>
                     <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
-                        {!loadingRecommended && recommendedMovies.map((movie) => {
+                        {!loadingRecommended&& recommendedMovies && recommendedMovies.map((movie) => {
                             return (
                                 <div className="movieCard relative">
                                     <div className='cardInitially'>
