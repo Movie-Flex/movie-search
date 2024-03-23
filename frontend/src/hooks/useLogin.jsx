@@ -42,7 +42,6 @@ export const useLogin = () => {
           'authorization': `Bearer ${token}`,
         },
       });
-      // console.log(response);
 
       if (response.status === 200) {
         localStorage.setItem("userData", JSON.stringify(response.data.user));

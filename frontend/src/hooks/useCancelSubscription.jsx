@@ -14,13 +14,11 @@ export const useCancelSubscription =  () => {
 
       const response = await axios.post(
         `http://localhost:3002/payment/cancel?q=refundInfo`,
-        {
+        {} ,{
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      );
+            'authorization': `Bearer ${token}`,
+          },
+        });
       if (response.status === 200) {
         toast.success("refund info fetched Successfully");
         return response.data;
@@ -36,13 +34,11 @@ export const useCancelSubscription =  () => {
 
       const response = await axios.post(
         `http://localhost:3002/payment/cancel?q=refundTrue`,
-        {
+        {} ,{
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      );
+            'authorization': `Bearer ${token}`,
+          },
+        });
       if (response.status === 200) {
         toast.success(response.data.message);
         setToken(response.data.newToken);

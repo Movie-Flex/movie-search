@@ -51,13 +51,11 @@ export const useSignup = () => {
       try {
         // const tokenObject = { token: token };
         const response = await axios.post(
-          "http://localhost:3002/api/getUser",{
+          "http://localhost:3002/api/getUser",{} ,{
             headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            }
-          }
-        );
+              'authorization': `Bearer ${token}`,
+            },
+          });
 
   
         if (response.status === 200) {

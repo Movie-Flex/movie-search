@@ -34,8 +34,11 @@ export default function SubscriptionPremium({props,yearly,setYearly}) {
     try {
       const response = await axios.post(
         `http://localhost:3002/payment/order?dur=${paymentGatewaySendingData.dur}&type=${paymentGatewaySendingData.type}`,
-        { token: token }
-      );
+        {} ,{
+          headers: {
+            'authorization': `Bearer ${token}`,
+          },
+        });
       if (response.status === 200) {
         localStorage.setItem(
           "paymentGatewayReceivingData",

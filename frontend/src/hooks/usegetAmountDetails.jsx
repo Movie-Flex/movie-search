@@ -12,14 +12,11 @@ export const GetAmountDetails=()=>{
     const getAmountDetails=async ()=>{
        try{
 
-        const response =await  axios.post("http://localhost:3002/payment/dashboard",
-        {
+        const response =await  axios.post("http://localhost:3002/payment/dashboard",{} ,{
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
+            'authorization': `Bearer ${token}`,
+          },
         });
-      //   console.log(response.data.subscriptionMeta);
         return response.data.subscriptionMeta;
       
 
