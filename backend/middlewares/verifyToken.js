@@ -2,9 +2,13 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const verifyToken = (req, res, next) => {
-  const {token} = req.body
+  const bearer = req.headers['authorization'];
+  if (!bearer) {
+      return res.status(400).json({ error: 'No bearer token' });
+  }
+  const token = bearer.split(" ")[1];
   if (!token) {
-    return res.status(403).json({"Error": "Token is required for authentication in body"});
+      return res.status(400).json({ error: 'No authentication token found in bearer.' });
   }
   try {
     const decoded = jwt.verify(token, process.env.SECRET_KEY);

@@ -1,7 +1,7 @@
 const { connectToDatabase, connectToDatabaseWithSchema } = require('../databases/db');
 const { getUser } = require('../middlewares/getUserFromToken');
 const { verifyToken } = require('../middlewares/verifyToken');
-const {  FavouriteMovies } = require('../models/movies')
+const { FavouriteMovies } = require('../models/movies')
 const { ObjectId } = require('mongodb');
 
 const dbName = 'sample_mflix';
@@ -11,9 +11,19 @@ const mongoURI = process.env.MONGODB_URI;
 const addFavouriteMovies = async (req, res) => {
     let db;
     try {
-        const { movieId, token } = req.body;
-        if (!(token && movieId)) {
-            return res.status(209).json({ message: "Movie id or token missing." });
+        // const { movieId, token } = req.body;
+        const bearer = req.headers['authorization'];
+        if (!bearer) {
+            return res.status(400).json({ error: 'No bearer token' });
+        }
+        const token = bearer.split(" ")[1];
+        if (!token) {
+            return res.status(400).json({ error: 'No authentication token found in bearer.' });
+        }
+        const movieId = req.params.id
+
+        if (!(movieId)) {
+            return res.status(209).json({ message: "Movie id missing." });
         }
         const user = getUser(token);
 
@@ -25,8 +35,8 @@ const addFavouriteMovies = async (req, res) => {
                 { email: user.email },
                 { $addToSet: { movieId: movieId }, $set: { lastUpdated: new Date() } }
             );
-            
-            
+
+
             return res.status(200).json({ message: "Successfully updated  favourite movies." });
         } else {
             const newFavouriteMovies = new FavouriteMovies({
@@ -51,10 +61,15 @@ const getFavouriteMovies = async (req, res) => {
     let client;
     let db;
     try {
-        const { token } = req.body;
-        if (!token) {
-            return res.status(209).json({ message: "Token missing." });
+        const bearer = req.headers['authorization'];
+        if (!bearer) {
+            return res.status(400).json({ error: 'No bearer token' });
         }
+        const token = bearer.split(" ")[1];
+        if (!token) {
+            return res.status(400).json({ error: 'No authentication token found in bearer.' });
+        }
+
         const user = getUser(token);
 
         db = await connectToDatabaseWithSchema(mongoURI)

@@ -1,7 +1,6 @@
 const { connectToDatabaseWithSchema } = require('../databases/db');
 const { verifyToken } = require('../middlewares/verifyToken');
 const { getUser } = require('../middlewares/getUserFromToken');
-const User_2 = require('../models/user');
 
 const mongoURI = process.env.MONGODB_URI;
 
@@ -10,10 +9,14 @@ const getUserFromToken = async (req, res) => {
     try {
         db = await connectToDatabaseWithSchema(mongoURI);
 
-        const { token } = req.body;
+        const bearer = req.headers['authorization'];
+        if (!bearer) {
+            return res.status(400).json({ error: 'No authentication token' });
+        }
+        const token = bearer.split(" ")[1];
         if (!token) {
-            return res.status(209).json({message: "Token is required to get user."});
-          }
+            return res.status(400).json({ error: 'No authentication token found' });
+        }
         const tokenToUser = getUser(token);
 
         // const user = await User_2.findOne({ email: email });

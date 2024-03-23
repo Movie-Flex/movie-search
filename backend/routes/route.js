@@ -4,7 +4,7 @@ const { getMovies } = require('../controllers/autoSuggest');
 const { fuzzySearch } = require('../controllers/fuzzySearch');
 const { semanticMovies } = require('../controllers/semanticSearch');
 const { availableUser } = require('../controllers/availableUser');
-const {addRecentMovies, getRecentMovies} = require('../controllers/recentMovies')
+const {addToWatchHistory, getWatchHistory} = require('../controllers/watchHistory')
 const {addFavouriteMovies, getFavouriteMovies} = require('../controllers/favouriteMovies')
 const {addWatchLaterMovies, getWatchLaterMovies} = require('../controllers/watchLater')
 const {rateMovie} = require('../controllers/rateMovie')
@@ -41,19 +41,19 @@ router.post('/semantic', semanticMovies)
 
 
 // user action related api's
-router.post('/addRecentMovies',addRecentMovies)
+router.post('/addToWatchHistory/:id',addToWatchHistory)
 
-router.get('/getRecentMovies',getRecentMovies)
+router.get('/getWatchHistory',getWatchHistory)
 
-router.post('/addFavouriteMovies',addFavouriteMovies)
+router.post('/addFavouriteMovies/:id',addFavouriteMovies)
 
 router.get('/getFavouriteMovies',getFavouriteMovies)
 
-router.post('/addWatchLaterMovies',addWatchLaterMovies)
+router.post('/addWatchLaterMovies/:id',addWatchLaterMovies)
 
 router.get('/getWatchLaterMovies',getWatchLaterMovies)
 
-router.post('/rateMovie', rateMovie)
+router.post('/rateMovie/:movieId/:rating', rateMovie)
 
 
 // admin action related api's
