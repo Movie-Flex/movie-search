@@ -26,8 +26,6 @@ export const useSignup = () => {
       try {
         setIsLoading(true);
         const response = await axios.post('http://localhost:3002/api/signup', signupData);
-        // console.log(response.data.token);
-
        if(response.status===200){
          setIsLoading(false);
          localStorage.setItem('token', response.data.token);
@@ -51,12 +49,16 @@ export const useSignup = () => {
 
     const TokenVerify = async (token) => {
       try {
-        const tokenObject = { token: token };
+        // const tokenObject = { token: token };
         const response = await axios.post(
-          "http://localhost:3002/api/getUser",
-          tokenObject
+          "http://localhost:3002/api/getUser",{
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+          }
         );
-        // console.log(response);
+
   
         if (response.status === 200) {
           console.log(response.data);

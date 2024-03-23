@@ -64,6 +64,12 @@ const PaymentGateway = () => {
 
         const result = await axios.post(
           "http://localhost:3002/payment/verify",
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+          },
           verificationObject
         );
 
