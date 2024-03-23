@@ -30,12 +30,14 @@ const addFavouriteMovies = async (req, res) => {
 
         const existingUser = await FavouriteMovies.findOne({ email: user.email });
         if (existingUser) {
-            await FavouriteMovies.updateOne(
-                { email: user.email },
-                { $addToSet: { movieId: movieId }, $set: { lastUpdated: new Date() } }
-            );
+            const index = existingUser.movieId.indexOf(movieId)
 
-
+            if (index == -1) {  // movie not added alredy.
+                await FavouriteMovies.updateOne(
+                    { email: user.email },
+                    { $addToSet: { movieId: movieId }, $set: { lastUpdated: new Date() } }
+                );
+            }
             return res.status(200).json({ message: "Successfully updated  favourite movies." });
         } else {
             const newFavouriteMovies = new FavouriteMovies({
@@ -96,7 +98,48 @@ const getFavouriteMovies = async (req, res) => {
     }
 };
 
+const deleteFavouriteMovie = async (req, res) => {
+    let db;
+    try {
+        
+        const bearer = req.headers['authorization'];
+        if (!bearer) {
+            return res.status(209).json({ message: 'No bearer token' });
+        }
+        const token = bearer.split(" ")[1];
+        if (!token) {
+            return res.status(209).json({ message: 'No authentication token found in bearer.' });
+        }
+        const movieId = req.params.id
+
+        if (!(movieId)) {
+            return res.status(209).json({ message: "Movie id missing." });
+        }
+        const user = getUser(token);
+
+        db = await connectToDatabaseWithSchema(mongoURI)
+
+        const existingUser = await FavouriteMovies.findOne({ email: user.email });
+        if (existingUser) {
+            await existingUser.updateOne({ $pull: { movieId: movieId } });
+            return res.status(200).json({ message: "Successfully removed from  favourite movies." });
+        }else {
+
+        return res.status(209).json({ message: "Nothing to delete." });
+    }
+} catch (err) {
+    console.log("Error occurred: ", err);
+    return res.status(500).json({ error: "Internal server error" });
+} finally {
+    if (db) {
+        db.close();
+    }
+}
+};
+
+
 module.exports = {
     addFavouriteMovies: [verifyToken, addFavouriteMovies],
-    getFavouriteMovies: [verifyToken, getFavouriteMovies]
+    getFavouriteMovies: [verifyToken, getFavouriteMovies],
+    deleteFavouriteMovie: [verifyToken, deleteFavouriteMovie]
 };

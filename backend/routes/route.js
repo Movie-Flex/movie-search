@@ -5,7 +5,7 @@ const { fuzzySearch } = require('../controllers/fuzzySearch');
 const { semanticMovies } = require('../controllers/semanticSearch');
 const { availableUser } = require('../controllers/availableUser');
 const {addToWatchHistory, getWatchHistory} = require('../controllers/watchHistory')
-const {addFavouriteMovies, getFavouriteMovies} = require('../controllers/favouriteMovies')
+const {addFavouriteMovies, getFavouriteMovies, deleteFavouriteMovie} = require('../controllers/favouriteMovies')
 const {addWatchLaterMovies, getWatchLaterMovies} = require('../controllers/watchLater')
 const {rateMovie} = require('../controllers/rateMovie')
 const role = require('../controllers/role');
@@ -43,13 +43,19 @@ router.post('/semantic', semanticMovies)
 // user action related api's
 router.post('/addToWatchHistory/:id',addToWatchHistory)
 
+// router.delete('deleteHistoryMovie/:id',deleteHistoryMovie)
+
 router.get('/getWatchHistory',getWatchHistory)
 
 router.post('/addFavouriteMovies/:id',addFavouriteMovies)
 
+router.delete('/deleteFavouriteMovie/:id',deleteFavouriteMovie)
+
 router.get('/getFavouriteMovies',getFavouriteMovies)
 
 router.post('/addWatchLaterMovies/:id',addWatchLaterMovies)
+
+// router.delete('deleteWatchLaterMovie/:id',deleteWatchLaterMovie)
 
 router.get('/getWatchLaterMovies',getWatchLaterMovies)
 

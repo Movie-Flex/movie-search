@@ -26,14 +26,18 @@ const addWatchLaterMovies = async (req, res) => {
         db = await connectToDatabaseWithSchema(mongoURI)
 
         const existingUser = await WatchLater.findOne({ email: user.email });
+
         if (existingUser) {
-            await WatchLater.updateOne(
-                { email: user.email },
-                { $addToSet: { movieId: movieId }, $set: { lastUpdated: new Date() } }
-            );
-            
-            
-            return res.status(200).json({ message: "Successfully updated  watch later movies." });
+            const index = existingUser.movieId.indexOf(movieId)
+
+            if (index == -1) {  // movie not added alredy.
+                await WatchLater.updateOne(
+                    { email: user.email },
+                    { $addToSet: { movieId: movieId }, $set: { lastUpdated: new Date() } }
+                );
+            }
+            return res.status(200).json({ message: "Movie added to watch later." });
+
         } else {
             const newWatchLater = new WatchLater({
                 email: user.email,

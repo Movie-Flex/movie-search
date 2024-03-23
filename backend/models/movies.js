@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const recentMoviesSchema = new Schema({
+const watchHistorySchema = new Schema({
     email :{
         type : String,
         unique : true
@@ -67,9 +67,9 @@ const ratedMoviesSchema = new Schema({
     }
 });
 
-const RecentMovies = mongoose.model('RecentMovies', recentMoviesSchema);
+const watchHistory = mongoose.model('watchHistory', watchHistorySchema);
 const WatchLater = mongoose.model('WatchLater', watchLaterSchema);
 const FavouriteMovies = mongoose.model('FavouriteMovies', favouriteMoviesSchema);
 const RatedMovies = mongoose.model('RatedMovies', ratedMoviesSchema); 
 
-module.exports = { RecentMovies, WatchLater, FavouriteMovies, RatedMovies };
+module.exports = { watchHistory, WatchLater, FavouriteMovies, RatedMovies };

@@ -1,7 +1,7 @@
 const { connectToDatabase, connectToDatabaseWithSchema } = require('../databases/db');
 const { getUser } = require('../middlewares/getUserFromToken');
 const { verifyToken } = require('../middlewares/verifyToken');
-const { RecentMovies} = require('../models/movies')
+const { watchHistory} = require('../models/movies')  // watched history modal
 const { ObjectId } = require('mongodb');
 
 const dbName = 'sample_mflix';
@@ -25,18 +25,21 @@ const addToWatchHistory = async (req, res) => {
 
         db = await connectToDatabaseWithSchema(mongoURI)
 
-        const existingUser = await RecentMovies.findOne({ email: user.email });
+        const existingUser = await watchHistory.findOne({ email: user.email });
+
         if (existingUser) {
-            // Update the user's recent movies array
-            await RecentMovies.updateOne(
-                { email: user.email },
-                { $addToSet: { movieId: movieId }, $set: { lastUpdated: new Date() } }
-            );
-            
-            
-            return res.status(200).json({ message: "Successfully updated recent movies." });
+            const index = existingUser.movieId.indexOf(movieId)
+
+            if (index == -1) {  // movie not added alredy.
+                await watchHistory.updateOne(
+                    { email: user.email },
+                    { $addToSet: { movieId: movieId }, $set: { lastUpdated: new Date() } }
+                );
+            }
+            return res.status(200).json({ message: "Successfully added to watch history ." });
+
         } else {
-            const newRecentMovie = new RecentMovies({
+            const newRecentMovie = new watchHistory({
                 email: user.email,
                 movieId: [movieId],
                 lastUpdated: new Date()
@@ -71,7 +74,7 @@ const getWatchHistory = async (req, res) => {
 
         db = await connectToDatabaseWithSchema(mongoURI)
 
-        const recentMovies = await RecentMovies.findOne({ email: user.email });
+        const recentMovies = await watchHistory.findOne({ email: user.email });
 
         const { client: connectedClient, collection: allMovieCollection } = await connectToDatabase(dbName, collectionName);
         client = connectedClient;
