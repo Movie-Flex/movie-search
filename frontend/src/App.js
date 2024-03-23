@@ -8,6 +8,7 @@ import { Toaster } from 'react-hot-toast';
 import Dummy from './pages/Dummy';
 import Subscription from './components/Subscription/Subscription';
 import PaymentGateway from './components/PaymentGateway/PaymentGateway';
+import VideoPlayer from './pages/VideoPlayer'
 
 function App() {
   return (
@@ -43,6 +44,9 @@ function App() {
             <Route 
                 path="/paymentgateway"
                 element={<PaymentGateway/>}
+                />
+            <Route path ="/video" 
+                element={<VideoPlayer/>} 
                 />
             </Routes>
           </div>

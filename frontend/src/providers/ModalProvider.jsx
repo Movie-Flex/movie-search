@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import {
     Modal,
     ModalOverlay,
@@ -31,7 +32,7 @@ const ModalProvider = ({
                     scrollBehavior='inside'
                 >
                     <ModalOverlay />
-                    <ModalContent className='max-w-[90vw] min-w-[90vw] max-h-[95vh] min-h-[95vh]'>
+                    <ModalContent className='max-w-[70vw] min-w-[70vw] max-h-[95vh] min-h-[95vh]'>
                         <ModalHeader fontSize='20px'>
                             <div className="flex items-center">
                                 <span className='px-3 border-2 border-black rounded-lg bg-[#171D21] text-[#ECC94B]'>{movie.title}</span>
@@ -39,7 +40,7 @@ const ModalProvider = ({
                         </ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>
-                            <Image
+                            {/* <Image
                                 w='80vw'
                                 h="400px"
                                 margin='auto'
@@ -47,8 +48,10 @@ const ModalProvider = ({
                                 src={movie.poster}
                                 alt={movie.title}
                                 borderRadius='lg'
-                            />
-                            
+                            /> */}
+                            <Link to="/video"><video src="https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/video1.mp4?alt=media&token=46ac4bba-0850-495d-bcff-8eea28621da5" autoPlay muted loop playsInline className="h-[60vh] m-auto object-fill rounded-2xl">
+                            </video>
+                            </Link>
 
                             <div className="flex flex-col items-start justify-center mt-5 gap-3">
                                 <div className="flex justify-center items-center gap-2 bg-[#ECC94B] p-2 px-4 rounded-3xl font-semibold">
