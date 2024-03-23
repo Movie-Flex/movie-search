@@ -16,7 +16,7 @@ export default function SubscriptionFree({props,yearly,setYearly}) {
   const navigate=useNavigate()
    
   const handleFreeSubscription=()=>{
-    navigate('/dummy')
+    navigate('/profile')
   }
    
 

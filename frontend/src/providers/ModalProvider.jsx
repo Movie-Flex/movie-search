@@ -20,7 +20,6 @@ const ModalProvider = ({
     setIsModalOpen
 }) => {
     console.log('movie', movie)
-    const { isOpen, onOpen, onClose } = useDisclosure()
 
     return (
         <div className=''>
@@ -75,21 +74,21 @@ const ModalProvider = ({
 
                                 <div className="flex flex-col bg-[#ECC94B] p-3 rounded-xl w-full">
                                     <div className="text-xl text-[#171D21] font-bold border-b-2 border-[#171D21]">Cast</div>
-                                    {movie.cast.map((actor => (
+                                    {movie && movie.cast && movie.cast.map((actor => (
                                         <div className="font-semibold mt-2">{actor}</div>
                                     )))}
                                 </div>
 
                                 <div className="flex flex-col bg-[#ECC94B] p-3 rounded-xl w-full">
                                     <div className="text-xl text-[#171D21] font-bold border-b-2 border-[#171D21]">Directors</div>
-                                    {movie.directors.map((actor => (
+                                    {movie && movie.directors && movie.directors.map((actor => (
                                         <div className="font-semibold mt-2">{actor}</div>
                                     )))}
                                 </div>
 
                                 <div className="flex flex-col bg-[#ECC94B] p-3 rounded-xl w-full">
                                     <div className="text-xl text-[#171D21] font-bold border-b-2 border-[#171D21]">Writers</div>
-                                    {movie.writers.map((actor => (
+                                    {movie && movie.writers && movie.writers.map((actor => (
                                         <div className="font-semibold mt-2">{actor}</div>
                                     )))}
                                 </div>

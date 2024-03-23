@@ -26,8 +26,6 @@ export const useSignup = () => {
       try {
         setIsLoading(true);
         const response = await axios.post('http://localhost:3002/api/signup', signupData);
-        // console.log(response.data.token);
-
        if(response.status===200){
          setIsLoading(false);
          localStorage.setItem('token', response.data.token);
@@ -35,7 +33,7 @@ export const useSignup = () => {
          setToken(response.data.token)
          setIsLoggedIn(true);
          toast.success("SignUp Successful")
-         navigate('/dummy')
+         navigate('/')
        }
 
        if(response.status===209){
@@ -51,12 +49,14 @@ export const useSignup = () => {
 
     const TokenVerify = async (token) => {
       try {
-        const tokenObject = { token: token };
+        // const tokenObject = { token: token };
         const response = await axios.post(
-          "http://localhost:3002/api/getUser",
-          tokenObject
-        );
-        // console.log(response);
+          "http://localhost:3002/api/getUser",{} ,{
+            headers: {
+              'authorization': `Bearer ${token}`,
+            },
+          });
+
   
         if (response.status === 200) {
           console.log(response.data);

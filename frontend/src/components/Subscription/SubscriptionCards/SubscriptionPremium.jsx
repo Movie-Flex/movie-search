@@ -34,8 +34,11 @@ export default function SubscriptionPremium({props,yearly,setYearly}) {
     try {
       const response = await axios.post(
         `http://localhost:3002/payment/order?dur=${paymentGatewaySendingData.dur}&type=${paymentGatewaySendingData.type}`,
-        { token: token }
-      );
+        {} ,{
+          headers: {
+            'authorization': `Bearer ${token}`,
+          },
+        });
       if (response.status === 200) {
         localStorage.setItem(
           "paymentGatewayReceivingData",
@@ -100,8 +103,8 @@ export default function SubscriptionPremium({props,yearly,setYearly}) {
       )
       :(
         <button
-        to="/dummy"
-        onClick={()=>navigate("/dummy")}
+        to="/profile"
+        onClick={()=>navigate("/profile")}
         className="bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 
                 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white dark:focus:ring-primary-900">
         Cancel
