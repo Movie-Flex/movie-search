@@ -1,14 +1,14 @@
 const { connectToDatabase, connectToDatabaseWithSchema } = require('../databases/db');
 const { getUser } = require('../middlewares/getUserFromToken');
 const { verifyToken } = require('../middlewares/verifyToken');
-const { RecentMovies} = require('../models/movies')
+const {  WatchLater } = require('../models/movies')
 const { ObjectId } = require('mongodb');
 
 const dbName = 'sample_mflix';
 const collectionName = 'embedded_movies';
 const mongoURI = process.env.MONGODB_URI;
 
-const addRecentMovies = async (req, res) => {
+const addWatchLaterMovies = async (req, res) => {
     let db;
     try {
         const { movieId, token } = req.body;
@@ -19,24 +19,23 @@ const addRecentMovies = async (req, res) => {
 
         db = await connectToDatabaseWithSchema(mongoURI)
 
-        const existingUser = await RecentMovies.findOne({ email: user.email });
+        const existingUser = await WatchLater.findOne({ email: user.email });
         if (existingUser) {
-            // Update the user's recent movies array
-            await RecentMovies.updateOne(
+            await WatchLater.updateOne(
                 { email: user.email },
                 { $addToSet: { movieId: movieId }, $set: { lastUpdated: new Date() } }
             );
             
             
-            return res.status(200).json({ message: "Successfully updated recent movies." });
+            return res.status(200).json({ message: "Successfully updated  watch later movies." });
         } else {
-            const newRecentMovie = new RecentMovies({
+            const newWatchLater = new WatchLater({
                 email: user.email,
                 movieId: [movieId],
                 lastUpdated: new Date()
             });
-            newRecentMovie.save();
-            return res.status(200).json({ message: "Successfully added to recent movies." });
+            newWatchLater.save();
+            return res.status(200).json({ message: "Successfully added movie to watch later." });
         }
     } catch (err) {
         console.log("Error occurred: ", err);
@@ -48,7 +47,7 @@ const addRecentMovies = async (req, res) => {
     }
 };
 
-const getRecentMovies = async (req, res) => {
+const getWatchLaterMovies = async (req, res) => {
     let client;
     let db;
     try {
@@ -60,19 +59,18 @@ const getRecentMovies = async (req, res) => {
 
         db = await connectToDatabaseWithSchema(mongoURI)
 
-        const recentMovies = await RecentMovies.findOne({ email: user.email });
+        const watchLaterMovies = await WatchLater.findOne({ email: user.email });
 
         const { client: connectedClient, collection: allMovieCollection } = await connectToDatabase(dbName, collectionName);
         client = connectedClient;
 
-        const recentMoviesIds = recentMovies.movieId;
-
-        // Find all movies with IDs present in recentMoviesIds array
+        const watchLaterMoviesIds = watchLaterMovies.movieId;
+        
         const allMovies = await allMovieCollection.find(
-            { _id: { $in: recentMoviesIds.map(id => new ObjectId(id)) } }, { plot_embedding: 0 } // Exclude the plot_embedding field(not working ??)
+            { _id: { $in: watchLaterMoviesIds.map(id => new ObjectId(id)) } }, { plot_embedding: 0 } // Exclude the plot_embedding field(not working ??)
         ).toArray();
 
-        return res.status(200).json({ recentMovies: allMovies });
+        return res.status(200).json({ watchLaterMovies: allMovies });
 
     } catch (err) {
         console.log("Error occurred: ", err);
@@ -84,11 +82,7 @@ const getRecentMovies = async (req, res) => {
     }
 };
 
-
-
-
-
 module.exports = {
-    addRecentMovies: [verifyToken, addRecentMovies],
-    getRecentMovies: [verifyToken, getRecentMovies]
+    addWatchLaterMovies: [verifyToken, addWatchLaterMovies],
+    getWatchLaterMovies: [verifyToken, getWatchLaterMovies]
 };
