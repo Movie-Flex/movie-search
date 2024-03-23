@@ -17,6 +17,8 @@ import CardProvider from '../providers/CardProvider.jsx';
 import CardProviderOnHover from '../providers/CardProviderOnHover.jsx';
 import ModalProvider from '../providers/ModalProvider.jsx';
 import VideoPlayer from './VideoPlayer.jsx'
+import { useLogout } from '../hooks/useLogout.jsx';
+import { UserContext } from '../context/UserContext.jsx';
 const classNames = (...classes) => {
     return classes.filter(Boolean).join(' ');
 };

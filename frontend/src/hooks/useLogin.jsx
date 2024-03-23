@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 export const useLogin = () => {
   const { setIsLoggedIn, setUser } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   const login = async (loginData) => {
     try {
@@ -17,20 +17,16 @@ export const useLogin = () => {
         loginData
       );
       setIsLoading(false);
-     if(response.status===200){
-      localStorage.setItem("token", response.data.token);
-      await TokenVerify(response.data.token);
-      setIsLoggedIn(true);
-      toast.success("Login Successful");
-      navigate("/")
-     }
-
-     else{
-      setIsLoading(false);
-      toast.error(response.data.message);
-     }
-      
-
+      if (response.status === 200) {
+        localStorage.setItem("token", response.data.token);
+        await TokenVerify(response.data.token);
+        setIsLoggedIn(true);
+        toast.success("Login Successful");
+        navigate("/");
+      } else {
+        setIsLoading(false);
+        toast.error(response.data.message);
+      }
     } catch (error) {
       setIsLoading(false);
       toast.error("Login Failed");
@@ -40,14 +36,12 @@ export const useLogin = () => {
   const TokenVerify = async (token) => {
     try {
       console.log("TokenVerify", token);
-      const response = await axios.post(
-        "http://localhost:3002/api/getUser",{
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      );
+
+      const response = await axios.post("http://localhost:3002/api/getUser",{} ,{
+        headers: {
+          'authorization': `Bearer ${token}`,
+        },
+      });
       // console.log(response);
 
       if (response.status === 200) {
@@ -59,5 +53,5 @@ export const useLogin = () => {
     }
   };
 
-  return { login,TokenVerify };
+  return { login, TokenVerify };
 };
