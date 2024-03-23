@@ -9,13 +9,13 @@ const getUserFromToken = async (req, res) => {
     try {
         db = await connectToDatabaseWithSchema(mongoURI);
 
-        const bearer = req.headers['Authorization'];
+        const bearer = req.headers['authorization'];
         if (!bearer) {
-            return res.status(209).json({ message: 'No authentication token' });
+            return res.status(209).json({ message: 'No bearer token ' });
         }
         const token = bearer.split(" ")[1];
         if (!token) {
-            return res.status(209).json({ message: 'No authentication token found' });
+            return res.status(209).json({ message: 'No authentication token found in bearer.' });
         }
         const tokenToUser = getUser(token);
 
