@@ -2,13 +2,13 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const verifyToken = (req, res, next) => {
-  const bearer = req.headers['authorization'];
+  const bearer = req.headers['Authorization'];
   if (!bearer) {
-      return res.status(400).json({ error: 'No bearer token' });
+      return res.status(209).json({ error: 'No bearer token' });
   }
   const token = bearer.split(" ")[1];
   if (!token) {
-      return res.status(400).json({ error: 'No authentication token found in bearer.' });
+      return res.status(209).json({ message: 'No authentication token found in bearer.' });
   }
   try {
     const decoded = jwt.verify(token, process.env.SECRET_KEY);

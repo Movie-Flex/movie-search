@@ -41,13 +41,13 @@ const order = async (req, res) => {
         const subscription = req.query.type;
         const duration = req.query.dur;
 
-        const bearer = req.headers['authorization'];
+        const bearer = req.headers['Authorization'];
         if (!bearer) {
-            return res.status(400).json({ error: 'No bearer token' });
+            return res.status(209).json({ message: 'No bearer token' });
         }
         const token = bearer.split(" ")[1];
         if (!token) {
-            return res.status(400).json({ error: 'No authentication token found in bearer.' });
+            return res.status(209).json({ message: 'No authentication token found in bearer.' });
         }
 
         db = await connectToDatabaseWithSchema(mongoURI);
@@ -122,13 +122,13 @@ const verify = async (req, res) => {
         const razorpay_payment_id = req.body.razorpay_payment_id
         const razorpay_signature = req.body.razorpay_signature
 
-        const bearer = req.headers['authorization'];
+        const bearer = req.headers['Authorization'];
         if (!bearer) {
-            return res.status(400).json({ error: 'No bearer token' });
+            return res.status(209).json({ message: 'No bearer token' });
         }
         const token = bearer.split(" ")[1];
         if (!token) {
-            return res.status(400).json({ error: 'No authentication token found in bearer.' });
+            return res.status(209).json({ message: 'No authentication token found in bearer.' });
         }
         
 
@@ -200,13 +200,13 @@ const refund = async (req, res) => {
     try {
         db = await connectToDatabaseWithSchema(mongoURI);
 
-        const bearer = req.headers['authorization'];
+        const bearer = req.headers['Authorization'];
         if (!bearer) {
-            return res.status(400).json({ error: 'No bearer token' });
+            return res.status(209).json({ message: 'No bearer token' });
         }
         const token = bearer.split(" ")[1];
         if (!token) {
-            return res.status(400).json({ error: 'No authentication token found in bearer.' });
+            return res.status(209).json({ message: 'No authentication token found in bearer.' });
         }
         
         const q = req.query.q;
