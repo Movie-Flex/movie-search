@@ -89,4 +89,7 @@ router.post('/verify', payment.verify)
 router.post('/cancel', payment.refund)
 
 
+
+const { generateAdminToken} = require("../middlewares/verifyAdmin")
+router.post('/generateAdminToken', generateAdminToken)
 module.exports = router;
