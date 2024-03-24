@@ -63,6 +63,7 @@ export const useSignup = () => {
           localStorage.setItem("userData", JSON.stringify(response.data.user));
           localStorage.setItem("token", response.data.token);
           setUser(response.data.user);
+          setToken(response.data.token)
         }
       } catch (error) {
         console.log("TokenVerify Error", error);

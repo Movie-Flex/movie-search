@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 export const useLogin = () => {
-  const { setIsLoggedIn, setUser } = useContext(UserContext);
+  const { setIsLoggedIn, setUser,setToken } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -46,6 +46,7 @@ export const useLogin = () => {
       if (response.status === 200) {
         localStorage.setItem("userData", JSON.stringify(response.data.user));
         setUser(response.data.user);
+        setToken(response.data.token)
       }
     } catch (error) {
       console.log("TokenVerify Error", error);
