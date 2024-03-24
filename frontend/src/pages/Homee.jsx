@@ -461,7 +461,7 @@ const Homee = () => {
                
         </div>
         
-        {user && isFirstTime&&(
+        {user && user.subscription==="free" && isFirstTime&&(
                 <SubscriptionModal setIsFirstTime={setIsFirstTime} isFirstTime={isFirstTime}/>
             )}
         </>
