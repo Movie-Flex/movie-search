@@ -1,4 +1,4 @@
-import Subscription from "./Subscription";
+import SubscriptionDuplicate from "./SubscriptionDuplicate";
 
 export default function SubscriptionModal({ setIsFirstTime, isFirstTime }) {
   return (
@@ -12,10 +12,15 @@ export default function SubscriptionModal({ setIsFirstTime, isFirstTime }) {
       },
     }}
     >
-      <div className="flex text-white justify-end items-end m-4 ml-2 sticky top-0 z-20">
-        <button onClick={() => setIsFirstTime(false)}>X</button>
+      <div className="flex text-black dark:text-white justify-end items-end m-4 ml-2 sticky top-0 z-20">
+        <button onClick={() => {
+          
+          setIsFirstTime(false)
+          localStorage.setItem('isFirstTime', false)
+          
+          }}>X</button>
       </div>
-      <Subscription />
+      <SubscriptionDuplicate />
     </div>
   </div>
 

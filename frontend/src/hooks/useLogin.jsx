@@ -47,6 +47,7 @@ export const useLogin = () => {
         localStorage.setItem("userData", JSON.stringify(response.data.user));
         setUser(response.data.user);
         setToken(response.data.token)
+        localStorage.setItem('isFirstTime', JSON.stringify(true))
       }
     } catch (error) {
       console.log("TokenVerify Error", error);

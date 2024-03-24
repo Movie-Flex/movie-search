@@ -17,6 +17,7 @@ export const useLogout = () => {
       setUser({});
       setIsLoading(false);
       toast.success("Logout Successful");
+      localStorage.removeItem('isFirstTime')
       navigate("/")
     } catch (error) {
       setIsLoading(false);
