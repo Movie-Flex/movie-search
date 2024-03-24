@@ -33,4 +33,4 @@ const verifyAdminToken = (adminToken) => {
     console.log("error verifying admin token.", err)
   }}
 
-module.exports = {generateAdminToken,verifyAdminTokenReq, verifyAdminToken};
+module.exports = {generateAdminToken, verifyAdminToken};

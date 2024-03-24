@@ -29,9 +29,9 @@ const registerUser = async (req, res) => {
             return res.status(209).json({ message: "User already exists" });
         }
         let role = "standard_user"
-        if (req.body.role) {
-            role = req.body.role
-        }
+        // if (req.body.role) {
+        //     role = req.body.role
+        // }
         const subscription = "free"
         // const hashedPassword = await bcrypt.hash(password, 10); // change this to rsa encryption
 
@@ -154,5 +154,42 @@ const loginUser = async (req, res) => {
     }
 };
 
+const userProfile = async (req, res) =>{
+    let db;
+    try{
 
-module.exports = { registerUser, loginUser };
+        db = await connectToDatabaseWithSchema(mongoURI);
+        const bearer = req.headers['authorization'];
+        if(!bearer){
+            res.status(209).json({message : "Authorization bearer missing in headers."})
+        }
+        const token = bearer.split(" ")[1];
+        if (!token) {
+            return res.status(209).json({ message: 'No authentication token found in bearer.' });
+        }
+        const updateDetails = req.body;
+        const user = getUser(token); 
+        
+        if(updateDetails){
+            const userDetails = await User_2.findOneAndUpdate({email : user.email},{
+                gender : updateDetails.gender,
+                phone : updateDetails.phone,
+                dob : updateDetails.dob,
+                address : updateDetails.address
+            })
+            return res.status(200).json({message : "Successfully updated profile.",userDetails});
+        }else{
+            const userDetails = await User_2.findOne({email : user.email});
+            return res.status(200).json({userDetails});
+        }
+
+    }catch(err){
+        console.log("ERROR FETCHING USER DETAILS :" , err)
+        res.status(500).json("Internal server error.")
+    }finally{
+        if(db){
+            db.close()
+        }
+    }
+}
+module.exports = { registerUser, loginUser, userProfile };
