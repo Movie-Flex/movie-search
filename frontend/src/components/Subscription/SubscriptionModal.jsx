@@ -12,7 +12,7 @@ export default function SubscriptionModal({ setIsFirstTime, isFirstTime }) {
       },
     }}
     >
-      <div className="flex text-white justify-end items-end m-4 ml-2 ">
+      <div className="flex text-white justify-end items-end m-4 ml-2 sticky top-0 z-20">
         <button onClick={() => setIsFirstTime(false)}>X</button>
       </div>
       <Subscription />
