@@ -35,7 +35,7 @@ export default function SubscriptionFree({props,yearly,setYearly}) {
       </div>
 
       <ul className="mb-8 space-y-4 text-left">
-       {SubscriptionFreeData.map((data, index) => (
+       {features.map((data, index) => (
          <li  key={index} className="flex items-center space-x-3">
          <svg
            className="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400"
