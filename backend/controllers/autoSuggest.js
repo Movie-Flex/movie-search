@@ -58,7 +58,7 @@ const getMovies = async (req, res) => {
       },
       {
         $project: {
-          _id: 0,
+          _id: 1,
           title: 1,
           poster: 1,
           imdb: 1,

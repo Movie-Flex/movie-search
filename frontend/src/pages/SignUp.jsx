@@ -201,12 +201,12 @@ const Signup = () => {
                     for="terms"
                     class="font-light text-gray-500 dark:text-gray-300"
                   >
-                    I accept the{" "}
+                   
                     <Link
                       class="font-medium text-primary-600 hover:underline dark:text-primary-500"
                       href="/terms"
                     >
-                      Terms and Conditions
+                      I accept the{" "}  Terms and Conditions
                     </Link>
                   </label>
                 </div>

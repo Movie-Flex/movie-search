@@ -14,7 +14,7 @@ const subscription = require('../controllers/subsciption');
 const payment= require('../controllers/payment');
 const getUserFromToken = require('../controllers/getUserFromToken');
 const {addMovie, deleteMovie, updateMovie} = require('../controllers/admin');
-
+const {movies, oneMovie} = require('../controllers/movies');
 
 const router = express.Router();
 
@@ -40,6 +40,9 @@ router.post('/fuzzySearch', fuzzySearch)
 
 router.post('/semantic', semanticMovies)
 
+router.get('/genreMovie', movies)
+
+router.get('/movie', oneMovie);
 
 // user action related api's
 

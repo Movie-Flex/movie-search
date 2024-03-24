@@ -1,12 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function SubscriptionFree({ props, yearly, setYearly }) {
+export default function SubscriptionFreeDuplicate({ props, yearly, setYearly }) {
   const { features, currency, subunit, feeYearly, feeMonthly } = props;
   const navigate = useNavigate();
 
   const handleFreeSubscription = () => {
-    navigate("/");
+    localStorage.setItem("isFirstTime", JSON.stringify(false));
+    window.location.reload();
   };
 
   return (

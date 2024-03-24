@@ -28,7 +28,7 @@ const classNames = (...classes) => {
 const Homee = () => {
     const [genreSelected, setGenreSelected] = useState() 
      const {user} =useContext(UserContext);
-     const [isFirstTime, setIsFirstTime] = useState(true)
+     const [isFirstTime, setIsFirstTime] = useState(JSON.parse(localStorage.getItem('isFirstTime')))
 
     const { register, handleSubmit, setValue } = useForm();
     const [currentValue, setCurrentValue] = useState('');
@@ -159,7 +159,9 @@ const Homee = () => {
             
                 <div className="w-full flex justify-between items-center mt-2">
                 <div className="">
-                    <img src={logo} alt="Movie Flex" className='h-14 w-auto' />
+                    <img src={logo}
+                    onClick={()=>window.location.reload()}
+                     alt="Movie Flex" className='h-14 w-auto' />
                 </div>
                 <div className=" flex justify-start items-center flex-grow">
                     <div className="w-full flex items-center justify-center">
@@ -220,7 +222,7 @@ const Homee = () => {
                 <div className="mx-2 flex justify-center items-center p-2 bg-white rounded-xl">
                    {!user?(
                      <div className="text-[#171D21] font-semibold flex justify-center items-center gap-1">
-                     <span className='hover:border-b-2 hover:border-[#171D21]'><Link to="/login">LogIn</Link></span>
+                     <span className='hover:border-b-2 hover:border-[#171D21]'><Link to="/login">Login</Link></span>
                      <span>/</span>
                      <span className='hover:border-b-2 hover:border-[#171D21]'><Link to="/signup">SignUp</Link></span>
                  </div>
