@@ -1,5 +1,5 @@
 const express = require('express');
-const {loginUser, registerUser, userProfile} = require('../controllers/user');
+const {loginUser, registerUser, userProfile, updateProfile} = require('../controllers/user');
 const { getMovies } = require('../controllers/autoSuggest');
 const { fuzzySearch } = require('../controllers/fuzzySearch');
 const { semanticMovies } = require('../controllers/semanticSearch');
@@ -25,6 +25,7 @@ router.get('/availableUser', availableUser);
 router.post('/login',loginUser);
 
 router.post('/userProfile', userProfile);
+router.post('/updateProfile', updateProfile);
 
 router.post('/signup',registerUser);
 
