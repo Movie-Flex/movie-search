@@ -1,16 +1,17 @@
 
+import { useState } from "react";
 import { useUpdateProfile } from "../../hooks/useUpdateprofile";
 
 export default function UpdateInfo() {
 
   const {updateProfile}= useUpdateProfile();
   
-  const[ updatedData,setUpdatedData] = {
+  const[ updatedData,setUpdatedData] = useState({
     address:"",
     phone_number:"",
     gender:"",
     dob:"",
-  }
+  })
 
 
 

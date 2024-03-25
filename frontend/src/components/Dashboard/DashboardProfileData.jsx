@@ -1,10 +1,30 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContext";
+import { useUpdateProfile } from "../../hooks/useUpdateprofile";
 
 export default function DashboardProfileData() {
-  const { user } = useContext(UserContext);
+  const { user,extraUserData } = useContext(UserContext);
+  const { getUpdatedProfile } = useUpdateProfile()
+  const [loading,setLoading]=useState(true);
+
+  const fetchExtraUserData=async ()=>{
+    try{
+      // setLoading(false);
+      await getUpdatedProfile();
+      setLoading(false);
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchExtraUserData();
+  },[])
+
   return (
-    <div class=" w-9/12 mx-2 h-64">
+    loading ? <div>Loading...</div> :
+     ( <div class=" w-9/12 mx-2 h-64">
       <div class="bg-white p-3 shadow-sm rounded-sm">
         <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
           <span clas="text-green-500">
@@ -46,19 +66,19 @@ export default function DashboardProfileData() {
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Gender</div>
               <div class="px-4 py-2">
-                {user.gender ? user.gender : "Not Updated"}
+                {extraUserData.gender ? extraUserData.gender : "Not Updated"}
               </div>
             </div>
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Contact No.</div>
               <div class="px-4 py-2">
-                {user.phone ? user.phone : "Not Updated"}
+                {extraUserData.phone_number ? extraUserData.phone_number : "Not Updated"}
               </div>
             </div>
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Current Address</div>
               <div class="px-4 py-2">
-                {user.address ? user.address : "Not Updated"}
+                {extraUserData.address ? extraUserData.address : "Not Updated"}
               </div>
             </div>
             <div class="grid grid-cols-2">
@@ -72,7 +92,7 @@ export default function DashboardProfileData() {
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Birthday</div>
               <div class="px-4 py-2">
-                {user.dob ? user.dob : "Not Updated"}
+                {extraUserData.dob ? extraUserData.dob : "Not Updated"}
               </div>
             </div>
             <div class="grid grid-cols-2">
@@ -89,6 +109,6 @@ export default function DashboardProfileData() {
       </div>
 
       <div class="my-4"></div>
-    </div>
+    </div>)
   );
 }

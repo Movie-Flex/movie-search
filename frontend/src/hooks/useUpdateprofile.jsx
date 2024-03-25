@@ -20,7 +20,7 @@ export const useUpdateProfile = () => {
 
 
         if (response.status === 200) {
-            setExtraUserData(response.data);
+            setExtraUserData(response.data.userDetails);
             toast.success("Profile Updated Successfully");
         }
 
@@ -43,7 +43,7 @@ export const useUpdateProfile = () => {
             );
 
             if (response.status === 200) {
-                setExtraUserData(response.data);
+                setExtraUserData(response.data.userDetails);
             }
         } catch (error) {
             console.log(error);
