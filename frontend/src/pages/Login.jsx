@@ -80,7 +80,9 @@ const Login = () => {
 
                   <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
                     <svg
-                      className={`h-6 text-white-700 ${show ? "hidden" : "block"}`}
+                      className={`h-6 text-white-700 ${
+                        show ? "hidden" : "block"
+                      }`}
                       fill="none"
                       onClick={toggleShow}
                       xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +95,9 @@ const Login = () => {
                     </svg>
 
                     <svg
-                      className={`h-6 text-white-700 ${show ? "block" : "hidden"}`}
+                      className={`h-6 text-white-700 ${
+                        show ? "block" : "hidden"
+                      }`}
                       fill="none"
                       onClick={toggleShow}
                       xmlns="http://www.w3.org/2000/svg"

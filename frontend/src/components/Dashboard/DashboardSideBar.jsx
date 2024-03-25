@@ -5,11 +5,16 @@ import { useCancelSubscription } from "../../hooks/useCancelSubscription";
 import { UserContext } from "../../context/UserContext";
 import CancelSubscriptionModal from "../../pages/CancelSubscription/CancelSubscriptionModal";
 
-export default function DashboardSideBar({sideNav,setSideNav,setCancelSubscriptionButton,refundDetailsFetch}) {
+export default function DashboardSideBar({
+  sideNav,
+  setSideNav,
+  setCancelSubscriptionButton,
+  refundDetailsFetch,
+}) {
   const navigate = useNavigate();
   const { logout } = useLogout();
 
-  const {user}=useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   const logoutAction = () => {
     logout();
@@ -52,7 +57,15 @@ export default function DashboardSideBar({sideNav,setSideNav,setCancelSubscripti
           <li>
             <div>
               <button
-                class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/40 active:opacity-[0.85] w-full flex items-center gap-4 px-4 capitalize"
+                onClick={() => {
+                  setSideNav(1);
+                }}
+                className={`middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none
+                 text-xs py-3 rounded-lg  text-white  w-full flex items-center gap-4 px-4 capitalize ${
+                   sideNav === 1
+                     ? " shadow-blue-500/20 hover:shadow-lg  hover:shadow-blue-500/40 active:opacity-[0.85] shadow-md bg-gradient-to-tr from-blue-600 to-blue-400"
+                     : " hover:bg-white/10 active:bg-white/30"
+                 }`}
                 type="button"
               >
                 <svg
@@ -71,10 +84,91 @@ export default function DashboardSideBar({sideNav,setSideNav,setCancelSubscripti
               </button>
             </div>
           </li>
+
           <li>
-            <Link class="" to="/subscription">
+            <Link
+              onClick={() => {
+                setSideNav(2);
+              }}
+              class=""
+              to="/"
+            >
               <button
-                class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
+                class={`middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg
+                 text-white w-full flex items-center gap-4 px-4 capitalize  hover:bg-white/10 active:bg-white/30 ${
+                   sideNav === 2
+                     ? " shadow-blue-500/20 hover:shadow-lg  hover:shadow-blue-500/40 active:opacity-[0.85] shadow-md bg-gradient-to-tr from-blue-600 to-blue-400"
+                     : " hover:bg-white/10 active:bg-white/30"
+                 }`}
+                type="button"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                  class="w-5 h-5 text-inherit"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.25 9a6.75 6.75 0 0113.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 01-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 11-7.48 0 24.585 24.585 0 01-4.831-1.244.75.75 0 01-.298-1.205A8.217 8.217 0 005.25 9.75V9zm4.502 8.9a2.25 2.25 0 104.496 0 25.057 25.057 0 01-4.496 0z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">
+                  Go Back
+                </p>
+              </button>
+            </Link>
+
+            {user.subscription !== "free" && (
+              <button
+                onClick={() => {
+                  setCancelSubscriptionButton(true);
+                  refundDetailsFetch();
+                  setSideNav(3);
+                }}
+                class={`middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white w-full flex items-center gap-4 px-4 capitalize ${
+                  sideNav === 3
+                    ? " shadow-blue-500/20 hover:shadow-lg  hover:shadow-blue-500/40 active:opacity-[0.85] shadow-md bg-gradient-to-tr from-blue-600 to-blue-400"
+                    : " hover:bg-white/10 active:bg-white/30"
+                }`}
+                type="button"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                  class="w-5 h-5 text-inherit"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.25 9a6.75 6.75 0 0113.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 01-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 11-7.48 0 24.585 24.585 0 01-4.831-1.244.75.75 0 01-.298-1.205A8.217 8.217 0 005.25 9.75V9zm4.502 8.9a2.25 2.25 0 104.496 0 25.057 25.057 0 01-4.496 0z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">
+                  Cancel Subscription
+                </p>
+              </button>
+            )}
+          </li>
+          <li>
+            <Link
+              onClick={() => {
+                setSideNav(4);
+              }}
+              class=""
+              to="/subscription"
+            >
+              <button
+                class={`middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none 
+                text-xs py-3 rounded-lg text-white w-full flex items-center gap-4 px-4 capitalize ${
+                  sideNav === 4
+                    ? " shadow-blue-500/20 hover:shadow-lg  hover:shadow-blue-500/40 active:opacity-[0.85] shadow-md bg-gradient-to-tr from-blue-600 to-blue-400"
+                    : " hover:bg-white/10 active:bg-white/30"
+                }`}
                 type="button"
               >
                 <svg
@@ -97,145 +191,61 @@ export default function DashboardSideBar({sideNav,setSideNav,setCancelSubscripti
             </Link>
           </li>
           <li>
-            <Link class="" to="/">
-              <button
-                class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
-                type="button"
+            <button
+              onClick={() => {
+                setSideNav(5);
+              }}
+              class={`middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white  w-full flex items-center gap-4 px-4 capitalize ${
+                sideNav === 5
+                  ? " shadow-blue-500/20 hover:shadow-lg  hover:shadow-blue-500/40 active:opacity-[0.85] shadow-md bg-gradient-to-tr from-blue-600 to-blue-400"
+                  : " hover:bg-white/10 active:bg-white/30"
+              }`}
+              type="button"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+                class="w-5 h-5 text-inherit"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  aria-hidden="true"
-                  class="w-5 h-5 text-inherit"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5.25 9a6.75 6.75 0 0113.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 01-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 11-7.48 0 24.585 24.585 0 01-4.831-1.244.75.75 0 01-.298-1.205A8.217 8.217 0 005.25 9.75V9zm4.502 8.9a2.25 2.25 0 104.496 0 25.057 25.057 0 01-4.496 0z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-                <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">
-                  Go Back
-                </p>
-              </button>
-            </Link>
-      
-            {user.subscription!=="free"&&(<button
-               onClick={() => {
-                        setCancelSubscriptionButton(true)
-                        refundDetailsFetch()
-                        setSideNav(2)
-                      }}
-                class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
-                type="button"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  aria-hidden="true"
-                  class="w-5 h-5 text-inherit"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5.25 9a6.75 6.75 0 0113.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 01-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 11-7.48 0 24.585 24.585 0 01-4.831-1.244.75.75 0 01-.298-1.205A8.217 8.217 0 005.25 9.75V9zm4.502 8.9a2.25 2.25 0 104.496 0 25.057 25.057 0 01-4.496 0z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-                <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">
-                  Cancel Subscription
-                </p>
-              </button>)}
-                  
+                <path
+                  fill-rule="evenodd"
+                  d="M5.25 9a6.75 6.75 0 0113.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 01-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 11-7.48 0 24.585 24.585 0 01-4.831-1.244.75.75 0 01-.298-1.205A8.217 8.217 0 005.25 9.75V9zm4.502 8.9a2.25 2.25 0 104.496 0 25.057 25.057 0 01-4.496 0z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">
+                Update Information
+              </p>
+            </button>
           </li>
           <li>
-          <button
-               onClick={() => {
-                        setSideNav(3)
-                      }}
-                class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
-                type="button"
+            <button
+              onClick={logoutAction}
+              class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
+              type="button"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+                class="w-5 h-5 text-inherit"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  aria-hidden="true"
-                  class="w-5 h-5 text-inherit"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5.25 9a6.75 6.75 0 0113.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 01-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 11-7.48 0 24.585 24.585 0 01-4.831-1.244.75.75 0 01-.298-1.205A8.217 8.217 0 005.25 9.75V9zm4.502 8.9a2.25 2.25 0 104.496 0 25.057 25.057 0 01-4.496 0z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-                <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">
-                  Update Information
-                </p>
-              </button>
-          </li>
-                      
-
-        </ul>
-        <ul class="mb-4 flex flex-col gap-1">
-          <li class="mx-3.5 mt-4 mb-2">
-            <p class="block antialiased font-sans text-sm leading-normal text-white font-black uppercase opacity-75">
-              Auth pages
-            </p>
-          </li>
-          <li>
-            <div class="" href="#">
-              <button
-                onClick={logoutAction}
-                class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
-                type="button"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  aria-hidden="true"
-                  class="w-5 h-5 text-inherit"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M7.5 3.75A1.5 1.5 0 006 5.25v13.5a1.5 1.5 0 001.5 1.5h6a1.5 1.5 0 001.5-1.5V15a.75.75 0 011.5 0v3.75a3 3 0 01-3 3h-6a3 3 0 01-3-3V5.25a3 3 0 013-3h6a3 3 0 013 3V9A.75.75 0 0115 9V5.25a1.5 1.5 0 00-1.5-1.5h-6zm10.72 4.72a.75.75 0 011.06 0l3 3a.75.75 0 010 1.06l-3 3a.75.75 0 11-1.06-1.06l1.72-1.72H9a.75.75 0 010-1.5h10.94l-1.72-1.72a.75.75 0 010-1.06z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-                <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">
-                  Logout
-                </p>
-              </button>
-            </div>
-          </li>
-          <li>
-            <Link class="" to="/signup">
-              <button
-                class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
-                type="button"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  aria-hidden="true"
-                  class="w-5 h-5 text-inherit"
-                >
-                  <path d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z"></path>
-                </svg>
-                <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">
-                  Sign up
-                </p>
-              </button>
-            </Link>
+                <path
+                  fill-rule="evenodd"
+                  d="M7.5 3.75A1.5 1.5 0 006 5.25v13.5a1.5 1.5 0 001.5 1.5h6a1.5 1.5 0 001.5-1.5V15a.75.75 0 011.5 0v3.75a3 3 0 01-3 3h-6a3 3 0 01-3-3V5.25a3 3 0 013-3h6a3 3 0 013 3V9A.75.75 0 0115 9V5.25a1.5 1.5 0 00-1.5-1.5h-6zm10.72 4.72a.75.75 0 011.06 0l3 3a.75.75 0 010 1.06l-3 3a.75.75 0 11-1.06-1.06l1.72-1.72H9a.75.75 0 010-1.5h10.94l-1.72-1.72a.75.75 0 010-1.06z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">
+                Logout
+              </p>
+            </button>
           </li>
         </ul>
       </div>
     </aside>
   );
 }
-
-
-   

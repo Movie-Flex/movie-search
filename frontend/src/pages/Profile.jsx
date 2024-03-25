@@ -40,12 +40,16 @@ export default function Profile() {
       <div class="p-4 xl:ml-80">
        {sideNav===1 && <div class="mt-12">
           <DashBoardCards  />
-          <DashboardProfileData/>
+          <DashboardProfileData sideNav={sideNav} setSideNav={setSideNav}/>
         </div>}
-        {sideNav===2&& 
+
+        {/* //the sidenav 2 is reserved for go back */}
+        {/* //the sidenav 4 is reserved for subscription */}
+
+        {sideNav===3&& 
         cancelSubscriptionButton && <CancelSubscriptionModal  refundInfo={refundInfo} closeModal={setCancelSubscriptionButton}/>}
 
-        {sideNav===3 &&<UpdateInfo/>}
+        {sideNav===5 &&<UpdateInfo/>}
       </div>
     </div>
   );
