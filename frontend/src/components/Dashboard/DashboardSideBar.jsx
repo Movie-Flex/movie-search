@@ -116,7 +116,7 @@ export default function DashboardSideBar({
                   ></path>
                 </svg>
                 <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">
-                  Go Back
+                  Home
                 </p>
               </button>
             </Link>

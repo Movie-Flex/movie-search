@@ -7,6 +7,8 @@ export const useUpdateProfile = () => {
   const { token,setExtraUserData } = useContext(UserContext);
 
   const updateProfile = async (updatedData) => {
+
+ 
     try {
       const response = await axios.post(
         "http://localhost:3002/api/updateProfile",
