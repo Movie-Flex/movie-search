@@ -8,7 +8,7 @@ const {addToWatchHistory, getWatchHistory, deleteWatchHistory} = require('../con
 const {addFavouriteMovies, getFavouriteMovies, deleteFavouriteMovie} = require('../controllers/favouriteMovies')
 const {addWatchLaterMovies, getWatchLaterMovies, deleteWatchLaterMovie} = require('../controllers/watchLater')
 const {rateMovie} = require('../controllers/rateMovie')
-const {getComments} = require('../controllers/getComments')
+const comments = require('../controllers/comments')
 const role = require('../controllers/role');
 const subscription = require('../controllers/subsciption');
 const payment= require('../controllers/payment');
@@ -71,7 +71,10 @@ router.delete('/deleteWatchLaterMovie/:id',deleteWatchLaterMovie)
 
 router.get('/getWatchLaterMovies',getWatchLaterMovies)
 
-router.get('/getComments/:id', getComments)
+    // COMMENTS
+router.get('/getComments/:id', comments.getComments)
+
+router.post('/postComments/:id', comments.postComments)
 
 // new/update rating
 router.post('/rateMovie/:movieId/:rating', rateMovie)
