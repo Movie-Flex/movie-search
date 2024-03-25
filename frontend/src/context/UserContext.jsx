@@ -12,6 +12,10 @@ const UserContextProvider = (props) => {
         JSON.parse(JSON.stringify(localStorage.getItem("token")))
     )
 
+    const [extraUserData,setExtraUserData]=useState(
+        JSON.parse(JSON.stringify(localStorage.getItem("extraUserData")))
+    )
+
     const [paymentGatewaySendingData,setPaymentGatewaySendingData]=useState({
         dur:"",
         type:"",
@@ -29,6 +33,8 @@ const UserContextProvider = (props) => {
                 setIsLoggedIn,
                 user,
                 setUser,
+                extraUserData,
+                setExtraUserData,
                 token,
                 setToken,
                 paymentGatewaySendingData,
