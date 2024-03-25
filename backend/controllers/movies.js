@@ -17,11 +17,12 @@ const movies = async (req, res) => {
         }
 
         const { toSearch } = req.body;
-        if (!toSearch || toSearch.length == 0) {
+        if (!toSearch) {
             res.status(400).json({ message: "No genre specificed" })
             //TODO: HAVE TO MOVIES WITH ALL THE GENRES FOR THIS
         }
-
+        let arr = [];
+        arr.push(toSearch);
         const { client: connectedClient, collection } = await connectToDatabase(dbName, collectionName);
         client = connectedClient;
 
@@ -31,7 +32,7 @@ const movies = async (req, res) => {
                 $search: {
                     index: 'default',
                     text: {
-                        query: toSearch,
+                        query: arr,
                         path: "genres",
                     }
                 }
@@ -39,16 +40,18 @@ const movies = async (req, res) => {
             {
                 $limit: 10
             },
-            // {
-            //     $project: {
-            //         _id: 0,
-            //         title: 1,
-            //         poster: 1,
-            //         imdb: 1,
-            //         year: 1,
-            //         genres: 1
-            //     },
-            // },
+            {
+                $project: {
+                    languages:0,
+                    released:0,
+                    awards:0,
+                    lastupdated:0,
+                    countries:0,
+                    type:0,
+                    tomatoes:0,
+                    plot_embedding:0,
+                },
+            },
         ];
 
         const movies = await collection.aggregate(pipeline).toArray();

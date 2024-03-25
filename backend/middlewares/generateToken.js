@@ -7,6 +7,7 @@ const generateToken = (user, role, subscription) => {
             username : user.username,
             role: role ,
             subscription: subscription ,
+            createdAt : user.createdAt,
             issuedAt: Date.now()
         };
 

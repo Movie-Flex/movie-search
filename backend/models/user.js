@@ -16,6 +16,24 @@ const userSchema = new Schema({
     name: String, 
     password: String, 
 
+    gender : {
+        type : String,
+        default : " "
+    },
+
+    address : {
+        type : String,
+        default : ""
+    },
+    phone :{
+        type : String,
+        default : ""
+    },
+    dob :{
+        type: String,
+        default : ""
+    },
+    
     createdAt: {
         type: Date,
         default: Date.now

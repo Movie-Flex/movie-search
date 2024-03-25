@@ -1,5 +1,5 @@
 const express = require('express');
-const {loginUser, registerUser} = require('../controllers/user');
+const {loginUser, registerUser, userProfile} = require('../controllers/user');
 const { getMovies } = require('../controllers/autoSuggest');
 const { fuzzySearch } = require('../controllers/fuzzySearch');
 const { semanticMovies } = require('../controllers/semanticSearch');
@@ -23,6 +23,8 @@ const router = express.Router();
 router.get('/availableUser', availableUser);
 
 router.post('/login',loginUser);
+
+router.post('/userProfile', userProfile);
 
 router.post('/signup',registerUser);
 
@@ -92,4 +94,7 @@ router.post('/verify', payment.verify)
 router.post('/cancel', payment.refund)
 
 
+
+const { generateAdminToken} = require("../middlewares/verifyAdmin")
+router.post('/generateAdminToken', generateAdminToken)
 module.exports = router;
