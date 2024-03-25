@@ -8,10 +8,25 @@ import UserDetails from "../components/UserDetails";
 import DashboardSideBar from "../components/Dashboard/DashboardSideBar";
 import DashBoardCards from "../components/Dashboard/DashboardCards";
 import DashboardProfileData from "../components/Dashboard/DashboardProfileData";
+import UpdateInfo from "../components/UpdateUserInformation/UpdateInfo";
 
 export default function Profile() {
   const navigate = useNavigate();
   const {  isLoggedIn } = useContext(UserContext);
+
+  const [sideNav,setSideNav]=useState(1);
+  
+  const [cancelSubscriptionButton, setCancelSubscriptionButton] =useState(false);
+  const { cancelSubscriptionInfo } = useCancelSubscription();
+  const [refundInfo, setRefundInfo] = useState({});
+  const refundDetailsFetch = async () => {
+    try {
+      const response = await cancelSubscriptionInfo();
+      setRefundInfo(response.refundDetails);
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
 
   if (!isLoggedIn) {
     navigate("/login");
@@ -21,30 +36,18 @@ export default function Profile() {
 
   return (
     <div class="min-h-screen bg-gray-100">
-      <DashboardSideBar />
+      <DashboardSideBar sideNav={sideNav} setSideNav={setSideNav} refundDetailsFetch={refundDetailsFetch} setCancelSubscriptionButton={setCancelSubscriptionButton}/>
       <div class="p-4 xl:ml-80">
-        <div class="mt-12">
-          <DashBoardCards/>
-
+       {sideNav===1 && <div class="mt-12">
+          <DashBoardCards  />
           <DashboardProfileData/>
-        </div>
+        </div>}
+        {sideNav===2&& 
+        cancelSubscriptionButton && <CancelSubscriptionModal  refundInfo={refundInfo} closeModal={setCancelSubscriptionButton}/>}
+
+        {sideNav===3 &&<UpdateInfo/>}
       </div>
     </div>
   );
 
-  // return (
-  //     <div>
-  //       <h1 className="flex justify-center items-center">Profile Page just made for testing</h1>
-  //       {user &&(
-  //        <UserDetails user={user}/>
-  //       )}
-
-  //       <div
-  //       className="flex justify-center space-x-4 mt-4"
-  //       >
-
-
-  //      </div>
-  //     </div>
-  //   );
 }

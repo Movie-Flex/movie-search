@@ -1,4 +1,19 @@
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
+
+const user = {
+  name: "zx",
+  email: "zx@gmail.com",
+  username: "zx",
+  role: "standard_user",
+  subscription: "free",
+  createdAt: "2024-03-22T15:18:19.806Z",
+  issuedAt: 1711365039800,
+  iat: 1711365039,
+  exp: 1711371039,
+};
 export default function DashBoardCards() {
+  const { user } = useContext(UserContext);
   return (
     <div class="w-3/12 md:mx-2">
       <div class="bg-white p-3 border-t-4 border-green-400">
@@ -9,15 +24,13 @@ export default function DashBoardCards() {
             alt=""
           />
         </div>
-        <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">Jane Doe</h1>
+        <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">
+          {user.name ? user.name : " "}
+        </h1>
         <h3 class="text-gray-600 font-lg text-semibold leading-6">
-          Owner at Her Company Inc.
+          A {user.role ? user.role : " "} User
         </h3>
-        {/* <p class="text-sm text-gray-500 hover:text-gray-600 leading-6">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Reprehenderit, eligendi dolorum sequi illum qui unde aspernatur non
-          deserunt
-        </p> */}
+
         <ul class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
           <li class="flex items-center py-3">
             <span>Status</span>
@@ -29,7 +42,9 @@ export default function DashBoardCards() {
           </li>
           <li class="flex items-center py-3">
             <span>Joined On</span>
-            <span class="ml-auto">Nov 07, 2016</span>
+            <span class="ml-auto">
+              {user.createdAt ? new Date(user.createdAt).toDateString() : " "}
+            </span>
           </li>
         </ul>
       </div>

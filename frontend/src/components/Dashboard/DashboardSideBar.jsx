@@ -5,28 +5,11 @@ import { useCancelSubscription } from "../../hooks/useCancelSubscription";
 import { UserContext } from "../../context/UserContext";
 import CancelSubscriptionModal from "../../pages/CancelSubscription/CancelSubscriptionModal";
 
-export default function DashboardSideBar() {
+export default function DashboardSideBar({sideNav,setSideNav,setCancelSubscriptionButton,refundDetailsFetch}) {
   const navigate = useNavigate();
   const { logout } = useLogout();
 
   const {user}=useContext(UserContext);
-
-  const [cancelSubscriptionButton, setCancelSubscriptionButton] =
-  useState(false);
-
-const { cancelSubscriptionInfo } = useCancelSubscription();
-
-
-  const [refundInfo, setRefundInfo] = useState({});
-
-  const refundDetailsFetch = async () => {
-    try {
-      const response = await cancelSubscriptionInfo();
-      setRefundInfo(response.refundDetails);
-    } catch (error) {
-      console.log("Error", error);
-    }
-  };
 
   const logoutAction = () => {
     logout();
@@ -142,6 +125,7 @@ const { cancelSubscriptionInfo } = useCancelSubscription();
                onClick={() => {
                         setCancelSubscriptionButton(true)
                         refundDetailsFetch()
+                        setSideNav(2)
                       }}
                 class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
                 type="button"
@@ -163,8 +147,36 @@ const { cancelSubscriptionInfo } = useCancelSubscription();
                   Cancel Subscription
                 </p>
               </button>)}
-              {cancelSubscriptionButton && <CancelSubscriptionModal  refundInfo={refundInfo} closeModal={setCancelSubscriptionButton}/>}    
+                  
           </li>
+          <li>
+          <button
+               onClick={() => {
+                        setSideNav(3)
+                      }}
+                class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
+                type="button"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                  class="w-5 h-5 text-inherit"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.25 9a6.75 6.75 0 0113.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 01-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 11-7.48 0 24.585 24.585 0 01-4.831-1.244.75.75 0 01-.298-1.205A8.217 8.217 0 005.25 9.75V9zm4.502 8.9a2.25 2.25 0 104.496 0 25.057 25.057 0 01-4.496 0z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">
+                  Update Information
+                </p>
+              </button>
+          </li>
+                      
+
         </ul>
         <ul class="mb-4 flex flex-col gap-1">
           <li class="mx-3.5 mt-4 mb-2">

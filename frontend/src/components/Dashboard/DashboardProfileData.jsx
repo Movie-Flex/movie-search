@@ -29,39 +29,57 @@ export default function DashboardProfileData() {
           <div class="grid md:grid-cols-2 text-sm">
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">First Name</div>
-              <div class="px-4 py-2">Jane</div>
+              <div class="px-4 py-2">{user.name.split(" ")[0]?user.name.split(" ")[0]:" "}</div>
             </div>
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Last Name</div>
-              <div class="px-4 py-2">Doe</div>
+              <div class="px-4 py-2">
+                {user.name.split(" ")[1]?user.name.split(" ")[1]:" "}
+              </div>
+            </div>
+            <div class="grid grid-cols-2">
+              <div class="px-4 py-2 font-semibold">Username</div>
+              <div class="px-4 py-2">
+                {user.username ? user.username : " "}
+              </div>
             </div>
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Gender</div>
-              <div class="px-4 py-2">Female</div>
+              <div class="px-4 py-2">
+                {user.gender ? user.gender : "Not Updated"}
+              </div>
             </div>
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Contact No.</div>
-              <div class="px-4 py-2">+11 998001001</div>
+              <div class="px-4 py-2">
+                {user.phone ? user.phone : "Not Updated"}
+              </div>
             </div>
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Current Address</div>
-              <div class="px-4 py-2">Beech Creek, PA, Pennsylvania</div>
-            </div>
-            <div class="grid grid-cols-2">
-              <div class="px-4 py-2 font-semibold">Permanant Address</div>
-              <div class="px-4 py-2">Arlington Heights, IL, Illinois</div>
+              <div class="px-4 py-2">
+                {user.address ? user.address : "Not Updated"}
+              </div>
             </div>
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Email.</div>
               <div class="px-4 py-2">
                 <a class="text-blue-800" href="mailto:jane@example.com">
-                  jane@example.com
+                  {user.email?user.email:"Not Updated"}
                 </a>
               </div>
             </div>
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Birthday</div>
-              <div class="px-4 py-2">Feb 06, 1998</div>
+              <div class="px-4 py-2">
+                {user.dob ? user.dob : "Not Updated"}
+              </div>
+            </div>
+            <div class="grid grid-cols-2">
+              <div class="px-4 py-2 font-semibold">Subscription</div>
+              <div class="px-4 py-2">
+                {user.subscription ? user.subscription : "free"}
+              </div>
             </div>
           </div>
         </div>
