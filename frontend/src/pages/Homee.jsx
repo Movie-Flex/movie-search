@@ -19,7 +19,7 @@ import ModalProvider from '../providers/ModalProvider.jsx';
 import VideoPlayer from './VideoPlayer.jsx'
 import { useLogout } from '../hooks/useLogout.jsx';
 import { UserContext } from '../context/UserContext.jsx';
-import DropDown from '../components/DropDownHomeMenu.jsx';
+import DropDownHomeMenu from '../components/DropDownHomeMenu.jsx';
 import { CircularProgress } from '@chakra-ui/react';
 const classNames = (...classes) => {
     return classes.filter(Boolean).join(' ');
