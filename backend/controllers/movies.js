@@ -55,7 +55,7 @@ const movies = async (req, res) => {
         ];
 
         const movies = await collection.aggregate(pipeline).toArray();
-        console.log(movies);
+        // console.log(movies);
         res.json(movies);
     } catch (err) {
         res.status(500).json({ message: JSON.stringify(err) });

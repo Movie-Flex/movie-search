@@ -30,7 +30,7 @@ const addMovie = async (req, res) => {
     client = connectedClient;
 
     const { movieData } = req.body
-    console.log(movieData);
+    // console.log(movieData);
     if (!isValidMovieData(movieData)) {
       return res.status(400).json({ error: 'No Movie Data found' });
     }
@@ -73,12 +73,12 @@ const deleteMovie = async (req, res) => {
     client = connectedClient;
 
     const id = req.params.id;
-    console.log(id);
+    // console.log(id);
     const result = await collection.deleteOne({"_id":new ObjectId(id)});
     if(result.deletedCount==0){
       return res.status(400).json({message:"Error deleting movie"});
     }
-    console.log(result);
+    // console.log(result);
     return res.status(200).json({ message: `Deleted Successfully` });
   } catch (err) {
     console.error('Error deleting movies:', err);
@@ -120,7 +120,7 @@ const updateMovie = async (req, res) => {
     }, {
       $set: movieData
     });
-    console.log(result);
+    // console.log(result);
     if(result.modifiedCount==0){
       return res.status(400).json({message:"Error updating movie"});
     }
