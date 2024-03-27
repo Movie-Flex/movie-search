@@ -17,10 +17,10 @@ import CardProvider from '../providers/CardProvider.jsx';
 import CardProviderOnHover from '../providers/CardProviderOnHover.jsx';
 import ModalProvider from '../providers/ModalProvider.jsx';
 import VideoPlayer from './VideoPlayer.jsx'
-import DropDownHomeMenu from '../components/DropDownHomeMenu.jsx';
+import { useLogout } from '../hooks/useLogout.jsx';
 import { UserContext } from '../context/UserContext.jsx';
+import DropDown from '../components/DropDownHomeMenu.jsx';
 import { CircularProgress } from '@chakra-ui/react';
-import SubscriptionModal from '../components/Subscription/SubscriptionModal.jsx';
 const classNames = (...classes) => {
     return classes.filter(Boolean).join(' ');
 };
@@ -42,6 +42,11 @@ const Homee = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const userData = useContext(UserContext);
     const [movieLoading, setMovieLoading] = useState(null)
+    const [actionMovies, setActionMovies] = useState([])
+    const [horrorMovies, setHorrorMovies] = useState([])
+    const [romanceMovies, setRomanceMovies] = useState([])
+    const [dramaMovies, setDramaMovies] = useState([])
+    const [comedyMovies, setComedyMovies] = useState([])
     console.log('user', user)
 
 
@@ -73,7 +78,7 @@ const Homee = () => {
 
         setCurrentValue(query);
 
-        if(event.target.value == ''){
+        if (event.target.value == '') {
             setMovieLoading(null)
         }
 
@@ -122,10 +127,12 @@ const Homee = () => {
         }
     };
 
-   
+
     useEffect(() => {
         axios.post("http://localhost:3002/api/autoSuggest",
-            {},
+            {
+                toSearch: ["Action"]
+            },
             {
                 params: {
                     q: "love"
@@ -146,22 +153,42 @@ const Homee = () => {
             .finally(() => {
                 setLoadingRecommended(false)
             })
+
+
+    }, [])
+
+    useEffect(async () => {
+
+        axios.post("http://localhost:3002/api/genreMovie",
+            {
+                toSearch: "Action"
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${userData.token}`
+                }
+            })
+            .then((response) => {
+                if (response.status == 200) {
+                    console.log('response.data', response.data)
+                }
+            })
+            .catch((err) => {
+                toast.error(err.message);
+            }) 
+
     }, [])
 
 
 
 
-    return (
-           <>
-            
-        <div className='bg-[#171D21] min-h-[100vh] flex flex-col justify-between'>
 
-            
-                <div className="w-full flex justify-between items-center mt-2">
+
+    return (
+        <div className='bg-[#171D21] min-h-[100vh] flex flex-col justify-between'>
+            <div className="w-full flex justify-between items-center mt-2">
                 <div className="">
-                    <img src={logo}
-                    onClick={()=>window.location.reload()}
-                     alt="Movie Flex" className='h-14 w-auto' />
+                    <img src={logo} alt="Movie Flex" className='h-14 w-auto' />
                 </div>
                 <div className=" flex justify-start items-center flex-grow">
                     <div className="w-full flex items-center justify-center">
@@ -170,7 +197,7 @@ const Homee = () => {
                                 <option className='bg-[#171D21] text-white' value="all">Select Genre</option>
                                 <option className='bg-[#171D21] text-white' value="Horror">Horror</option>
                                 <option className='bg-[#171D21] text-white' value="Action">Action</option>
-                                <option className='bg-[#171D21] text-white' value="Romantic">Romantic</option>
+                                <option className='bg-[#171D21] text-white' value="Romance">Romance</option>
                                 <option className='bg-[#171D21] text-white' value="Comedy">Comedy</option>
                                 <option className='bg-[#171D21] text-white' value="Drama">Drama</option>
                             </select>
@@ -188,7 +215,7 @@ const Homee = () => {
                                         <CircularProgress isIndeterminate color='green.300' />
                                     </div>
                                 )}
-                                {movieLoading==false && autocompleteResults.length == 0 && (
+                                {movieLoading == false && autocompleteResults.length == 0 && (
                                     <div className="absolute w-full m-auto top-11 z-[2] bg-[#fff] shadow-xl text-[#171D21] font-bold flex flex-col justify-center items-center rounded-xl gap-1">
                                         No Movie found
                                     </div>
@@ -199,7 +226,7 @@ const Homee = () => {
                                             return (
                                                 <div
                                                     key={index}
-                                                    onClick={() => {runSearch(result)}}
+                                                    onClick={() => { runSearch(result) }}
                                                     onMouseOver={() => setSelectedAutocompleteResultIndex(index)}
                                                     onMouseOut={() => setSelectedAutocompleteResultIndex(null)}
                                                     className={classNames(
@@ -388,6 +415,259 @@ const Homee = () => {
                 </div>)}
             </div>
 
+            {/* Genre 1 */}
+            <div className="mt-5">
+                {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
+                    <div className="text-3xl text-white font-bold">Horror Movies</div>
+                    <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
+                        {!loadingRecommended && recommendedMovies && recommendedMovies.map((movie) => {
+                            return (
+                                <div className="movieCard relative">
+                                    <div className='cardInitially'>
+                                        <CardProvider
+                                            poster={movie.poster}
+                                            title={movie.title}
+                                            year={movie.year}
+                                            runtime={movie.runtime}
+                                            rating={movie.imdb.rating}
+                                        />
+                                    </div>
+
+
+                                    <div className='cardOnHover'>
+                                        <CardProviderOnHover
+                                            movie={movie}
+                                            poster={movie.poster}
+                                            title={movie.title}
+                                            plot={movie.plot}
+                                            genres={movie.genres}
+                                            year={movie.year}
+                                            runtime={movie.runtime}
+                                            rating={movie.imdb.rating}
+                                            setModalMovie={setModalMovie}
+                                            setIsModalOpen={setIsModalOpen}
+                                        />
+                                    </div>
+                                </div>
+
+                            )
+                        })}
+                    </div>
+                </div>)}
+
+                {!loadingRecommended && (<div className="">
+                    <ModalProvider
+                        movie={modalMovie}
+                        isModalOpen={isModalOpen}
+                        setIsModalOpen={setIsModalOpen}
+                    />
+                </div>)}
+            </div>
+
+            <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>
+
+            {/* Genre 2 */}
+            <div className="mt-5">
+                {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
+                    <div className="text-3xl text-white font-bold">Action Movies</div>
+                    <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
+                        {!loadingRecommended && recommendedMovies && recommendedMovies.map((movie) => {
+                            return (
+                                <div className="movieCard relative">
+                                    <div className='cardInitially'>
+                                        <CardProvider
+                                            poster={movie.poster}
+                                            title={movie.title}
+                                            year={movie.year}
+                                            runtime={movie.runtime}
+                                            rating={movie.imdb.rating}
+                                        />
+                                    </div>
+
+
+                                    <div className='cardOnHover'>
+                                        <CardProviderOnHover
+                                            movie={movie}
+                                            poster={movie.poster}
+                                            title={movie.title}
+                                            plot={movie.plot}
+                                            genres={movie.genres}
+                                            year={movie.year}
+                                            runtime={movie.runtime}
+                                            rating={movie.imdb.rating}
+                                            setModalMovie={setModalMovie}
+                                            setIsModalOpen={setIsModalOpen}
+                                        />
+                                    </div>
+                                </div>
+
+                            )
+                        })}
+                    </div>
+                </div>)}
+
+                {!loadingRecommended && (<div className="">
+                    <ModalProvider
+                        movie={modalMovie}
+                        isModalOpen={isModalOpen}
+                        setIsModalOpen={setIsModalOpen}
+                    />
+                </div>)}
+            </div>
+
+            <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>
+
+            {/* Genre 3 */}
+            <div className="mt-5">
+                {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
+                    <div className="text-3xl text-white font-bold">Romance Movies</div>
+                    <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
+                        {!loadingRecommended && recommendedMovies && recommendedMovies.map((movie) => {
+                            return (
+                                <div className="movieCard relative">
+                                    <div className='cardInitially'>
+                                        <CardProvider
+                                            poster={movie.poster}
+                                            title={movie.title}
+                                            year={movie.year}
+                                            runtime={movie.runtime}
+                                            rating={movie.imdb.rating}
+                                        />
+                                    </div>
+
+
+                                    <div className='cardOnHover'>
+                                        <CardProviderOnHover
+                                            movie={movie}
+                                            poster={movie.poster}
+                                            title={movie.title}
+                                            plot={movie.plot}
+                                            genres={movie.genres}
+                                            year={movie.year}
+                                            runtime={movie.runtime}
+                                            rating={movie.imdb.rating}
+                                            setModalMovie={setModalMovie}
+                                            setIsModalOpen={setIsModalOpen}
+                                        />
+                                    </div>
+                                </div>
+
+                            )
+                        })}
+                    </div>
+                </div>)}
+
+                {!loadingRecommended && (<div className="">
+                    <ModalProvider
+                        movie={modalMovie}
+                        isModalOpen={isModalOpen}
+                        setIsModalOpen={setIsModalOpen}
+                    />
+                </div>)}
+            </div>
+
+            <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>
+
+            {/* Genre 4 */}
+            <div className="mt-5">
+                {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
+                    <div className="text-3xl text-white font-bold">Comedy Movies</div>
+                    <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
+                        {!loadingRecommended && recommendedMovies && recommendedMovies.map((movie) => {
+                            return (
+                                <div className="movieCard relative">
+                                    <div className='cardInitially'>
+                                        <CardProvider
+                                            poster={movie.poster}
+                                            title={movie.title}
+                                            year={movie.year}
+                                            runtime={movie.runtime}
+                                            rating={movie.imdb.rating}
+                                        />
+                                    </div>
+
+
+                                    <div className='cardOnHover'>
+                                        <CardProviderOnHover
+                                            movie={movie}
+                                            poster={movie.poster}
+                                            title={movie.title}
+                                            plot={movie.plot}
+                                            genres={movie.genres}
+                                            year={movie.year}
+                                            runtime={movie.runtime}
+                                            rating={movie.imdb.rating}
+                                            setModalMovie={setModalMovie}
+                                            setIsModalOpen={setIsModalOpen}
+                                        />
+                                    </div>
+                                </div>
+
+                            )
+                        })}
+                    </div>
+                </div>)}
+
+                {!loadingRecommended && (<div className="">
+                    <ModalProvider
+                        movie={modalMovie}
+                        isModalOpen={isModalOpen}
+                        setIsModalOpen={setIsModalOpen}
+                    />
+                </div>)}
+            </div>
+
+            <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>
+
+            {/* Genre 5 */}
+            <div className="mt-5">
+                {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
+                    <div className="text-3xl text-white font-bold">Drama Movies</div>
+                    <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
+                        {!loadingRecommended && recommendedMovies && recommendedMovies.map((movie) => {
+                            return (
+                                <div className="movieCard relative">
+                                    <div className='cardInitially'>
+                                        <CardProvider
+                                            poster={movie.poster}
+                                            title={movie.title}
+                                            year={movie.year}
+                                            runtime={movie.runtime}
+                                            rating={movie.imdb.rating}
+                                        />
+                                    </div>
+
+
+                                    <div className='cardOnHover'>
+                                        <CardProviderOnHover
+                                            movie={movie}
+                                            poster={movie.poster}
+                                            title={movie.title}
+                                            plot={movie.plot}
+                                            genres={movie.genres}
+                                            year={movie.year}
+                                            runtime={movie.runtime}
+                                            rating={movie.imdb.rating}
+                                            setModalMovie={setModalMovie}
+                                            setIsModalOpen={setIsModalOpen}
+                                        />
+                                    </div>
+                                </div>
+
+                            )
+                        })}
+                    </div>
+                </div>)}
+
+                {!loadingRecommended && (<div className="">
+                    <ModalProvider
+                        movie={modalMovie}
+                        isModalOpen={isModalOpen}
+                        setIsModalOpen={setIsModalOpen}
+                    />
+                </div>)}
+            </div>
+
             {/* <section class="upcoming">
                 <div class="container">
 
@@ -460,13 +740,7 @@ const Homee = () => {
 
                 </div>
             </section> */}
-               
         </div>
-        
-        {user && user.subscription==="free" && isFirstTime&&(
-                <SubscriptionModal setIsFirstTime={setIsFirstTime} isFirstTime={isFirstTime}/>
-            )}
-        </>
     )
 }
 

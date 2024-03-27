@@ -20,22 +20,22 @@ const getMovies = async (req, res) => {
     if (!query) {
       return res.status(209).json({ message: 'Query parameter is required' });
     }
-    if (!toSearch || toSearch.length==0) {
+    if (!toSearch || toSearch.length == 0) {
       toSearch = ["all"];
     }
     const { client: connectedClient, collection } = await connectToDatabase(dbName, collectionName);
     client = connectedClient;
 
 
-    let must=[
+    let must = [
       {
-        text: {
+        autocomplete: {
           query: query,
           path: "title"
         }
       },
     ]
-    if(toSearch[0]!=="all"){
+    if (toSearch[0] !== "all") {
       must.push({
         text: {
           query: toSearch,
@@ -47,23 +47,25 @@ const getMovies = async (req, res) => {
     const pipeline = [
       {
         $search: {
-          index: 'default',
+          index: 'autocomplete',
           compound: {
-            must: must
+            should: must
           }
         }
       },
       {
-        $limit:8
+        $limit: 8
       },
       {
         $project: {
-          _id: 1,
-          title: 1,
-          poster: 1,
-          imdb: 1,
-          year: 1,
-          genres: 1
+          languages: 0,
+          released: 0,
+          awards: 0,
+          lastupdated: 0,
+          countries: 0,
+          type: 0,
+          tomatoes: 0,
+          plot_embedding: 0,
         },
       },
     ];
