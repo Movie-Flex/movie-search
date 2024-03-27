@@ -1,5 +1,5 @@
 const express = require('express');
-const {loginUser, registerUser} = require('../controllers/user');
+const {loginUser, registerUser, userProfile, updateProfile} = require('../controllers/user');
 const { getMovies } = require('../controllers/autoSuggest');
 const { fuzzySearch } = require('../controllers/fuzzySearch');
 const { semanticMovies } = require('../controllers/semanticSearch');
@@ -8,7 +8,7 @@ const {addToWatchHistory, getWatchHistory, deleteWatchHistory} = require('../con
 const {addFavouriteMovies, getFavouriteMovies, deleteFavouriteMovie} = require('../controllers/favouriteMovies')
 const {addWatchLaterMovies, getWatchLaterMovies, deleteWatchLaterMovie} = require('../controllers/watchLater')
 const {rateMovie} = require('../controllers/rateMovie')
-const {getComments} = require('../controllers/getComments')
+const comments = require('../controllers/comments')
 const role = require('../controllers/role');
 const subscription = require('../controllers/subsciption');
 const payment= require('../controllers/payment');
@@ -23,6 +23,9 @@ const router = express.Router();
 router.get('/availableUser', availableUser);
 
 router.post('/login',loginUser);
+
+router.post('/userProfile', userProfile);
+router.post('/updateProfile', updateProfile);
 
 router.post('/signup',registerUser);
 
@@ -68,7 +71,10 @@ router.delete('/deleteWatchLaterMovie/:id',deleteWatchLaterMovie)
 
 router.get('/getWatchLaterMovies',getWatchLaterMovies)
 
-router.get('/getComments/:id', getComments)
+    // COMMENTS
+router.get('/getComments/:id', comments.getComments)
+
+router.post('/postComments/:id', comments.postComments)
 
 // new/update rating
 router.post('/rateMovie/:movieId/:rating', rateMovie)
@@ -92,4 +98,7 @@ router.post('/verify', payment.verify)
 router.post('/cancel', payment.refund)
 
 
+
+const { generateAdminToken} = require("../middlewares/verifyAdmin")
+router.post('/generateAdminToken', generateAdminToken)
 module.exports = router;

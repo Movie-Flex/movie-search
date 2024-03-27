@@ -6,10 +6,14 @@ const UserContextProvider = (props) => {
         localStorage.getItem("userData") ? true : false
     );
     const [user, setUser] = useState(
-        JSON.parse(localStorage.getItem("userData"))
+        JSON.parse(localStorage.getItem("userData"))?JSON.parse(localStorage.getItem("userData")):{}
     );
     const [token,setToken]=useState(
-        JSON.parse(JSON.stringify(localStorage.getItem("token")))
+        JSON.parse(JSON.stringify(localStorage.getItem("token")))?JSON.parse(JSON.stringify(localStorage.getItem("token"))):""
+    )
+
+    const [extraUserData,setExtraUserData]=useState(
+        JSON.parse(JSON.stringify(localStorage.getItem("extraUserData")))?JSON.parse(JSON.stringify(localStorage.getItem("extraUserData"))):{}
     )
 
     const [paymentGatewaySendingData,setPaymentGatewaySendingData]=useState({
@@ -29,6 +33,8 @@ const UserContextProvider = (props) => {
                 setIsLoggedIn,
                 user,
                 setUser,
+                extraUserData,
+                setExtraUserData,
                 token,
                 setToken,
                 paymentGatewaySendingData,

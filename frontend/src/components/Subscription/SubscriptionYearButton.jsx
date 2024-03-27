@@ -1,7 +1,7 @@
-export default function SubscriptionYearButton({yearly, setYearly}) {
+export default function SubscriptionYearButton({ yearly, setYearly }) {
   return (
     <div className="flex justify-center max-w-[14rem] m-auto mb-8 lg:mb-16">
-      <div className="relative flex w-full p-1 bg-white dark:bg-slate-900 rounded-full">
+      <div className="relative flex w-full p-1  bg-slate-900 rounded-full">
         <span
           className="absolute inset-0 m-1 pointer-events-none"
           aria-hidden="true"
@@ -15,15 +15,15 @@ export default function SubscriptionYearButton({yearly, setYearly}) {
         </span>
         <button
           className={`relative flex-1 text-sm font-medium h-8 rounded-full focus-visible:outline-none focus-visible:ring
-           focus-visible:ring-indigo-300 dark:focus-visible:ring-slate-600 transition-colors duration-150 ease-in-out ${
-            yearly ? "text-white" : "text-slate-500 dark:text-slate-400"
-          }`}
+            focus-visible:ring-slate-600 transition-colors duration-150 ease-in-out ${
+              yearly ? "text-white" : " text-slate-400"
+            }`}
           onClick={() => setYearly(true)}
         >
           Yearly{" "}
           {/* <span
             className={`${
-              yearly ? "text-indigo-200" : "text-slate-400 dark:text-slate-500"
+              yearly ? "text-indigo-200" : "text-slate-400 text-slate-500"
             }`}
           >
             -20%
@@ -31,9 +31,9 @@ export default function SubscriptionYearButton({yearly, setYearly}) {
         </button>
         <button
           className={`relative flex-1 text-sm font-medium h-8 rounded-full focus-visible:outline-none focus-visible:ring
-           focus-visible:ring-indigo-300 dark:focus-visible:ring-slate-600 transition-colors duration-150 ease-in-out ${
-            yearly ? "text-slate-500 dark:text-slate-400" : "text-white"
-          }`}
+           f focus-visible:ring-slate-600 transition-colors duration-150 ease-in-out ${
+             yearly ? " text-slate-400" : "text-white"
+           }`}
           onClick={() => setYearly(false)}
         >
           Monthly
