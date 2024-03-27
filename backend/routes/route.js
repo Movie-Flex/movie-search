@@ -43,9 +43,9 @@ router.post('/fuzzySearch', fuzzySearch)
 
 router.post('/semantic', semanticMovies)
 
-router.get('/genreMovie', movies)
+router.post('/genreMovie', movies)
 
-router.get('/movie', oneMovie);
+router.post('/movie', oneMovie);
 
 // user action related api's
 
