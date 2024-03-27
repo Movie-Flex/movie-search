@@ -30,7 +30,7 @@ const addMovie = async (req, res) => {
     client = connectedClient;
 
     const { movieData } = req.body
-    console.log(movieData);
+    // console.log(movieData);
     if (!isValidMovieData(movieData)) {
       return res.status(400).json({ error: 'No Movie Data found' });
     }

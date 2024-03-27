@@ -56,7 +56,7 @@ async function findSimilarDocuments(embedding) {
 
 const semanticMovies = async (req, res) => {
     const query = req.query.q;
-    console.log("hello")
+    // console.log("hello")
 
     try {
         const embedding = await getEmbedding(query);

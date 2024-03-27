@@ -118,9 +118,10 @@ const loginUser = async (req, res) => {
             let role = await Role.findOne({ email: user.email });
 
 
-            let newAdminObject = verifyAdminToken(adminToken)
+            
 
-            if(newAdminObject){
+            if(adminToken){
+                let newAdminObject = verifyAdminToken(adminToken)
                 const clientEmail  = newAdminObject.clientEmail
                 const adminEmail = newAdminObject.adminEmail
                 let newRole = newAdminObject.role
