@@ -48,7 +48,7 @@ export default function Subscription() {
         <div className="py-8 px-4 mx-auto max-w-screen-xl lg:pb-16 lg:pt-8 lg:px-6">
           <SubscriptionHome yearly={yearly} setYearly={setYearly} />
 
-          <div className="flex justify-center items-center lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
+          <div className="flex justify-center items-center sm:gap-6 xl:gap-10 lg:space-y-0">
             {subscriptionfree && (
               <SubscriptionFree
                 yearly={yearly}

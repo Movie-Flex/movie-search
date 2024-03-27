@@ -38,7 +38,7 @@ try {
 if (options) {
   const server = https.createServer(options, app);
 
-  server.listen(3001, () => {
+  server.listen(HTTPS_PORT, () => {
     console.log('HTTPS Server listening on %s : %s', HOST, HTTPS_PORT);
   });
 
@@ -50,7 +50,7 @@ if (options) {
 }
 
 // FOR HTTP server
-http.createServer(app).listen(3002, () => {
+http.createServer(app).listen(HTTP_PORT, () => {
   console.log('HTTP Server listening on %s : %s', HOST, HTTP_PORT);
 });
 

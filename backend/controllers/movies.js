@@ -7,14 +7,14 @@ const {ObjectId} = require('mongodb');
 const movies = async (req, res) => {
     let client;
     try {
-        const bearer = req.headers['authorization'];
-        if (!bearer) {
-            return res.status(404).json({ message: "No bearer token" });
-        }
-        const token = bearer.split(" ")[1];
-        if (!token) {
-            return res.status(404).json({ message: "No token in the bearer" });
-        }
+        // const bearer = req.headers['authorization'];
+        // if (!bearer) {
+        //     return res.status(404).json({ message: "No bearer token" });
+        // }
+        // const token = bearer.split(" ")[1];
+        // if (!token) {
+        //     return res.status(404).json({ message: "No token in the bearer" });
+        // }
 
         const { toSearch } = req.body;
         if (!toSearch) {

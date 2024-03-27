@@ -157,27 +157,26 @@ const Homee = () => {
 
     }, [])
 
-    useEffect(async () => {
+    useEffect(() => {
+        const genreMovies = async () => {
+        
 
-        axios.post("http://localhost:3002/api/genreMovie",
-            {
-                toSearch: "Action"
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${userData.token}`
-                }
-            })
-            .then((response) => {
-                if (response.status == 200) {
-                    console.log('response.data', response.data)
-                }
-            })
-            .catch((err) => {
-                toast.error(err.message);
-            }) 
-
-    }, [])
+                axios.post("http://localhost:3002/api/genreMovie",
+                    {
+                        toSearch: "Action"
+                    },
+                   )
+                    .then((response) => {
+                        if (response.status == 200) {
+                            console.log('response.data', response.data)
+                        }
+                    })
+                    .catch((err) => {
+                        toast.error(err.message);
+                    })
+        }
+        genreMovies()
+    })
 
 
 
