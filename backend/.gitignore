@@ -2,3 +2,5 @@
 node_modules
 privateKey.pem
 .vscode
+key.pem
+server.crt

@@ -4,9 +4,14 @@ const cors= require('cors')
 const app = express()
 const bodyParser = require('body-parser');
 const routes = require('./routes/route');
+const https = require('https');
+var http = require('http');
+const fs = require('fs');
 const path = require('path');
 
-const port = process.env.API_PORT;
+const HTTP_PORT = process.env.API_PORT;
+const HTTPS_PORT = 3001;
+const HOST = 'localhost';
 
 app.use(express.json()); 
 app.use(cors())
@@ -18,17 +23,42 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
 
-app.listen(port, () => {
-    console.log(`Server listening on port : ${port}`);
+// FOR USING SSL/TLS :
+let options;
+try {
+  options = {
+    key: fs.readFileSync('./ssl/key.pem', 'utf8'),
+    cert: fs.readFileSync('./ssl/server.crt', 'utf8'),
+  };
+} catch (err) {
+  console.error('Error reading SSL/TLS files:', err);
+  options = null;
+}
+// FOR HTTPS server
+if (options) {
+  const server = https.createServer(options, app);
+
+  server.listen(3001, () => {
+    console.log('HTTPS Server listening on %s : %s', HOST, HTTPS_PORT);
+  });
+
+  server.on('error', (err) => {
+    console.error('HTTPS server error:', err);
+  });
+} else {
+  console.log('SSL/TLS files not found. HTTPS server not started.');
+}
+
+// FOR HTTP server
+http.createServer(app).listen(3002, () => {
+  console.log('HTTP Server listening on %s : %s', HOST, HTTP_PORT);
 });
 
 app.use('/api', routes);
 
 app.use('/payment', routes);
 
-
 app.use((req, res) => {
     res.status(404).json({ error: "No such page exists!" });
 });
-
 
