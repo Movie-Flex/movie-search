@@ -36,7 +36,7 @@ export const useLogin = () => {
 
   const TokenVerify = async (token) => {
     try {
-      console.log("TokenVerify", token);
+      // console.log("TokenVerify", token);
 
       const response = await axios.post("http://localhost:3002/api/getUser",{} ,{
         headers: {

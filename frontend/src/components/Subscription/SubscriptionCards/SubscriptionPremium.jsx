@@ -18,12 +18,13 @@ export default function SubscriptionPremium({ props, yearly, setYearly }) {
     setPaymentGatewayReceivingData,
   } = useContext(UserContext);
 
-  const handlePremiumSubscription = async () => {
-    setPaymentGatewaySendingData({
-      dur: yearly ? "feeYearly" : "feeMonthly",
-      type: "premium",
-    });
+  setPaymentGatewaySendingData({
+    dur: yearly ? "feeYearly" : "feeMonthly",
+    type: "premium",
+  });
 
+  const handlePremiumSubscription = async () => {
+  
     try {
       const response = await axios.post(
         `http://localhost:3002/payment/order?dur=${paymentGatewaySendingData.dur}&type=${paymentGatewaySendingData.type}`,

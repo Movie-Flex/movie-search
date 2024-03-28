@@ -18,11 +18,11 @@ export default function SubscriptionDiamond({ props, yearly, setYearly }) {
     setPaymentGatewayReceivingData,
   } = useContext(UserContext);
 
+  setPaymentGatewaySendingData({
+    dur: yearly ? "feeYearly" : "feeMonthly",
+    type: "diamond",
+  });
   const handleDiamondSubscription = async () => {
-    setPaymentGatewaySendingData({
-      dur: yearly ? "feeYearly" : "feeMonthly",
-      type: "diamond",
-    });
 
     try {
       const response = await axios.post(
