@@ -11,10 +11,8 @@ export default function SubscriptionDiamond({ props, yearly, setYearly }) {
 
   const {
     user,
-    paymentGatewaySendingData,
     setPaymentGatewaySendingData,
     token,
-    paymentGatewayReceivingData,
     setPaymentGatewayReceivingData,
   } = useContext(UserContext);
 
