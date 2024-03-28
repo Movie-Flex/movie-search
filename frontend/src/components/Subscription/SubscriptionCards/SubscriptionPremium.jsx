@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { UserContext } from "../../../context/UserContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function SubscriptionPremium({ props, yearly, setYearly }) {
   const { features, currency, subunit, feeYearly, feeMonthly } = props;
@@ -93,6 +94,9 @@ export default function SubscriptionPremium({ props, yearly, setYearly }) {
           </button>
         ) : (
           <button
+          onClick={()=>{
+            toast.error("Please Cancel to Buy Another Subscription")
+          }}
             className=" bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 
                 font-medium rounded-lg text-sm px-5 py-2.5 text-center text-white focus:ring-primary-900"
           >

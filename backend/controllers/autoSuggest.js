@@ -7,14 +7,14 @@ const collectionName = 'embedded_movies';
 const getMovies = async (req, res) => {
   let client;
   try {
-    const bearer = req.headers['authorization'];
-    if (!bearer) {
-      return res.status(209).json({ message: 'No authentication token' });
-    }
-    const token = bearer.split(" ")[1];
-    if (!token) {
-      return res.status(209).json({ message: 'No authentication token found' });
-    }
+    // const bearer = req.headers['authorization'];
+    // if (!bearer) {
+    //   return res.status(209).json({ message: 'No authentication token' });
+    // }
+    // const token = bearer.split(" ")[1];
+    // if (!token) {
+    //   return res.status(209).json({ message: 'No authentication token found' });
+    // }
     const query = req.query.q;
     let { toSearch } = req.body;
     if (!query) {

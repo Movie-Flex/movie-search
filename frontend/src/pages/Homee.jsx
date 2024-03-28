@@ -161,7 +161,9 @@ const Homee = () => {
 
     }, [])
 
-    useEffect(async () => {
+    useEffect(() => {
+        const genreMovies = async () => {
+        
 
         axios.post("http://localhost:3002/api/genreMovie",
             {
