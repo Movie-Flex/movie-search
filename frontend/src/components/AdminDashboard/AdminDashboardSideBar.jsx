@@ -202,7 +202,7 @@ export default function DashboardSideBar({
                 ></path>
               </svg>
               <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">
-                Make Admin 
+                Approve Admin 
               </p>
             </button>
           </li>

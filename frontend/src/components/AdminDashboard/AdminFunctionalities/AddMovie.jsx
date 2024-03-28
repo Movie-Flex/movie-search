@@ -97,7 +97,7 @@ export default function AddMovie() {
 
     try {
       await addMovie(addMovieData);
-      window.location.reload();
+      // window.location.reload();
     } catch (error) {
       console.log(error);
     }
