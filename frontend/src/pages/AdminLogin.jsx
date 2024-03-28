@@ -152,11 +152,7 @@ const AdminLogin = () => {
                       required=""
                     />
                   </div>
-                  <div class="ml-3 text-sm">
-                    <label for="remember" class=" text-gray-300">
-                      Remember me
-                    </label>
-                  </div>
+                 
                 </div>
               </div>
               <button

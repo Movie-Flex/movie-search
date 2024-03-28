@@ -92,6 +92,7 @@ const Signup = () => {
                   Your email
                 </label>
                 <input
+                  
                   onChange={(e) =>
                     setSignupData({ ...signupData, email: e.target.value })
                   }

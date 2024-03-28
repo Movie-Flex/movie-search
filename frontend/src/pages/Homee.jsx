@@ -19,8 +19,10 @@ import ModalProvider from '../providers/ModalProvider.jsx';
 import VideoPlayer from './VideoPlayer.jsx'
 import { useLogout } from '../hooks/useLogout.jsx';
 import { UserContext } from '../context/UserContext.jsx';
+import SubscriptionModal from '../components/Subscription/SubscriptionModal.jsx';
 import DropDownHomeMenu from '../components/DropDownHomeMenu.jsx';
 import { Checkbox, CircularProgress } from '@chakra-ui/react';
+
 const classNames = (...classes) => {
     return classes.filter(Boolean).join(' ');
 };
@@ -313,6 +315,7 @@ const Homee = () => {
 
 
     return (
+        <>
         <div className='bg-[#171D21] min-h-[100vh] flex flex-col justify-between'>
             <div className="w-full flex justify-between items-center mt-2">
                 <div className="">
@@ -879,6 +882,10 @@ const Homee = () => {
                 </div>
             </section> */}
         </div>
+         {user && user.subscription==="free" && isFirstTime&&(
+            <SubscriptionModal setIsFirstTime={setIsFirstTime} isFirstTime={isFirstTime}/>
+        )}
+    </>
     )
 }
 
