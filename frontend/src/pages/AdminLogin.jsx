@@ -140,21 +140,7 @@ const AdminLogin = () => {
                   placeholder="Please enter your security code here"
                 />
               </div>
-              <div class="flex items-center justify-between">
-                <div class="flex items-start">
-                  <div class="flex items-center h-5">
-                    <input
-                      id="remember"
-                      aria-describedby="remember"
-                      type="checkbox"
-                      class="w-4 h-4 border  rounded  focus:ring-3 focus:ring-primary-300 bg-gray-700
-                       border-gray-600 focus:ring-primary-600 ring-offset-gray-800"
-                      required=""
-                    />
-                  </div>
-                 
-                </div>
-              </div>
+            
               <button
                 onClick={(e) => {
                   handleAdminLogin(e, adminLoginData);

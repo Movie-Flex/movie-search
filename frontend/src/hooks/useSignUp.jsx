@@ -3,6 +3,7 @@ import { UserContext } from '../context/UserContext';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { validateEmail } from '../utils/validateEmail';
 
 
 export const useSignup = () => {
@@ -20,6 +21,13 @@ export const useSignup = () => {
       
       if(signupData.password.length<8){
         toast.error("Password must be atleast 8 characters long");
+        return;
+      }
+
+      const enteredEmailCheck=signupData.email;
+
+      if(!validateEmail(enteredEmailCheck)){
+        toast.error("Invalid Email.Please enter a valid email");
         return;
       }
 

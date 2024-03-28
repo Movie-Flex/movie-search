@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSignup } from "../hooks/useSignUp";
 import checkStrongNess from "../utils/PasswordCheck";
 import { useStatStyles } from "@chakra-ui/react";
+import toast from "react-hot-toast";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -19,12 +20,17 @@ const Signup = () => {
 
   const [passwordStrength, setPasswordStrength] = useState("Weak");
   const [show, setShow] = useState(false);
+  const [termsCheckBox, setTermsCheckBox] = useState(false);
 
   const toggleShow = () => {
     setShow(!show);
   };
 
   const handleSignup = async (e, signupData) => {
+    if (!termsCheckBox) {
+      toast.error("Please accept terms and conditions");
+      return;
+    }
     e.preventDefault();
     try {
       await signup(signupData);
@@ -210,7 +216,10 @@ const Signup = () => {
                     type="checkbox"
                     class="w-4 h-4 border  rounded focus:ring-3 focus:ring-primary-300 bg-gray-700
                      border-gray-600 focus:ring-primary-600 ring-offset-gray-800"
-                    required=""
+                    required="true"
+                    onClick={(e)=>
+                      setTermsCheckBox(!termsCheckBox)
+                    }
                   />
                 </div>
                 <div class="ml-3 text-sm">
