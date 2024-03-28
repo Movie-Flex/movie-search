@@ -90,6 +90,7 @@ export default function AddMovie() {
       addMovieData.imdb.id === ""
     ) {
       // make the partiular fields compulsory
+      toast.error("Please fill all the fields");
 
       return;
     }

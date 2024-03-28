@@ -47,5 +47,27 @@ export const useAdminMovieFunctions = () => {
     }
   }
 
-  return { addMovie , deleteMovie};
+    const adminGenerateToken = async (generateAdminData) => {
+        try {
+        const response = await axios.post(
+            "http://localhost:3002/api/make-admin",
+            generateAdminData,
+            {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+            }
+        );
+        if (response.status === 200) {
+            toast.success("Admin Generated Successfully");
+            return response.data.adminToken;
+        } else {
+            toast.error(response.data.message);
+        }
+        } catch (error) {
+        toast.error("Failed to generate admin");
+        }
+    }
+
+  return { addMovie , deleteMovie,adminGenerateToken};
 };

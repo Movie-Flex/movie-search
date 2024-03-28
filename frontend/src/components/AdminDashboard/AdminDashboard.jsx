@@ -9,6 +9,7 @@ import { UserContext } from "../../context/UserContext";
 import UpdateInfo from "../UpdateUserInformation/UpdateInfo";
 import AddMovie from "./AdminFunctionalities/AddMovie";
 import DeleteMovie from "./AdminFunctionalities/DeleteMovie";
+import MakeAdmin from "./AdminFunctionalities/MakeAdmin";
 
 
 export default function AdminDashboard() {
@@ -39,9 +40,10 @@ export default function AdminDashboard() {
 
         {sideNav===2 && <AddMovie/>}
         {sideNav===3 && <DeleteMovie/>}
+        {sideNav===5 &&  <MakeAdmin/>}
 
        
-        {sideNav === 5 && <UpdateInfo />}
+        {sideNav === 6 && <UpdateInfo />}
       </div>
     </div>
   );
