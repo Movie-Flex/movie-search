@@ -31,6 +31,7 @@ const verifyAdminToken = (adminToken) => {
 
   } catch (err) {
     console.log("error verifying admin token.", err)
+    return null;
   }}
 
 module.exports = {generateAdminToken, verifyAdminToken};
