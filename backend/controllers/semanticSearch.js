@@ -43,7 +43,7 @@ async function findSimilarDocuments(embedding) {
                 "path": "plot_embedding",
                 "queryVector":embedding,
                 "numCandidates": 100,
-                "limit": 5
+                "limit": 5,
               }
             }
           ]).toArray();
