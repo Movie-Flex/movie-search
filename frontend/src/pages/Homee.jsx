@@ -20,15 +20,17 @@ import VideoPlayer from './VideoPlayer.jsx'
 import { useLogout } from '../hooks/useLogout.jsx';
 import { UserContext } from '../context/UserContext.jsx';
 import DropDownHomeMenu from '../components/DropDownHomeMenu.jsx';
-import { CircularProgress } from '@chakra-ui/react';
+import { Checkbox, CircularProgress } from '@chakra-ui/react';
 const classNames = (...classes) => {
     return classes.filter(Boolean).join(' ');
 };
 
 const Homee = () => {
-    const [genreSelected, setGenreSelected] = useState() 
-     const {user,isLoggedIn} =useContext(UserContext);
-     const [isFirstTime, setIsFirstTime] = useState(JSON.parse(localStorage.getItem('isFirstTime')))
+    const navigate = useNavigate();
+
+    const [genreSelected, setGenreSelected] = useState()
+    const { user, isLoggedIn } = useContext(UserContext);
+    const [isFirstTime, setIsFirstTime] = useState(JSON.parse(localStorage.getItem('isFirstTime')))
 
     const { register, handleSubmit, setValue } = useForm();
     const [currentValue, setCurrentValue] = useState('');
@@ -47,6 +49,9 @@ const Homee = () => {
     const [romanceMovies, setRomanceMovies] = useState([])
     const [dramaMovies, setDramaMovies] = useState([])
     const [comedyMovies, setComedyMovies] = useState([])
+    const [topRatedMovie, setTopRatedMovie] = useState([])
+    const [watchHistoryMovies, setWatchHistoryMovies] = useState([])
+    const [isAdvancedSearchSelected, setIsAdvancedSearchSelected] = useState(false);
     console.log('user', user)
 
 
@@ -54,10 +59,11 @@ const Homee = () => {
         setLoading(true);
         setAutocompleteResults([]);
         setValue('search', query);
+        navigate(`/searchResult?query=${query}&isAdvSearch=${isAdvancedSearchSelected}`)
         // const response = await axios.get(`http://localhost:3000/api/search?query=${query}`);
-        const response = await axios.post(`http://localhost:3002/api/fuzzySearch?q=${query}`);
-        console.log(response);
-        setSearchResults(response.data);
+        // const response = await axios.post(`http://localhost:3002/api/fuzzySearch?q=${query}`);
+        // console.log(response);
+        // setSearchResults(response.data);
         setLoading(false);
     };
 
@@ -143,7 +149,7 @@ const Homee = () => {
             })
             .then((response) => {
                 if (response.status == 200) {
-                    console.log('response.data', response.data)
+                    console.log('response.data 1', response.data)
                     setRecommendedMovies(response.data);
                 }
             })
@@ -157,29 +163,133 @@ const Homee = () => {
 
     }, [])
 
-    useEffect(() => {
-        const genreMovies = async () => {
-        
 
-                axios.post("http://localhost:3002/api/genreMovie",
-                    {
-                        toSearch: "Action"
-                    },
-                   )
-                    .then((response) => {
-                        if (response.status == 200) {
-                            console.log('response.data', response.data)
-                        }
-                    })
-                    .catch((err) => {
-                        toast.error(err.message);
-                    })
-        }
-        genreMovies()
-    })
+    useEffect(async () => {
+
+        axios.post("http://localhost:3002/api/genreMovie",
+            {
+                toSearch: "Action"
+            })
+            .then((response) => {
+                if (response.status == 200) {
+                    setActionMovies(response.data);
+                    console.log('response.data', response.data)
+                }
+            })
+            .catch((err) => {
+                toast.error(err.message);
+            })
+
+    }, [])
+
+    useEffect(async () => {
+
+        axios.post("http://localhost:3002/api/genreMovie",
+            {
+                toSearch: "Horror"
+            })
+            .then((response) => {
+                if (response.status == 200) {
+                    setHorrorMovies(response.data);
+                    console.log('response.data', response.data)
+                }
+            })
+            .catch((err) => {
+                toast.error(err.message);
+            })
+
+    }, [])
+
+    useEffect(async () => {
+
+        axios.post("http://localhost:3002/api/genreMovie",
+            {
+                toSearch: "Romance"
+            })
+            .then((response) => {
+                if (response.status == 200) {
+                    setRomanceMovies(response.data);
+                    console.log('response.data', response.data)
+                }
+            })
+            .catch((err) => {
+                toast.error(err.message);
+            })
+
+    }, [])
+
+    useEffect(async () => {
+
+        axios.post("http://localhost:3002/api/genreMovie",
+            {
+                toSearch: "Comedy"
+            })
+            .then((response) => {
+                if (response.status == 200) {
+                    setComedyMovies(response.data);
+                    console.log('response.data', response.data)
+                }
+            })
+            .catch((err) => {
+                toast.error(err.message);
+            })
+
+    }, [])
+
+    useEffect(async () => {
+
+        axios.post("http://localhost:3002/api/genreMovie",
+            {
+                toSearch: "Drama"
+            })
+            .then((response) => {
+                if (response.status == 200) {
+                    setDramaMovies(response.data);
+                    console.log('response.data', response.data)
+                }
+            })
+            .catch((err) => {
+                toast.error(err.message);
+            })
+
+    }, [])
 
 
+    // Get Top Rated Movies
+    useEffect(async () => {
 
+        axios.get("http://localhost:3002/api/top")
+            .then((response) => {
+                if (response.status == 200) {
+                    setTopRatedMovie(response.data);
+                }
+            })
+            .catch((err) => {
+                toast.error(err.message);
+            })
+
+    }, [])
+
+
+    // useEffect(async () => {
+
+    //     axios.get("http://localhost:3002/api/getWatchHistory", {
+    //         headers: {
+    //             'Authorization': `Bearer ${userData.token}`
+    //         }
+    //     })
+    //         .then((response) => {
+    //             console.log('response', response)
+    //             if (response.status == 200) {
+    //                 setWatchHistoryMovies(response.data);
+    //             }
+    //         })
+    //         .catch((err) => {
+    //             console.log('err', err)
+    //             toast.error(err.message);
+    //         })
+
+    // }, [])
 
 
 
@@ -189,7 +299,7 @@ const Homee = () => {
                 <div className="">
                     <img src={logo} alt="Movie Flex" className='h-14 w-auto' />
                 </div>
-                <div className=" flex justify-start items-center flex-grow">
+                <div className="flex justify-start items-center flex-grow">
                     <div className="w-full flex items-center justify-center">
                         <form className=" w-full flex justify-end items-center gap-2 px-5" onSubmit={handleSubmit(onFormSubmit)}>
                             <select onChange={(e) => { setGenreSelected(e.target.value) }} defaultValue="all" name="genre" id="genre" className='bg-white p-2 px-4 rounded-full outline-none'>
@@ -204,7 +314,7 @@ const Homee = () => {
                                 <input
                                     placeholder='Search for a movie...'
                                     {...register('search')}
-                                    className="py-2 px-4 rounded-full border-2 border-gray-300 outline-none"
+                                    className="py-2 px-4 rounded-full border-2 border-gray-300 outline-none w-full"
                                     onChange={debounce(onInputChange, 300)}
                                     autoComplete='off'
                                     onKeyDown={onInputKeypress}
@@ -239,24 +349,33 @@ const Homee = () => {
 
                                     </div>
                                 )}
+
                             </div>
                             <span className='text-white font-bolds text-xl'><FaSearch /></span>
+                            <div className="">
+                                <Checkbox
+                                    className='text-white'
+                                    onChange={() => { setIsAdvancedSearchSelected(prev => !prev) }}
+                                >
+                                    Advanced Search
+                                </Checkbox>
+                            </div>
                         </form>
 
                     </div>
                 </div>
                 <div className="mx-2 flex justify-center items-center p-2 bg-white rounded-xl">
-                   {!isLoggedIn?(
-                     <div className="text-[#171D21] font-semibold flex justify-center items-center gap-1">
-                     <span className='hover:border-b-2 hover:border-[#171D21]'><Link to="/login">Login</Link></span>
-                     <span>/</span>
-                     <span className='hover:border-b-2 hover:border-[#171D21]'><Link to="/signup">SignUp</Link></span>
-                 </div>
-                   ):(
-                    
-                   <DropDownHomeMenu/>
-                
-                   )}
+                    {!isLoggedIn ? (
+                        <div className="text-[#171D21] font-semibold flex justify-center items-center gap-1">
+                            <span className='hover:border-b-2 hover:border-[#171D21]'><Link to="/login">Login</Link></span>
+                            <span>/</span>
+                            <span className='hover:border-b-2 hover:border-[#171D21]'><Link to="/signup">SignUp</Link></span>
+                        </div>
+                    ) : (
+
+                        <DropDownHomeMenu />
+
+                    )}
                 </div>
             </div>
             <div className="w-full">
@@ -272,95 +391,44 @@ const Homee = () => {
                     modules={[Autoplay, Navigation]}
                     className="mySwiper"
                 >
-                    <SwiperSlide>
-                        <div className="w-full h-[500px] sm:h-[400px] pl-5 flex flex-col justify-center ">
-                            <video src="https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/video1.mp4?alt=media&token=46ac4bba-0850-495d-bcff-8eea28621da5" autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
-                            </video>
-                            <div className="w-full sm:w-3/4 p-10 flex flex-col justify-center items-start gap-y-3 sm:gap-y-6 relative z-10">
-                                <div className="text-[#fff] font-bold text-4xl">
-                                    Spider-Man: Across the Spider-Verse
-                                </div>
-                                <div className="text-[#fff] flex gap-4">
-                                    <div className="flex justify-center items-center gap-1">
-                                        <span><FaClock className='text-[15px]' /></span>
-                                        <span>2h 20min</span>
+                    {topRatedMovie && topRatedMovie.slice(0, 5).map((movie) => (
+                        <SwiperSlide>
+                            <div className="w-full h-[500px] sm:h-[400px] pl-5 flex flex-col justify-center ">
+                                <video src="https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/video1.mp4?alt=media&token=46ac4bba-0850-495d-bcff-8eea28621da5" autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
+                                </video>
+                                <div className="w-full sm:w-3/4 p-10 flex flex-col justify-center items-start gap-y-3 sm:gap-y-6 relative z-10">
+                                    <div className="text-[#fff] font-bold text-4xl">
+                                        {movie.title}
                                     </div>
-                                    <div className="flex justify-center items-center gap-1">
-                                        <span>Family/Action</span>
+                                    <div className="text-[#fff] flex flex-col gap-3">
+                                        <div className="flex gap-4">
+                                            <div className="flex justify-center items-center gap-1">
+                                                <span><FaClock className='text-[15px]' /></span>
+                                                <span>{movie.runtime} min</span>
+                                            </div>
+                                            <div className="flex justify-center items-center gap-1">
+                                                <span>{movie.year}</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-center items-center gap-1 text-[#fff]">
+                                            {movie && movie.genres.map((genre, index) => (
+                                                <span key={index} className='text-white'>{genre} /</span>
+                                            ))}
+                                        </div>
+
                                     </div>
-                                    <div className="flex justify-center items-center gap-1">
-                                        <span>2023</span>
-                                    </div>
-                                </div>
-                                <div className="">
-                                    {/* <button className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
+                                    <div className="">
+                                        {/* <button className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
                                         Watch Now
                                     </button> */}
-                                    <Link to="/video" className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
-                                        Watch Now
-                                    </Link>
+                                        <Link to="/video" className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
+                                            Watch Now
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </SwiperSlide>
-
-                    <SwiperSlide>
-                        <div className="w-full h-[500px] sm:h-[400px] pl-5 flex flex-col justify-center ">
-                            <video src="https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/video2.mp4?alt=media&token=46ac4bba-0850-495d-bcff-8eea28621da5" autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
-                            </video>
-                            <div className="w-full sm:w-3/4 p-10 flex flex-col justify-center items-start gap-y-3 sm:gap-y-6 relative z-10">
-                                <div className="text-[#fff] font-bold text-4xl">
-                                    Spider-Man: Across the Spider-Verse
-                                </div>
-                                <div className="text-[#fff] flex gap-4">
-                                    <div className="flex justify-center items-center gap-1">
-                                        <span><FaClock className='text-[15px]' /></span>
-                                        <span>2h 20min</span>
-                                    </div>
-                                    <div className="flex justify-center items-center gap-1">
-                                        <span>Family/Action</span>
-                                    </div>
-                                    <div className="flex justify-center items-center gap-1">
-                                        <span>2023</span>
-                                    </div>
-                                </div>
-                                <div className="">
-                                    <button className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
-                                        Watch Now
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </SwiperSlide>
-
-                    <SwiperSlide>
-                        <div className="w-full h-[500px] sm:h-[400px] pl-5 flex flex-col justify-center ">
-                            <video src="https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/video3.mp4?alt=media&token=46ac4bba-0850-495d-bcff-8eea28621da5" autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
-                            </video>
-                            <div className="w-full sm:w-3/4 p-10 flex flex-col justify-center items-start gap-y-3 sm:gap-y-6 relative z-10">
-                                <div className="text-[#fff] font-bold text-4xl">
-                                    Spider-Man: Across the Spider-Verse
-                                </div>
-                                <div className="text-[#fff] flex gap-4">
-                                    <div className="flex justify-center items-center gap-1">
-                                        <span><FaClock className='text-[15px]' /></span>
-                                        <span>2h 20min</span>
-                                    </div>
-                                    <div className="flex justify-center items-center gap-1">
-                                        <span>Family/Action</span>
-                                    </div>
-                                    <div className="flex justify-center items-center gap-1">
-                                        <span>2023</span>
-                                    </div>
-                                </div>
-                                <div className="">
-                                    <button className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
-                                        Watch Now
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </SwiperSlide>
+                        </SwiperSlide>
+                    ))}
 
                 </Swiper>
             </div>
@@ -414,12 +482,12 @@ const Homee = () => {
                 </div>)}
             </div>
 
-            {/* Genre 1 */}
+            {/* Top Rated */}
             <div className="mt-5">
-                {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
-                    <div className="text-3xl text-white font-bold">Horror Movies</div>
+                {!loadingRecommended && topRatedMovie && (<div className="w-full p-5 flex flex-col">
+                    <div className="text-3xl text-white font-bold">Top Rated Movies</div>
                     <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
-                        {!loadingRecommended && recommendedMovies && recommendedMovies.map((movie) => {
+                        {!loadingRecommended && topRatedMovie && topRatedMovie.slice(4).map((movie) => {
                             return (
                                 <div className="movieCard relative">
                                     <div className='cardInitially'>
@@ -463,14 +531,66 @@ const Homee = () => {
                 </div>)}
             </div>
 
-            <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>
+            {topRatedMovie.length && <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>}
+
+
+            {/* Genre 1 */}
+            <div className="mt-5">
+                {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
+                    <div className="text-3xl text-white font-bold">Horror Movies</div>
+                    <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
+                        {!loadingRecommended && horrorMovies && horrorMovies.map((movie) => {
+                            return (
+                                <div className="movieCard relative">
+                                    <div className='cardInitially'>
+                                        <CardProvider
+                                            poster={movie.poster}
+                                            title={movie.title}
+                                            year={movie.year}
+                                            runtime={movie.runtime}
+                                            rating={movie.imdb.rating}
+                                        />
+                                    </div>
+
+
+                                    <div className='cardOnHover'>
+                                        <CardProviderOnHover
+                                            movie={movie}
+                                            poster={movie.poster}
+                                            title={movie.title}
+                                            plot={movie.plot}
+                                            genres={movie.genres}
+                                            year={movie.year}
+                                            runtime={movie.runtime}
+                                            rating={movie.imdb.rating}
+                                            setModalMovie={setModalMovie}
+                                            setIsModalOpen={setIsModalOpen}
+                                        />
+                                    </div>
+                                </div>
+
+                            )
+                        })}
+                    </div>
+                </div>)}
+
+                {!loadingRecommended && (<div className="">
+                    <ModalProvider
+                        movie={modalMovie}
+                        isModalOpen={isModalOpen}
+                        setIsModalOpen={setIsModalOpen}
+                    />
+                </div>)}
+            </div>
+
+            {horrorMovies.length && <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>}
 
             {/* Genre 2 */}
             <div className="mt-5">
                 {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
                     <div className="text-3xl text-white font-bold">Action Movies</div>
                     <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
-                        {!loadingRecommended && recommendedMovies && recommendedMovies.map((movie) => {
+                        {!loadingRecommended && actionMovies && actionMovies.map((movie) => {
                             return (
                                 <div className="movieCard relative">
                                     <div className='cardInitially'>
@@ -514,14 +634,14 @@ const Homee = () => {
                 </div>)}
             </div>
 
-            <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>
+            {actionMovies.length && <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>}
 
             {/* Genre 3 */}
             <div className="mt-5">
                 {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
                     <div className="text-3xl text-white font-bold">Romance Movies</div>
                     <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
-                        {!loadingRecommended && recommendedMovies && recommendedMovies.map((movie) => {
+                        {!loadingRecommended && romanceMovies && romanceMovies.map((movie) => {
                             return (
                                 <div className="movieCard relative">
                                     <div className='cardInitially'>
@@ -565,14 +685,14 @@ const Homee = () => {
                 </div>)}
             </div>
 
-            <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>
+            {romanceMovies.length && <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>}
 
             {/* Genre 4 */}
             <div className="mt-5">
                 {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
                     <div className="text-3xl text-white font-bold">Comedy Movies</div>
                     <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
-                        {!loadingRecommended && recommendedMovies && recommendedMovies.map((movie) => {
+                        {!loadingRecommended && comedyMovies && comedyMovies.map((movie) => {
                             return (
                                 <div className="movieCard relative">
                                     <div className='cardInitially'>
@@ -616,14 +736,14 @@ const Homee = () => {
                 </div>)}
             </div>
 
-            <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>
+            {comedyMovies.length && <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>}
 
             {/* Genre 5 */}
             <div className="mt-5">
                 {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
                     <div className="text-3xl text-white font-bold">Drama Movies</div>
                     <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
-                        {!loadingRecommended && recommendedMovies && recommendedMovies.map((movie) => {
+                        {!loadingRecommended && dramaMovies && dramaMovies.map((movie) => {
                             return (
                                 <div className="movieCard relative">
                                     <div className='cardInitially'>

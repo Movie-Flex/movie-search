@@ -82,10 +82,14 @@ const getFavouriteMovies = async (req, res) => {
 
         const favouriteMoviesIds = favouriteMovies.movieId;
 
+        if(!(favouriteMovies) ){
+            return res.status(200).json({ favouriteMovies: [] });
+        }
         const allMovies = await allMovieCollection.find(
             { _id: { $in: favouriteMoviesIds.map(id => new ObjectId(id)) } }, { plot_embedding: 0 } // Exclude the plot_embedding field(not working ??)
         ).toArray();
-
+        
+        
         return res.status(200).json({ favouriteMovies: allMovies });
 
     } catch (err) {

@@ -9,6 +9,7 @@ import Profile from './pages/Profile';
 import Subscription from './components/Subscription/Subscription';
 import PaymentGateway from './components/PaymentGateway/PaymentGateway';
 import VideoPlayer from './pages/VideoPlayer'
+import SearchResult from './pages/SearchResult';
 import AdminLogin from './pages/AdminLogin';
 
 function App() {
@@ -23,13 +24,13 @@ function App() {
                 element={<Homee />}
               />
               <Route
-              path="/profile"
-              element={<Profile/>}
+                path="/profile"
+                element={<Profile />}
               />
               <Route
                 path="/semantic"
                 element={<Semantic />}
-                />
+              />
               <Route
                 path="/login"
                 element={<Login />}
@@ -38,24 +39,28 @@ function App() {
                 path="/signup"
                 element={<Signup />}
               />
-              <Route 
+              <Route
                 path="/subscription"
-                element={<Subscription/>}
-                />
-            <Route 
+                element={<Subscription />}
+              />
+              <Route
                 path="/paymentgateway"
-                element={<PaymentGateway/>}
-                />
-            <Route path ="/video" 
-                element={<VideoPlayer/>} 
-                />
-            <Route path ="/adminlogin" 
-                element={<AdminLogin/>} 
-                />
+                element={<PaymentGateway />}
+              />
+              <Route path="/video"
+                element={<VideoPlayer />}
+              />
+              <Route path="/searchResult"
+                element={<SearchResult />}
+              />
+              <Route path="/adminLogin"
+                element={<AdminLogin />}
+              />
             </Routes>
+
           </div>
         </BrowserRouter>
-        <Toaster/>
+        <Toaster />
       </div>
     </>
   );
