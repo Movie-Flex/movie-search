@@ -9,6 +9,7 @@ import Profile from './pages/Profile';
 import Subscription from './components/Subscription/Subscription';
 import PaymentGateway from './components/PaymentGateway/PaymentGateway';
 import VideoPlayer from './pages/VideoPlayer'
+import AdminLogin from './pages/AdminLogin';
 
 function App() {
   return (
@@ -47,6 +48,9 @@ function App() {
                 />
             <Route path ="/video" 
                 element={<VideoPlayer/>} 
+                />
+            <Route path ="/adminlogin" 
+                element={<AdminLogin/>} 
                 />
             </Routes>
           </div>

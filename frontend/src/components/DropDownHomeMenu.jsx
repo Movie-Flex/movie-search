@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogout } from "../hooks/useLogout";
+import { UserContext } from "../context/UserContext";
 
 export default function DropDownHomeMenu() {
   const [dropDownModal, setDropDownModal] = useState(false);
+  const  {user}=useContext(UserContext);
 
   const navigate = useNavigate();
   const { logout } = useLogout();
@@ -56,6 +58,19 @@ export default function DropDownHomeMenu() {
           tabindex="-1"
         >
           <div className="py-1" role="none">
+
+         {user.role==="admin" && (
+           <Link
+           to="/admindashboard"
+           className="text-gray-700 block px-4 py-2 text-sm"
+           role="menuitem"
+           tabindex="-1"
+           id="menu-item-1"
+         >
+           Admin Dashboard
+         </Link>
+         )}
+         
             <Link
               to="/profile"
               className="text-gray-700 block px-4 py-2 text-sm"
