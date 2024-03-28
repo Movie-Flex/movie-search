@@ -2,38 +2,12 @@ import { useState } from "react";
 import { useAdminMovieFunctions } from "../../../hooks/useAdminMovieFunctions";
 import toast from "react-hot-toast";
 
-const addMovieData ={
 
-
-  
-  "released": {
-    "$date": {
-      "$numberLong": "-1578268800000"
-    }
-  },
-  
-  
-  "lastupdated": "2015-04-17 00:16:14.220000000",
-  
-  "type": "movie",
-  "tomatoes": {
-    "viewer": {
-      "rating": 3.3,
-      "numReviews": 71,
-      "meter": 55
-    },
-    "production": "Pathè Exchange",
-    "lastUpdated": {
-      "$date": "2015-08-21T18:45:11.000Z"
-    }
-  },
-  "num_mflix_comments": 0,
-}
 
 export default function AddMovie() {
   const { addMovie } = useAdminMovieFunctions();
   const [addMovieData, setAddMovieData] = useState({
-    //make all the fields
+
     title: "",
     plot: "",
     genres: [],
@@ -97,7 +71,8 @@ export default function AddMovie() {
 
     try {
       await addMovie(addMovieData);
-      window.location.reload();
+      setAddMovieData({})
+      // window.location.reload();
     } catch (error) {
       console.log(error);
     }

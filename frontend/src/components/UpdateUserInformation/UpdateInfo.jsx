@@ -41,7 +41,8 @@ export default function UpdateInfo() {
 
     try {
       await updateProfile(updationData);
-      window.location.reload();
+      setUpdatedData({})
+      // window.location.reload();
     } catch (error) {
       console.log(error);
     }
