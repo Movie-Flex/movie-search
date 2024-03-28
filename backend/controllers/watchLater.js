@@ -76,6 +76,10 @@ const getWatchLaterMovies = async (req, res) => {
 
         const watchLaterMovies = await WatchLater.findOne({ email: user.email });
 
+        if(!(watchLaterMovies) ){
+            return res.status(200).json({ watchLaterMovies: [] });
+        }
+
         const { client: connectedClient, collection: allMovieCollection } = await connectToDatabase(dbName, collectionName);
         client = connectedClient;
 

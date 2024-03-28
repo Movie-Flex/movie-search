@@ -32,7 +32,8 @@ const getComments = async (req, res) => {
         ).toArray();
 
         if(allComments.length == 0){
-            return res.status(200).json({message : "No comments yet! " });
+            allComments =[]
+            return res.status(200).json({message : "No comments yet! " , comments : allComments});
         }
         return res.status(200).json({ comments : allComments });
         
@@ -87,7 +88,8 @@ const postComments = async (req, res) => {
         ).toArray();
 
         if(allComments.length == 0){
-            return res.status(200).json({message : "No comments yet! " });
+            allComments =[]
+            return res.status(200).json({message : "No comments yet! ", comments : allComments });
         }
         return res.status(200).json({message: "successfully added comment.", comments : allComments });
 

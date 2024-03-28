@@ -76,6 +76,10 @@ const getWatchHistory = async (req, res) => {
 
         const recentMovies = await watchHistory.findOne({ email: user.email });
 
+        if(!(recentMovies) ){
+            return res.status(200).json({ watchHistory: [] });
+        }
+
         const { client: connectedClient, collection: allMovieCollection } = await connectToDatabase(dbName, collectionName);
         client = connectedClient;
 
