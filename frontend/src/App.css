@@ -1,10 +1,10 @@
-*,html,body{
+*,
+html,
+body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
-
 
 /**
    * BUTTONS
@@ -294,7 +294,8 @@
   \*-----------------------------------*/
 
 .hero {
-  background: url("https://codewithsadee.github.io/filmlane/assets/images/hero-bg.jpg") no-repeat;
+  background: url("https://codewithsadee.github.io/filmlane/assets/images/hero-bg.jpg")
+    no-repeat;
   background-size: cover;
   background-position: center;
   min-height: 750px;
@@ -325,48 +326,49 @@
   color: var(--citrine);
 }
 
-
-.bg-spiderman{
+.bg-spiderman {
   background-image: url("/src/assets/images/spiderman.webp");
   background-position: top;
 }
 
-.swiper-button-prev, .swiper-button-next{
+.swiper-button-prev,
+.swiper-button-next {
   background-color: black;
   border: 2px solid black;
   border-radius: 5px;
   padding: 10px;
 }
-.swiper-button-prev::after, .swiper-button-next::after{
-  color: white; 
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  color: white;
   font-size: 15px !important;
   font-weight: bold;
 }
-.movieCard{
+.movieCard {
 }
-.cardOnHover{
+.cardOnHover {
   /* display: none; */
   position: absolute;
   top: 0;
   z-index: 11;
   transform: perspective(600px) rotateY(180deg);
   backface-visibility: hidden;
-  transition: transform .5s linear 0s;
+  transition: transform 0.5s linear 0s;
 }
-.cardInitially{
+.cardInitially {
   /* display: block; */
   /* position: absolute;
   top: 0; */
   z-index: 11;
   transform: perspective(600px) rotateY(0deg);
   backface-visibility: hidden;
-  transition: transform .5s linear 0s;
+  transition: transform 0.5s linear 0s;
 }
-.movieCard:hover > .cardInitially{
+.movieCard:hover > .cardInitially {
   /* display: none; */
   transform: perspective(600px) rotateY(-180deg);
 }
-.movieCard:hover > .cardOnHover{
+.movieCard:hover > .cardOnHover {
   /* display: block; */
   transform: perspective(600px) rotateY(0deg);
 }

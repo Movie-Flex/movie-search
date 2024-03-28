@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { Card, CardHeader, CardBody, CardFooter, Image, Stack, Heading, Text, Divider, ButtonGroup, Button, useDisclosure } from '@chakra-ui/react'
-import { FaRegClock } from 'react-icons/fa';
+import { FaRegClock, FaRegStar, FaStar } from 'react-icons/fa';
+import { FaArrowRotateRight } from "react-icons/fa6";
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { UserContext } from '../context/UserContext.jsx';
 const CardProviderOnHover = ({
     movie,
     poster,
@@ -13,6 +17,51 @@ const CardProviderOnHover = ({
     setModalMovie,
     setIsModalOpen
 }) => {
+    const userData = useContext(UserContext);
+
+    const [userRating, setUserRating] = useState(0);
+
+    const handleRatingSubmission = async () => {
+        axios.post(`http://localhost:3002/api/rateMovie/${movie._id}/${userRating * 2}`, {}, {
+            headers: {
+                Authorization: `Bearer ${userData.token}`
+            }
+        })
+            .then((response) => {
+                toast.success(response.data.message)
+            }).catch((err) => {
+                toast.error(err.message);
+            })
+    }
+
+    const handleAddToFavorites = () => {
+        axios.post(`http://localhost:3002/api/addFavouriteMovies/${movie._id}`, {}, {
+            headers: {
+                Authorization: `Bearer ${userData.token}`
+            }
+        })
+        .then((response) => {
+            toast.success("Successfully added to favorites")
+        })
+        .catch((err) => {
+            toast.error(err.message);
+        })
+    }
+
+    const handleAddToWatchLater = () => {
+        axios.post(`http://localhost:3002/api/addWatchLaterMovies/${movie._id}`, {}, {
+            headers: {
+                Authorization: `Bearer ${userData.token}`
+            }
+        })
+        .then((response) => {
+            toast.success(response.data.message)
+        })
+        .catch((err) => {
+            toast.error(err.message);
+        })
+    }
+
     return (
         <div>
             <Card width='300px' height='400px' align='center' bg='none' variant='elevated' borderRadius='0px'>
@@ -31,7 +80,7 @@ const CardProviderOnHover = ({
                         <Text color='white' fontSize='14px'>{plot}</Text>
                     </Stack>
                     <Stack mt='6' spacing='3' display='flex' flexDirection='row' justify='space-between' align='center'>
-                        <Button onClick={()=>{setModalMovie(movie);setIsModalOpen(true)}} variant='solid' textColor='#171D21' colorScheme='yellow'>
+                        <Button onClick={() => { setModalMovie(movie); setIsModalOpen(true) }} variant='solid' textColor='#171D21' colorScheme='yellow'>
                             MORE INFO
                         </Button>
                         <Text fontSize='16px' display='flex' flexDirection='row' gap='5px' alignItems='center'>
@@ -46,6 +95,35 @@ const CardProviderOnHover = ({
                                 <span className='text-white text-[14px]'>{genre}</span>
                             ))
                         }
+                    </Stack>
+                    <Stack marginTop='10px' display='flex' flexDirection='row' gap='5px' alignItems='center'>
+                        <FaArrowRotateRight className='text-[#ECC94B] text-xl mx-1' />
+                        <Button onClick={() => {handleAddToWatchLater()}} variant='solid' textColor='#171D21' colorScheme='yellow'>
+                            Add to Watch Later
+                        </Button>
+                    </Stack>
+                    <Stack marginTop='10px' display='flex' flexDirection='row' gap='5px' alignItems='center'>
+                        <FaRegStar className='text-[#ECC94B] text-xl mx-1' />
+                        <Button onClick={() => { handleAddToFavorites() }} variant='solid' textColor='#171D21' colorScheme='yellow'>
+                            Add to Favorites
+                        </Button>
+                    </Stack>
+                    <Stack w='100%' marginTop='10px' display='flex' flexDirection='column' gap='5px' alignItems='start'>
+                        <Text fontSize='16px' display='flex' flexDirection='row' gap='5px' alignItems='center'>
+                            <span className='text-[#ECC94B]'>Rate the movie</span>
+                        </Text>
+                        <div className="flex justify-around items-center w-full">
+                            <span onClick={() => { setUserRating(1) }}>{userRating >= 1 ? <FaStar className='text-[#ECC94B] text-xl mx-1' /> : <FaRegStar className='text-[#ECC94B] text-xl mx-1' />}</span>
+                            <span onClick={() => { setUserRating(2) }}>{userRating >= 2 ? <FaStar className='text-[#ECC94B] text-xl mx-1' /> : <FaRegStar className='text-[#ECC94B] text-xl mx-1' />}</span>
+                            <span onClick={() => { setUserRating(3) }}>{userRating >= 3 ? <FaStar className='text-[#ECC94B] text-xl mx-1' /> : <FaRegStar className='text-[#ECC94B] text-xl mx-1' />}</span>
+                            <span onClick={() => { setUserRating(4) }}>{userRating >= 4 ? <FaStar className='text-[#ECC94B] text-xl mx-1' /> : <FaRegStar className='text-[#ECC94B] text-xl mx-1' />}</span>
+                            <span onClick={() => { setUserRating(5) }}>{userRating >= 5 ? <FaStar className='text-[#ECC94B] text-xl mx-1' /> : <FaRegStar className='text-[#ECC94B] text-xl mx-1' />}</span>
+                        </div>
+                        {userRating > 0 && (
+                            <Button onClick={() => { handleRatingSubmission() }} marginTop='10px' variant='solid' textColor='#171D21' colorScheme='yellow'>
+                                Submit
+                            </Button>
+                        )}
                     </Stack>
                 </CardBody>
             </Card>

@@ -49,6 +49,8 @@ const Homee = () => {
     const [romanceMovies, setRomanceMovies] = useState([])
     const [dramaMovies, setDramaMovies] = useState([])
     const [comedyMovies, setComedyMovies] = useState([])
+    const [topRatedMovie, setTopRatedMovie] = useState([])
+    const [watchHistoryMovies, setWatchHistoryMovies] = useState([])
     const [isAdvancedSearchSelected, setIsAdvancedSearchSelected] = useState(false);
     console.log('user', user)
 
@@ -161,18 +163,12 @@ const Homee = () => {
 
     }, [])
 
-    useEffect(() => {
-        const genreMovies = async () => {
-        
+
+    useEffect(async () => {
 
         axios.post("http://localhost:3002/api/genreMovie",
             {
                 toSearch: "Action"
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${userData.token}`
-                }
             })
             .then((response) => {
                 if (response.status == 200) {
@@ -191,11 +187,6 @@ const Homee = () => {
         axios.post("http://localhost:3002/api/genreMovie",
             {
                 toSearch: "Horror"
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${userData.token}`
-                }
             })
             .then((response) => {
                 if (response.status == 200) {
@@ -214,11 +205,6 @@ const Homee = () => {
         axios.post("http://localhost:3002/api/genreMovie",
             {
                 toSearch: "Romance"
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${userData.token}`
-                }
             })
             .then((response) => {
                 if (response.status == 200) {
@@ -237,11 +223,6 @@ const Homee = () => {
         axios.post("http://localhost:3002/api/genreMovie",
             {
                 toSearch: "Comedy"
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${userData.token}`
-                }
             })
             .then((response) => {
                 if (response.status == 200) {
@@ -260,11 +241,6 @@ const Homee = () => {
         axios.post("http://localhost:3002/api/genreMovie",
             {
                 toSearch: "Drama"
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${userData.token}`
-                }
             })
             .then((response) => {
                 if (response.status == 200) {
@@ -279,6 +255,41 @@ const Homee = () => {
     }, [])
 
 
+    // Get Top Rated Movies
+    useEffect(async () => {
+
+        axios.get("http://localhost:3002/api/top")
+            .then((response) => {
+                if (response.status == 200) {
+                    setTopRatedMovie(response.data);
+                }
+            })
+            .catch((err) => {
+                toast.error(err.message);
+            })
+
+    }, [])
+
+
+    // useEffect(async () => {
+
+    //     axios.get("http://localhost:3002/api/getWatchHistory",{
+    //         headers:{
+    //             'Authorization': `Bearer ${userData.token}`
+    //         }
+    //     })
+    //         .then((response) => {
+    //             console.log('response', response)
+    //             if (response.status == 200) {
+    //                 setWatchHistoryMovies(response.data);
+    //             }
+    //         })
+    //         .catch((err) => {
+    //             console.log('err', err)
+    //             toast.error(err.message);
+    //         })
+
+    // }, [])
 
 
 
@@ -342,9 +353,9 @@ const Homee = () => {
                             </div>
                             <span className='text-white font-bolds text-xl'><FaSearch /></span>
                             <div className="">
-                                <Checkbox 
+                                <Checkbox
                                     className='text-white'
-                                    onChange={()=>{setIsAdvancedSearchSelected(prev => !prev)}}
+                                    onChange={() => { setIsAdvancedSearchSelected(prev => !prev) }}
                                 >
                                     Advanced Search
                                 </Checkbox>
@@ -521,6 +532,58 @@ const Homee = () => {
                     />
                 </div>)}
             </div>
+
+            {/* Top Rated */}
+            <div className="mt-5">
+                {!loadingRecommended && topRatedMovie && (<div className="w-full p-5 flex flex-col">
+                    <div className="text-3xl text-white font-bold">Top Rated Movies</div>
+                    <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
+                        {!loadingRecommended && topRatedMovie && topRatedMovie.slice(4).map((movie) => {
+                            return (
+                                <div className="movieCard relative">
+                                    <div className='cardInitially'>
+                                        <CardProvider
+                                            poster={movie.poster}
+                                            title={movie.title}
+                                            year={movie.year}
+                                            runtime={movie.runtime}
+                                            rating={movie.imdb.rating}
+                                        />
+                                    </div>
+
+
+                                    <div className='cardOnHover'>
+                                        <CardProviderOnHover
+                                            movie={movie}
+                                            poster={movie.poster}
+                                            title={movie.title}
+                                            plot={movie.plot}
+                                            genres={movie.genres}
+                                            year={movie.year}
+                                            runtime={movie.runtime}
+                                            rating={movie.imdb.rating}
+                                            setModalMovie={setModalMovie}
+                                            setIsModalOpen={setIsModalOpen}
+                                        />
+                                    </div>
+                                </div>
+
+                            )
+                        })}
+                    </div>
+                </div>)}
+
+                {!loadingRecommended && (<div className="">
+                    <ModalProvider
+                        movie={modalMovie}
+                        isModalOpen={isModalOpen}
+                        setIsModalOpen={setIsModalOpen}
+                    />
+                </div>)}
+            </div>
+
+            {topRatedMovie && <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>}
+
 
             {/* Genre 1 */}
             <div className="mt-5">
