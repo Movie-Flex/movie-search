@@ -19,16 +19,18 @@ import ModalProvider from '../providers/ModalProvider.jsx';
 import VideoPlayer from './VideoPlayer.jsx'
 import { useLogout } from '../hooks/useLogout.jsx';
 import { UserContext } from '../context/UserContext.jsx';
-import DropDown from '../components/DropDownHomeMenu.jsx';
-import { CircularProgress } from '@chakra-ui/react';
+import DropDownHomeMenu from '../components/DropDownHomeMenu.jsx';
+import { Checkbox, CircularProgress } from '@chakra-ui/react';
 const classNames = (...classes) => {
     return classes.filter(Boolean).join(' ');
 };
 
 const Homee = () => {
-    const [genreSelected, setGenreSelected] = useState() 
-     const {user,isLoggedIn} =useContext(UserContext);
-     const [isFirstTime, setIsFirstTime] = useState(JSON.parse(localStorage.getItem('isFirstTime')))
+    const navigate = useNavigate();
+
+    const [genreSelected, setGenreSelected] = useState()
+    const { user, isLoggedIn } = useContext(UserContext);
+    const [isFirstTime, setIsFirstTime] = useState(JSON.parse(localStorage.getItem('isFirstTime')))
 
     const { register, handleSubmit, setValue } = useForm();
     const [currentValue, setCurrentValue] = useState('');
@@ -47,6 +49,7 @@ const Homee = () => {
     const [romanceMovies, setRomanceMovies] = useState([])
     const [dramaMovies, setDramaMovies] = useState([])
     const [comedyMovies, setComedyMovies] = useState([])
+    const [isAdvancedSearchSelected, setIsAdvancedSearchSelected] = useState(false);
     console.log('user', user)
 
 
@@ -54,10 +57,11 @@ const Homee = () => {
         setLoading(true);
         setAutocompleteResults([]);
         setValue('search', query);
+        navigate(`/searchResult?query=${query}&isAdvSearch=${isAdvancedSearchSelected}`)
         // const response = await axios.get(`http://localhost:3000/api/search?query=${query}`);
-        const response = await axios.post(`http://localhost:3002/api/fuzzySearch?q=${query}`);
-        console.log(response);
-        setSearchResults(response.data);
+        // const response = await axios.post(`http://localhost:3002/api/fuzzySearch?q=${query}`);
+        // console.log(response);
+        // setSearchResults(response.data);
         setLoading(false);
     };
 
@@ -143,7 +147,7 @@ const Homee = () => {
             })
             .then((response) => {
                 if (response.status == 200) {
-                    console.log('response.data', response.data)
+                    console.log('response.data 1', response.data)
                     setRecommendedMovies(response.data);
                 }
             })
@@ -170,15 +174,107 @@ const Homee = () => {
             })
             .then((response) => {
                 if (response.status == 200) {
+                    setActionMovies(response.data);
                     console.log('response.data', response.data)
                 }
             })
             .catch((err) => {
                 toast.error(err.message);
-            }) 
+            })
 
     }, [])
 
+    useEffect(async () => {
+
+        axios.post("http://localhost:3002/api/genreMovie",
+            {
+                toSearch: "Horror"
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${userData.token}`
+                }
+            })
+            .then((response) => {
+                if (response.status == 200) {
+                    setHorrorMovies(response.data);
+                    console.log('response.data', response.data)
+                }
+            })
+            .catch((err) => {
+                toast.error(err.message);
+            })
+
+    }, [])
+
+    useEffect(async () => {
+
+        axios.post("http://localhost:3002/api/genreMovie",
+            {
+                toSearch: "Romance"
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${userData.token}`
+                }
+            })
+            .then((response) => {
+                if (response.status == 200) {
+                    setRomanceMovies(response.data);
+                    console.log('response.data', response.data)
+                }
+            })
+            .catch((err) => {
+                toast.error(err.message);
+            })
+
+    }, [])
+
+    useEffect(async () => {
+
+        axios.post("http://localhost:3002/api/genreMovie",
+            {
+                toSearch: "Comedy"
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${userData.token}`
+                }
+            })
+            .then((response) => {
+                if (response.status == 200) {
+                    setComedyMovies(response.data);
+                    console.log('response.data', response.data)
+                }
+            })
+            .catch((err) => {
+                toast.error(err.message);
+            })
+
+    }, [])
+
+    useEffect(async () => {
+
+        axios.post("http://localhost:3002/api/genreMovie",
+            {
+                toSearch: "Drama"
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${userData.token}`
+                }
+            })
+            .then((response) => {
+                if (response.status == 200) {
+                    setDramaMovies(response.data);
+                    console.log('response.data', response.data)
+                }
+            })
+            .catch((err) => {
+                toast.error(err.message);
+            })
+
+    }, [])
 
 
 
@@ -190,7 +286,7 @@ const Homee = () => {
                 <div className="">
                     <img src={logo} alt="Movie Flex" className='h-14 w-auto' />
                 </div>
-                <div className=" flex justify-start items-center flex-grow">
+                <div className="flex justify-start items-center flex-grow">
                     <div className="w-full flex items-center justify-center">
                         <form className=" w-full flex justify-end items-center gap-2 px-5" onSubmit={handleSubmit(onFormSubmit)}>
                             <select onChange={(e) => { setGenreSelected(e.target.value) }} defaultValue="all" name="genre" id="genre" className='bg-white p-2 px-4 rounded-full outline-none'>
@@ -205,7 +301,7 @@ const Homee = () => {
                                 <input
                                     placeholder='Search for a movie...'
                                     {...register('search')}
-                                    className="py-2 px-4 rounded-full border-2 border-gray-300 outline-none"
+                                    className="py-2 px-4 rounded-full border-2 border-gray-300 outline-none w-full"
                                     onChange={debounce(onInputChange, 300)}
                                     autoComplete='off'
                                     onKeyDown={onInputKeypress}
@@ -240,24 +336,33 @@ const Homee = () => {
 
                                     </div>
                                 )}
+
                             </div>
                             <span className='text-white font-bolds text-xl'><FaSearch /></span>
+                            <div className="">
+                                <Checkbox 
+                                    className='text-white'
+                                    onChange={()=>{setIsAdvancedSearchSelected(prev => !prev)}}
+                                >
+                                    Advanced Search
+                                </Checkbox>
+                            </div>
                         </form>
 
                     </div>
                 </div>
                 <div className="mx-2 flex justify-center items-center p-2 bg-white rounded-xl">
-                   {!isLoggedIn?(
-                     <div className="text-[#171D21] font-semibold flex justify-center items-center gap-1">
-                     <span className='hover:border-b-2 hover:border-[#171D21]'><Link to="/login">Login</Link></span>
-                     <span>/</span>
-                     <span className='hover:border-b-2 hover:border-[#171D21]'><Link to="/signup">SignUp</Link></span>
-                 </div>
-                   ):(
-                    
-                   <DropDownHomeMenu/>
-                
-                   )}
+                    {!isLoggedIn ? (
+                        <div className="text-[#171D21] font-semibold flex justify-center items-center gap-1">
+                            <span className='hover:border-b-2 hover:border-[#171D21]'><Link to="/login">Login</Link></span>
+                            <span>/</span>
+                            <span className='hover:border-b-2 hover:border-[#171D21]'><Link to="/signup">SignUp</Link></span>
+                        </div>
+                    ) : (
+
+                        <DropDownHomeMenu />
+
+                    )}
                 </div>
             </div>
             <div className="w-full">
@@ -420,7 +525,7 @@ const Homee = () => {
                 {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
                     <div className="text-3xl text-white font-bold">Horror Movies</div>
                     <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
-                        {!loadingRecommended && recommendedMovies && recommendedMovies.map((movie) => {
+                        {!loadingRecommended && horrorMovies && horrorMovies.map((movie) => {
                             return (
                                 <div className="movieCard relative">
                                     <div className='cardInitially'>
@@ -471,7 +576,7 @@ const Homee = () => {
                 {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
                     <div className="text-3xl text-white font-bold">Action Movies</div>
                     <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
-                        {!loadingRecommended && recommendedMovies && recommendedMovies.map((movie) => {
+                        {!loadingRecommended && actionMovies && actionMovies.map((movie) => {
                             return (
                                 <div className="movieCard relative">
                                     <div className='cardInitially'>
@@ -522,7 +627,7 @@ const Homee = () => {
                 {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
                     <div className="text-3xl text-white font-bold">Romance Movies</div>
                     <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
-                        {!loadingRecommended && recommendedMovies && recommendedMovies.map((movie) => {
+                        {!loadingRecommended && romanceMovies && romanceMovies.map((movie) => {
                             return (
                                 <div className="movieCard relative">
                                     <div className='cardInitially'>
@@ -573,7 +678,7 @@ const Homee = () => {
                 {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
                     <div className="text-3xl text-white font-bold">Comedy Movies</div>
                     <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
-                        {!loadingRecommended && recommendedMovies && recommendedMovies.map((movie) => {
+                        {!loadingRecommended && comedyMovies && comedyMovies.map((movie) => {
                             return (
                                 <div className="movieCard relative">
                                     <div className='cardInitially'>
@@ -624,7 +729,7 @@ const Homee = () => {
                 {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
                     <div className="text-3xl text-white font-bold">Drama Movies</div>
                     <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
-                        {!loadingRecommended && recommendedMovies && recommendedMovies.map((movie) => {
+                        {!loadingRecommended && dramaMovies && dramaMovies.map((movie) => {
                             return (
                                 <div className="movieCard relative">
                                     <div className='cardInitially'>
