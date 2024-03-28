@@ -17,7 +17,7 @@ const generateAdminToken = async (req, res) => {
     //console.log(role);
     role_check = await isAdmin(token);
     //console.log(role);
-    if (!role) {
+    if (!role_check) {
       return res.status(400).json({ error: 'You dont have permission to perform this operation' });
     }
     const { clientEmail, adminEmail, role } = req.body
@@ -33,7 +33,7 @@ const generateAdminToken = async (req, res) => {
     };
 
     const adminToken = jwt.sign(payload, process.env.SECRET_KEY, options);
-    return res.status(401).json({ adminToken });
+    return res.status(200).json({ adminToken });
   } catch (err) {
     console.error("Error occurred while generating admin token:", err);
     throw err;
