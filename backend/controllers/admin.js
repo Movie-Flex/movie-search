@@ -1,8 +1,9 @@
 const { connectToDatabase } = require('../databases/db');
 const dbName = 'sample_mflix';
 const collectionName = 'embedded_movies';
+const collection_name = 'subscriptions'
 const { isAdmin } = require('../middlewares/admin');
-const {ObjectId} = require('mongodb');
+const { ObjectId } = require('mongodb');
 function isValidMovieData(movieData) {
   return movieData && movieData.title && movieData.plot && movieData.year && movieData.directors && movieData.imdb;
 }
@@ -74,9 +75,9 @@ const deleteMovie = async (req, res) => {
 
     const id = req.params.id;
     // console.log(id);
-    const result = await collection.deleteOne({"_id":new ObjectId(id)});
-    if(result.deletedCount==0){
-      return res.status(400).json({message:"Error deleting movie"});
+    const result = await collection.deleteOne({ "_id": new ObjectId(id) });
+    if (result.deletedCount == 0) {
+      return res.status(400).json({ message: "Error deleting movie" });
     }
     // console.log(result);
     return res.status(200).json({ message: `Deleted Successfully` });
@@ -121,10 +122,10 @@ const updateMovie = async (req, res) => {
       $set: movieData
     });
     // console.log(result);
-    if(result.modifiedCount==0){
-      return res.status(400).json({message:"Error updating movie"});
+    if (result.modifiedCount == 0) {
+      return res.status(400).json({ message: "Error updating movie" });
     }
-    
+
 
     return res.status(200).json({ message: "Movie Updated Successfully" });
 
@@ -138,4 +139,61 @@ const updateMovie = async (req, res) => {
   }
 }
 
-module.exports = { addMovie, deleteMovie, updateMovie };
+const getSubs = async (req, res) => {
+  let client;
+  try {
+    const bearer = req.headers['authorization'];
+    if (!bearer) {
+      return res.status(400).json({ error: 'No authentication token' });
+    }
+    const token = bearer.split(" ")[1];
+    if (!token) {
+      return res.status(400).json({ error: 'No authentication token found' });
+    }
+    //console.log(token);
+    let role = false;
+    //console.log(role);
+    role = await isAdmin(token);
+    //console.log(role);
+    if (!role) {
+      return res.status(400).json({ error: 'You dont have permission to perform this operation' });
+    }
+
+    const page = parseInt(req.query.p) || 1;
+    const perPage = 10;
+
+    const { client: connectedClient, collection } = await connectToDatabase(dbName, collection_name);
+    client = connectedClient;
+    const totalCount = await collection.countDocuments();
+    const totalPages = Math.ceil(totalCount / perPage);
+    const skip = perPage * (page-1);
+    const subs = await collection.find().project({
+      languages: 0,
+      released: 0,
+      awards: 0,
+      lastupdated: 0,
+      countries: 0,
+      type: 0,
+      tomatoes: 0,
+      plot_embedding: 0,
+    }).skip(skip).limit(perPage).toArray();
+
+
+    const resposne = {
+      "totalPages": totalPages,
+      "totalCount": totalCount,
+      "currentPage": page,
+      "perPage": perPage,
+      "data": subs,
+    }
+    return res.status(200).json(resposne);
+  } catch (err) {
+    return res.status(500).json({ message: JSON.stringify(err) });
+  } finally {
+    if (client) {
+      await client.close();
+    }
+  }
+}
+
+module.exports = { addMovie, deleteMovie, updateMovie, getSubs };
