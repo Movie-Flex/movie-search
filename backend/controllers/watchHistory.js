@@ -1,7 +1,7 @@
 const { connectToDatabase, connectToDatabaseWithSchema } = require('../databases/db');
 const { getUser } = require('../middlewares/getUserFromToken');
 const { verifyToken } = require('../middlewares/verifyToken');
-const { watchHistory} = require('../models/movies')  // watched history modal
+const { watchHistory} = require('../models/movies') 
 const { ObjectId } = require('mongodb');
 
 const dbName = 'sample_mflix';

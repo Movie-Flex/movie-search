@@ -7,12 +7,14 @@ const { availableUser } = require('../controllers/availableUser');
 const {addToWatchHistory, getWatchHistory, deleteWatchHistory} = require('../controllers/watchHistory')
 const {addFavouriteMovies, getFavouriteMovies, deleteFavouriteMovie} = require('../controllers/favouriteMovies')
 const {addWatchLaterMovies, getWatchLaterMovies, deleteWatchLaterMovie} = require('../controllers/watchLater')
+const { movieStatus} = require("../controllers/movieStatus")
 const {rateMovie} = require('../controllers/rateMovie')
 const comments = require('../controllers/comments')
 const role = require('../controllers/role');
 const subscription = require('../controllers/subsciption');
 const payment= require('../controllers/payment');
 const getUserFromToken = require('../controllers/getUserFromToken');
+const { generateAdminToken} = require("../middlewares/verifyAdmin");
 const {addMovie, deleteMovie, updateMovie} = require('../controllers/admin');
 const {movies, oneMovie, topMovies} = require('../controllers/movies');
 
@@ -78,8 +80,11 @@ router.get('/getComments/:id', comments.getComments)
 
 router.post('/postComments/:id', comments.postComments)
 
-// new/update rating
+    // new/update rating
 router.post('/rateMovie/:movieId/:rating', rateMovie)
+
+    // movie status for a particular user
+router.get('/movieStatus/:id', movieStatus)
 
 
 // admin action related api's
@@ -99,8 +104,7 @@ router.post('/verify', payment.verify)
 
 router.post('/cancel', payment.refund)
 
-
-
-const { generateAdminToken} = require("../middlewares/verifyAdmin")
+// making of a admin
 router.post('/generateAdminToken', generateAdminToken)
+
 module.exports = router;
