@@ -38,8 +38,8 @@ const SearchResult = () => {
     }, [])
 
     return (
-        <Skeleton>
-
+        <Skeleton isLoaded={true}>
+            ofjof
         </Skeleton>
     )
 }

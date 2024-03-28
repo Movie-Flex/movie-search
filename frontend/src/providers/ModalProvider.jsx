@@ -19,7 +19,6 @@ const ModalProvider = ({
     isModalOpen,
     setIsModalOpen
 }) => {
-    console.log('movie', movie)
 
     return (
         <div className=''>

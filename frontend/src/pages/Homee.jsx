@@ -273,8 +273,8 @@ const Homee = () => {
 
     // useEffect(async () => {
 
-    //     axios.get("http://localhost:3002/api/getWatchHistory",{
-    //         headers:{
+    //     axios.get("http://localhost:3002/api/getWatchHistory", {
+    //         headers: {
     //             'Authorization': `Bearer ${userData.token}`
     //         }
     //     })
@@ -391,95 +391,44 @@ const Homee = () => {
                     modules={[Autoplay, Navigation]}
                     className="mySwiper"
                 >
-                    <SwiperSlide>
-                        <div className="w-full h-[500px] sm:h-[400px] pl-5 flex flex-col justify-center ">
-                            <video src="https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/video1.mp4?alt=media&token=46ac4bba-0850-495d-bcff-8eea28621da5" autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
-                            </video>
-                            <div className="w-full sm:w-3/4 p-10 flex flex-col justify-center items-start gap-y-3 sm:gap-y-6 relative z-10">
-                                <div className="text-[#fff] font-bold text-4xl">
-                                    Spider-Man: Across the Spider-Verse
-                                </div>
-                                <div className="text-[#fff] flex gap-4">
-                                    <div className="flex justify-center items-center gap-1">
-                                        <span><FaClock className='text-[15px]' /></span>
-                                        <span>2h 20min</span>
+                    {topRatedMovie && topRatedMovie.slice(0, 5).map((movie) => (
+                        <SwiperSlide>
+                            <div className="w-full h-[500px] sm:h-[400px] pl-5 flex flex-col justify-center ">
+                                <video src="https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/video1.mp4?alt=media&token=46ac4bba-0850-495d-bcff-8eea28621da5" autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
+                                </video>
+                                <div className="w-full sm:w-3/4 p-10 flex flex-col justify-center items-start gap-y-3 sm:gap-y-6 relative z-10">
+                                    <div className="text-[#fff] font-bold text-4xl">
+                                        {movie.title}
                                     </div>
-                                    <div className="flex justify-center items-center gap-1">
-                                        <span>Family/Action</span>
+                                    <div className="text-[#fff] flex flex-col gap-3">
+                                        <div className="flex gap-4">
+                                            <div className="flex justify-center items-center gap-1">
+                                                <span><FaClock className='text-[15px]' /></span>
+                                                <span>{movie.runtime} min</span>
+                                            </div>
+                                            <div className="flex justify-center items-center gap-1">
+                                                <span>{movie.year}</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-center items-center gap-1 text-[#fff]">
+                                            {movie && movie.genres.map((genre, index) => (
+                                                <span key={index} className='text-white'>{genre} /</span>
+                                            ))}
+                                        </div>
+
                                     </div>
-                                    <div className="flex justify-center items-center gap-1">
-                                        <span>2023</span>
-                                    </div>
-                                </div>
-                                <div className="">
-                                    {/* <button className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
+                                    <div className="">
+                                        {/* <button className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
                                         Watch Now
                                     </button> */}
-                                    <Link to="/video" className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
-                                        Watch Now
-                                    </Link>
+                                        <Link to="/video" className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
+                                            Watch Now
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </SwiperSlide>
-
-                    <SwiperSlide>
-                        <div className="w-full h-[500px] sm:h-[400px] pl-5 flex flex-col justify-center ">
-                            <video src="https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/video2.mp4?alt=media&token=46ac4bba-0850-495d-bcff-8eea28621da5" autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
-                            </video>
-                            <div className="w-full sm:w-3/4 p-10 flex flex-col justify-center items-start gap-y-3 sm:gap-y-6 relative z-10">
-                                <div className="text-[#fff] font-bold text-4xl">
-                                    Spider-Man: Across the Spider-Verse
-                                </div>
-                                <div className="text-[#fff] flex gap-4">
-                                    <div className="flex justify-center items-center gap-1">
-                                        <span><FaClock className='text-[15px]' /></span>
-                                        <span>2h 20min</span>
-                                    </div>
-                                    <div className="flex justify-center items-center gap-1">
-                                        <span>Family/Action</span>
-                                    </div>
-                                    <div className="flex justify-center items-center gap-1">
-                                        <span>2023</span>
-                                    </div>
-                                </div>
-                                <div className="">
-                                    <button className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
-                                        Watch Now
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </SwiperSlide>
-
-                    <SwiperSlide>
-                        <div className="w-full h-[500px] sm:h-[400px] pl-5 flex flex-col justify-center ">
-                            <video src="https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/video3.mp4?alt=media&token=46ac4bba-0850-495d-bcff-8eea28621da5" autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
-                            </video>
-                            <div className="w-full sm:w-3/4 p-10 flex flex-col justify-center items-start gap-y-3 sm:gap-y-6 relative z-10">
-                                <div className="text-[#fff] font-bold text-4xl">
-                                    Spider-Man: Across the Spider-Verse
-                                </div>
-                                <div className="text-[#fff] flex gap-4">
-                                    <div className="flex justify-center items-center gap-1">
-                                        <span><FaClock className='text-[15px]' /></span>
-                                        <span>2h 20min</span>
-                                    </div>
-                                    <div className="flex justify-center items-center gap-1">
-                                        <span>Family/Action</span>
-                                    </div>
-                                    <div className="flex justify-center items-center gap-1">
-                                        <span>2023</span>
-                                    </div>
-                                </div>
-                                <div className="">
-                                    <button className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
-                                        Watch Now
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </SwiperSlide>
+                        </SwiperSlide>
+                    ))}
 
                 </Swiper>
             </div>
@@ -582,7 +531,7 @@ const Homee = () => {
                 </div>)}
             </div>
 
-            {topRatedMovie && <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>}
+            {topRatedMovie.length && <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>}
 
 
             {/* Genre 1 */}
@@ -634,7 +583,7 @@ const Homee = () => {
                 </div>)}
             </div>
 
-            <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>
+            {horrorMovies.length && <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>}
 
             {/* Genre 2 */}
             <div className="mt-5">
@@ -685,7 +634,7 @@ const Homee = () => {
                 </div>)}
             </div>
 
-            <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>
+            {actionMovies.length && <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>}
 
             {/* Genre 3 */}
             <div className="mt-5">
@@ -736,7 +685,7 @@ const Homee = () => {
                 </div>)}
             </div>
 
-            <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>
+            {romanceMovies.length && <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>}
 
             {/* Genre 4 */}
             <div className="mt-5">
@@ -787,7 +736,7 @@ const Homee = () => {
                 </div>)}
             </div>
 
-            <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>
+            {comedyMovies.length && <div className="w-[90%] bg-white rounded-full h-[1px] m-auto"></div>}
 
             {/* Genre 5 */}
             <div className="mt-5">
