@@ -6,8 +6,9 @@ import toast from "react-hot-toast";
 import { useAvailableUser } from "../hooks/useAvailableUser";
 
 const Signup = () => {
-  const { availableUser } = useAvailableUser();
-  const [checkAvailableUser, setCheckAvailableUser] = useState("");
+  const {  availableUserName,availableUserEmail } = useAvailableUser();
+  const [checkAvailableUserName, setCheckAvailableUserName] = useState("");
+  const [checkAvailableUserEmail, setCheckAvailableUserEmail] = useState("");
 
 
   const { signup } = useSignup();
@@ -41,15 +42,28 @@ const Signup = () => {
     }
   };
 
-  const handleCheckAvailableUser = async (username) => {
+  const handleCheckAvailableUserName = async (username) => {
     try {
-      const response = await availableUser(username);
-      setCheckAvailableUser(response);
+      const response = await availableUserName(username);
+      setCheckAvailableUserName(response);
     } catch (error) {
       console.error("Available User Error:", error);
-      setCheckAvailableUser("");
+      setCheckAvailableUserName("");
     }
   }
+
+  const handleCheckAvailableUserEmail = async (email) => {
+    try{
+      const response = await availableUserEmail(email);
+      setCheckAvailableUserEmail(response);
+    }
+    catch(error){
+      console.error("Available User Error:", error);
+      setCheckAvailableUserEmail("");
+    }
+  }
+
+
 
   return (
     <section class="bg-gray-900">
@@ -92,7 +106,7 @@ const Signup = () => {
                   onChange={(e) =>
                     {
                       setSignupData({ ...signupData, username: e.target.value })
-                      handleCheckAvailableUser(e.target.value)
+                      handleCheckAvailableUserName(e.target.value)
                     }
                   }
                   type="username"
@@ -109,13 +123,13 @@ const Signup = () => {
                   Available User:{"  "}
                   <span
                     className={`font-medium ${
-                      checkAvailableUser === "true" 
+                      checkAvailableUserName === "true" 
                         ? "text-green-400"
                         : "text-red-400"
                     }
                    + "font-medium text-primary-500`}
                   >
-                    {checkAvailableUser?"Available":"Not Available"}
+                    {checkAvailableUserName?"Available":"Not Available"}
                   </span>
                 </p>
                 </div>
@@ -128,7 +142,9 @@ const Signup = () => {
                 </label>
                 <input
                   onChange={(e) =>
-                    setSignupData({ ...signupData, email: e.target.value })
+                   {
+                     setSignupData({ ...signupData, email: e.target.value })
+                    handleCheckAvailableUserEmail(e.target.value)}
                   }
                   type="email"
                   name="email"
@@ -138,6 +154,19 @@ const Signup = () => {
                   placeholder="name@company.com"
                   required=""
                 />
+                 <p className="text-sm justify-items-end font-light flex  text-gray-400">
+                  Available Email:{"  "}
+                  <span
+                    className={`font-medium ${
+                      checkAvailableUserEmail === "true" 
+                        ? "text-green-400"
+                        : "text-red-400"
+                    }
+                   + "font-medium text-primary-500`}
+                  >
+                    {checkAvailableUserEmail?"Available":"Not Available"}
+                  </span>
+                </p>
               </div>
               <div>
                 <label
