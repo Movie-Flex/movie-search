@@ -50,7 +50,7 @@ export const useAdminMovieFunctions = () => {
     const adminGenerateToken = async (generateAdminData) => {
         try {
         const response = await axios.post(
-            "http://localhost:3002/api/make-admin",
+            "http://localhost:3002/api/generateAdminToken",
             generateAdminData,
             {
             headers: {
