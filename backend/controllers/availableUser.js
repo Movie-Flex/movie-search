@@ -7,6 +7,7 @@ const availableUser = async (req, res) => {
     let db;
     try {
         db = await connectToDatabaseWithSchema(mongoURI);
+        console.log(req.body)
 
         const { email, username } = req.body;
 

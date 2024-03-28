@@ -112,7 +112,6 @@ const Login = () => {
                 </div>
               </div>
               <div class="flex items-center justify-between">
-                
                 <Link
                   href=""
                   class="text-sm font-medium text-white hover:underline "

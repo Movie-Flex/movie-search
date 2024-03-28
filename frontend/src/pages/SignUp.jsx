@@ -2,11 +2,13 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignup } from "../hooks/useSignUp";
 import checkStrongNess from "../utils/PasswordCheck";
-import { useStatStyles } from "@chakra-ui/react";
 import toast from "react-hot-toast";
+import { useAvailableUser } from "../hooks/useAvailableUser";
 
 const Signup = () => {
-  const navigate = useNavigate();
+  const { availableUser } = useAvailableUser();
+  const [checkAvailableUser, setCheckAvailableUser] = useState("");
+
 
   const { signup } = useSignup();
 
@@ -38,6 +40,16 @@ const Signup = () => {
       console.error("Signup error:", error);
     }
   };
+
+  const handleCheckAvailableUser = async (username) => {
+    try {
+      const response = await availableUser(username);
+      setCheckAvailableUser(response);
+    } catch (error) {
+      console.error("Available User Error:", error);
+      setCheckAvailableUser("");
+    }
+  }
 
   return (
     <section class="bg-gray-900">
@@ -78,7 +90,10 @@ const Signup = () => {
                 </label>
                 <input
                   onChange={(e) =>
-                    setSignupData({ ...signupData, username: e.target.value })
+                    {
+                      setSignupData({ ...signupData, username: e.target.value })
+                      handleCheckAvailableUser(e.target.value)
+                    }
                   }
                   type="username"
                   username="username"
@@ -89,7 +104,21 @@ const Signup = () => {
                   placeholder="username"
                   required=""
                 />
-              </div>
+              
+              <p className="text-sm justify-items-end font-light flex  text-gray-400">
+                  Available User:{"  "}
+                  <span
+                    className={`font-medium ${
+                      checkAvailableUser === "true" 
+                        ? "text-green-400"
+                        : "text-red-400"
+                    }
+                   + "font-medium text-primary-500`}
+                  >
+                    {checkAvailableUser?"Available":"Not Available"}
+                  </span>
+                </p>
+                </div>
               <div>
                 <label
                   for="email"
@@ -98,7 +127,6 @@ const Signup = () => {
                   Your email
                 </label>
                 <input
-                  
                   onChange={(e) =>
                     setSignupData({ ...signupData, email: e.target.value })
                   }
@@ -217,9 +245,7 @@ const Signup = () => {
                     class="w-4 h-4 border  rounded focus:ring-3 focus:ring-primary-300 bg-gray-700
                      border-gray-600 focus:ring-primary-600 ring-offset-gray-800"
                     required="true"
-                    onClick={(e)=>
-                      setTermsCheckBox(!termsCheckBox)
-                    }
+                    onClick={(e) => setTermsCheckBox(!termsCheckBox)}
                   />
                 </div>
                 <div class="ml-3 text-sm">

@@ -22,7 +22,7 @@ const router = express.Router();
 
 
 // account related api's
-router.get('/availableUser', availableUser);
+router.post('/availableUser', availableUser);
 
 router.post('/login',loginUser);
 
