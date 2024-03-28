@@ -11,6 +11,7 @@ import PaymentGateway from './components/PaymentGateway/PaymentGateway';
 import VideoPlayer from './pages/VideoPlayer'
 import SearchResult from './pages/SearchResult';
 import AdminLogin from './pages/AdminLogin';
+import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 
 function App() {
   return (
@@ -55,6 +56,9 @@ function App() {
               />
               <Route path="/adminLogin"
                 element={<AdminLogin />}
+              />
+              <Route path="/adminDashboard"
+                element={<AdminDashboard />}
               />
             </Routes>
 

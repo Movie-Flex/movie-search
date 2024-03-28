@@ -148,7 +148,7 @@ const Homee = () => {
                 }
             })
             .then((response) => {
-                if (response.status == 200) {
+                if (response.status === 200) {
                     console.log('response.data 1', response.data)
                     setRecommendedMovies(response.data);
                 }
@@ -164,32 +164,37 @@ const Homee = () => {
     }, [])
 
 
-    useEffect(async () => {
+    useEffect(()=>{
+        const getGenreMovie = async () => {
+            
 
-        axios.post("http://localhost:3002/api/genreMovie",
-            {
-                toSearch: "Action"
-            })
-            .then((response) => {
-                if (response.status == 200) {
-                    setActionMovies(response.data);
-                    console.log('response.data', response.data)
-                }
-            })
-            .catch((err) => {
-                toast.error(err.message);
-            })
+                axios.post("http://localhost:3002/api/genreMovie",
+                    {
+                        toSearch: "Action"
+                    })
+                    .then((response) => {
+                        if (response.status === 200) {
+                            setActionMovies(response.data);
+                            console.log('response.data', response.data)
+                        }
+                    })
+                    .catch((err) => {
+                        toast.error(err.message);
+                    })
+        
+            }
+            getGenreMovie();
+        
+    },[])
 
-    }, [])
-
-    useEffect(async () => {
-
-        axios.post("http://localhost:3002/api/genreMovie",
+    useEffect(()=>{
+        const getGenreMovie = async () => {
+            axios.post("http://localhost:3002/api/genreMovie",
             {
                 toSearch: "Horror"
             })
             .then((response) => {
-                if (response.status == 200) {
+                if (response.status === 200) {
                     setHorrorMovies(response.data);
                     console.log('response.data', response.data)
                 }
@@ -197,17 +202,19 @@ const Homee = () => {
             .catch((err) => {
                 toast.error(err.message);
             })
-
+        }
+        getGenreMovie();
     }, [])
 
-    useEffect(async () => {
+    useEffect(() => {
 
-        axios.post("http://localhost:3002/api/genreMovie",
+        const getGenreMovie = async () => {
+            axios.post("http://localhost:3002/api/genreMovie",
             {
                 toSearch: "Romance"
             })
             .then((response) => {
-                if (response.status == 200) {
+                if (response.status === 200) {
                     setRomanceMovies(response.data);
                     console.log('response.data', response.data)
                 }
@@ -215,50 +222,60 @@ const Homee = () => {
             .catch((err) => {
                 toast.error(err.message);
             })
+        }
+
+        getGenreMovie();
 
     }, [])
 
-    useEffect(async () => {
+    useEffect( () => {
 
+       const getGenreMovie = async () => {
         axios.post("http://localhost:3002/api/genreMovie",
-            {
-                toSearch: "Comedy"
-            })
-            .then((response) => {
-                if (response.status == 200) {
-                    setComedyMovies(response.data);
-                    console.log('response.data', response.data)
-                }
-            })
-            .catch((err) => {
-                toast.error(err.message);
-            })
+        {
+            toSearch: "Comedy"
+        })
+        .then((response) => {
+            if (response.status === 200) {
+                setComedyMovies(response.data);
+                console.log('response.data', response.data)
+            }
+        })
+        .catch((err) => {
+            toast.error(err.message);
+        })
+       }
+       getGenreMovie();
 
     }, [])
 
-    useEffect(async () => {
+    useEffect(() => {
 
+       const getGenreMovie = async () => {
         axios.post("http://localhost:3002/api/genreMovie",
-            {
-                toSearch: "Drama"
-            })
-            .then((response) => {
-                if (response.status == 200) {
-                    setDramaMovies(response.data);
-                    console.log('response.data', response.data)
-                }
-            })
-            .catch((err) => {
-                toast.error(err.message);
-            })
+        {
+            toSearch: "Drama"
+        })
+        .then((response) => {
+            if (response.status === 200) {
+                setDramaMovies(response.data);
+                console.log('response.data', response.data)
+            }
+        })
+        .catch((err) => {
+            toast.error(err.message);
+        })
+       }
+         getGenreMovie();
 
     }, [])
 
 
     // Get Top Rated Movies
-    useEffect(async () => {
+    useEffect( () => {
 
-        axios.get("http://localhost:3002/api/top")
+      const getTopRatedMovie = async () => 
+       { axios.get("http://localhost:3002/api/top")
             .then((response) => {
                 if (response.status == 200) {
                     setTopRatedMovie(response.data);
@@ -266,7 +283,9 @@ const Homee = () => {
             })
             .catch((err) => {
                 toast.error(err.message);
-            })
+            })}
+
+            getTopRatedMovie();
 
     }, [])
 

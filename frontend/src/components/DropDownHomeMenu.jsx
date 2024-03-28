@@ -71,7 +71,7 @@ export default function DropDownHomeMenu() {
          </Link>
          )}
          
-            <Link
+            {user.role!=="admin" && (<Link
               to="/profile"
               className="text-gray-700 block px-4 py-2 text-sm"
               role="menuitem"
@@ -79,7 +79,7 @@ export default function DropDownHomeMenu() {
               id="menu-item-0"
             >
               Profile
-            </Link>
+            </Link>)}
             <Link
               to="/subscription"
               className="text-gray-700 block px-4 py-2 text-sm"
