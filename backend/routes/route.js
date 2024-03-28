@@ -15,7 +15,7 @@ const subscription = require('../controllers/subsciption');
 const payment= require('../controllers/payment');
 const getUserFromToken = require('../controllers/getUserFromToken');
 const { generateAdminToken} = require("../middlewares/verifyAdmin");
-const {addMovie, deleteMovie, updateMovie} = require('../controllers/admin');
+const {addMovie, deleteMovie, updateMovie, getSubs} = require('../controllers/admin');
 const {movies, oneMovie, topMovies} = require('../controllers/movies');
 
 const router = express.Router();
@@ -94,6 +94,7 @@ router.delete('/delete-movie/:id', deleteMovie);
 
 router.post('/update-movie/:id', updateMovie);
 
+router.get('/subs', getSubs);
 
 // payment related api's
 router.post('/dashboard', payment.dashboard)
