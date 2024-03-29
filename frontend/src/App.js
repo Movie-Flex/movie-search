@@ -12,6 +12,7 @@ import VideoPlayer from './pages/VideoPlayer'
 import SearchResult from './pages/SearchResult';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './components/AdminDashboard/AdminDashboard';
+import Movie from './pages/Movie';
 
 function App() {
   return (
@@ -48,7 +49,7 @@ function App() {
                 path="/paymentgateway"
                 element={<PaymentGateway />}
               />
-              <Route path="/video"
+              <Route path="/video/:index"
                 element={<VideoPlayer />}
               />
               <Route path="/searchResult"
@@ -60,6 +61,8 @@ function App() {
               <Route path="/adminDashboard"
                 element={<AdminDashboard />}
               />
+              <Route path='/movie/:id'
+              element={<Movie/>}/>
             </Routes>
 
           </div>
