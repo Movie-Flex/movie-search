@@ -22,8 +22,8 @@ const SearchResult = () => {
   const getSearchResults = async () => {
     console.log("query, isAdvSearch", query, isAdvSearch);
     if (isAdvSearch === "true") {
-      axios
-        .post(`http://localhost:3002/api/semantic?q=${query}&g=${genre}`)
+      if(genre===null || genre===" "){
+        axios.post(`http://localhost:3002/api/semantic?q=${query}`)
         .then((response) => {
           console.log("response", response);
           setSearchResult(response.data);
@@ -33,9 +33,34 @@ const SearchResult = () => {
           console.log("err", err.message);
           toast.error(err.message);
         });
+      }
+      else{
+        axios.post(`http://localhost:3002/api/semantic?q=${query}&g=${genre}`)
+        .then((response) => {
+          console.log("response", response);
+          setSearchResult(response.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log("err", err.message);
+          toast.error(err.message);
+        });
+      }
     } else if (isAdvSearch === "false") {
-      axios
-        .post(`http://localhost:3002/api/fuzzySearch?q=${query}&g=${genre}`)
+      if(genre===null || genre===" "){
+        axios.post(`http://localhost:3002/api/fuzzySearch?q=${query}`)
+        .then((response) => {
+          console.log("response", response);
+          setSearchResult(response.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log("err", err.message);
+          toast.error(err.message);
+        });
+      }
+      else{
+        axios.post(`http://localhost:3002/api/fuzzySearch?q=${query}&g=${genre}`)
         .then((response) => {
           console.log("response", response);
           setSearchResult(response.data);
@@ -47,6 +72,7 @@ const SearchResult = () => {
         });
     }
   };
+}
 
   useEffect(() => {
     getSearchResults();
