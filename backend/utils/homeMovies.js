@@ -1664,7 +1664,16 @@ const Top = [
    
 ]
 
-const homeMovies = {Action, Horror, Romance, Comedy, Drama, Top}
+const homeMovies = async (req, res) => {
+    try {
+        const response = { Action, Horror, Romance, Comedy, Drama, Top};
+        return res.status(200).json(response);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Server Error' });
+    }
+}
+
 module.exports = homeMovies
 
 

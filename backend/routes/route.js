@@ -53,6 +53,10 @@ router.post('/movie', oneMovie);
 
 router.get('/top', topMovies);
 
+//movies for home page
+router.get("/homeMovies", homeMovies)
+
+
 // user action related api's
 
     // Watch History crud
@@ -109,25 +113,5 @@ router.post('/cancel', payment.refund)
 
 // making of a admin
 router.post('/generateAdminToken', generateAdminToken)
-
-
-//movies for home page
-router.get('/homeMovies', async (req, res) => {
-    try {
-        const response = {
-            Action: await homeMovies.Action,
-            Horror: await homeMovies.Horror,
-            Romance: await homeMovies.Romance,
-            Comedy: await homeMovies.Comedy,
-            Drama: await homeMovies.Drama,
-            Top: await homeMovies.Top
-        };
-        res.json(response);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Server Error' });
-    }
-});
-
 
 module.exports = router;
