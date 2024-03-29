@@ -69,38 +69,7 @@ const Action =  [
         ],
         "runtime": 111
     },
-    {
-        "_id": "573a1398f29313caabcea08d",
-        "plot": "Brandon plays Brandon Ma, a regular working Joe who holds down two jobs, so he can support his girlfriend May and his dream of owning a motorcycle. Brandon's best friend is Michael (played ...",
-        "genres": [
-            "Action"
-        ],
-        "runtime": 87,
-        "rated": "R",
-        "cast": [
-            "Brandon Lee",
-            "Michael Wong",
-            "Regina Kent",
-            "Wai-Man Chan"
-        ],
-        "num_mflix_comments": 1,
-        "poster": "https://m.media-amazon.com/images/M/MV5BMTY4NjE0MTQ5NF5BMl5BanBnXkFtZTcwODY5NDA0MQ@@._V1_SY1000_SX677_AL_.jpg",
-        "title": "Legacy of Rage",
-        "fullplot": "Brandon plays Brandon Ma, a regular working Joe who holds down two jobs, so he can support his girlfriend May and his dream of owning a motorcycle. Brandon's best friend is Michael (played by Michael Wong), an ambitious and murderous dope peddler. How Brandon and Michael ever became friends is the biggest mystery in the film. In any case, Michael covets May and so he comes up with a plan that will win her for him, and solves a problem he's been having. It seems that an undercover cop named Sharky has been using his police connections to dominate the local cocaine trade, so Michael has him killed and uses Brandon as the fall guy. Brandon goes to jail, though he thinks that he will be released soon thanks to the efforts of his good buddy Michael. Eight years later Brandon finally gets out of jail.",
-        "directors": [
-            "Ronny Yu"
-        ],
-        "writers": [
-            "Raymond Fung",
-            "Clifton Ko"
-        ],
-        "year": 1986,
-        "imdb": {
-            "rating": 6.5,
-            "votes": 632,
-            "id": 91428
-        }
-    },
+    
     {
         "_id": "573a139af29313caabcf0774",
         "fullplot": "Batman and Robin are back working side-by-side to stop the villains of Gotham City, but is there tension appearing between them, especially when one villainess who calls herself Poison Ivy can make anyone fall in love with her...literally. Along with Poison Ivy, the icy Mr. Freeze is freezing anything which gets in his way from achieving his goal.",
@@ -134,38 +103,7 @@ const Action =  [
         ],
         "runtime": 125
     },
-    {
-        "_id": "573a13aef29313caabd2e799",
-        "plot": "Islamic terrorists, backed by Pakistan, boldly attack the Indian Parliament building. The Indian army assigns this matter to Colonel Ranvir Singh Ranawat, who along with his men, apprehends...",
-        "genres": [
-            "Action"
-        ],
-        "runtime": 154,
-        "cast": [
-            "Ajay Devgn",
-            "Abhishek Bachchan",
-            "Bipasha Basu",
-            "Mukesh Tiwari"
-        ],
-        "num_mflix_comments": 0,
-        "title": "Zameen",
-        "fullplot": "Islamic terrorists, backed by Pakistan, boldly attack the Indian Parliament building. The Indian army assigns this matter to Colonel Ranvir Singh Ranawat, who along with his men, apprehends and arrests the ring-leader Baba Zaheer Khan. The Colonel takes one of his subordinates, Jaideep Rai, to task as nine soldiers were killed due to his negligence, and asks him to resign. An Islamic terrorist group, Al-Tahit, recruits a group of men to try and spring Baba from prison, albeit in vain as their plans are thwarted by Jaideep, who is now the ACP in Mumbai. On the run from the Police, this group hijacks an Indian Airlines plane, en-route from Mumbai to Kathmandu, with Jaideep's wife, Nandini, an In-Flight Supervisor, on board. The plane, with 107 passengers and crew, is re-routed to Kazan in Pakistan Occupied Kashmir where they are met with more armed terrorists as well as the Pakistani army. Together they demand the release of Baba Zaheer in exchange for the lives of the passengers. The Army and Police in India collaborate and both Ranvir and Jaideep are asked to work together. Ranvir is weary of Jaideep's capabilities, and Jaideep is investigating Ranvir and his men - who are suspected of supplying arms and munitions to terrorists and Pakistanis. The duo nevertheless work out a plan to free the hostages and apprehend the terrorists. What they do not know is that their plan has already been compromised, and they may well be headed to their respective deaths.",
-        "directors": [
-            "Rohit Shetty"
-        ],
-        "writers": [
-            "Robin Bhatt (additional screenplay)",
-            "Javed Siddiqui (dialogue)",
-            "Suparn Verma (screenplay)",
-            "Suparn Verma (story)"
-        ],
-        "year": 2003,
-        "imdb": {
-            "rating": 5.3,
-            "votes": 830,
-            "id": 382385
-        }
-    },
+
     {
         "_id": "573a13baf29313caabd50326",
         "plot": "Told in three 30-minute segments, three friends seek out the buried treasure of a mysterious stranger.",
@@ -237,35 +175,7 @@ const Action =  [
             "id": 103776
         }
     },
-    {
-        "_id": "573a1399f29313caabceda32",
-        "plot": "The Solar Children, a group of dwarves who left the circus, are trying to start a settlement in the Kyrgyzstan wilderness just after the breakup of the Soviet Union, but are harassed by a ...",
-        "genres": [
-            "Action"
-        ],
-        "runtime": 98,
-        "cast": [
-            "Aleksandr Aksyonov",
-            "Farkhad Amankulov",
-            "Konstantin Fyodorov",
-            "Zhanna Isina"
-        ],
-        "num_mflix_comments": 1,
-        "title": "Dikiy vostok",
-        "fullplot": "The Solar Children, a group of dwarves who left the circus, are trying to start a settlement in the Kyrgyzstan wilderness just after the breakup of the Soviet Union, but are harassed by a gang of bikers. With their meager savings, they hire a ragtag group of heroes to drive off the bikers.",
-        "directors": [
-            "Rashid Nugmanov"
-        ],
-        "writers": [
-            "Rashid Nugmanov"
-        ],
-        "year": 1993,
-        "imdb": {
-            "rating": 7.2,
-            "votes": 58,
-            "id": 106723
-        }
-    },
+   
     {
         "_id": "573a139af29313caabcef2a0",
         "plot": "An undercover cop struggling to provide for his son and ailing wife, must infiltrate a ruthless gang. But things turn sour when another cop blows his cover and he quickly finds himself battling for his life and the lives of his family.",
@@ -333,40 +243,6 @@ const Action =  [
 
 
 const Horror =[
-    {
-        "_id": "660488d359f9b37bb9aec75c",
-        "title": "Its a new movie",
-        "plot": "Its a new movie so we can't reveal it",
-        "genres": [
-            "horror"
-        ],
-        "directors": [
-            "Ketan Agarwal"
-        ],
-        "year": 2024,
-        "imdb": {
-            "rating": 4.7,
-            "votes": 25,
-            "id": 500
-        }
-    },
-    {
-        "_id": "65fc54a8cc698b9f8451b5a4",
-        "title": "Its a new movie",
-        "plot": "Its a new movie so we can't reveal it",
-        "genres": [
-            "horror"
-        ],
-        "directors": [
-            "Ketan"
-        ],
-        "year": 2024,
-        "imdb": {
-            "rating": 4.7,
-            "votes": 25,
-            "id": 500
-        }
-    },
     {
         "_id": "573a1398f29313caabce9038",
         "plot": "A teenage girl in a country manor falls asleep while reading a magazine and she has a disturbing dream involving wolves which appears to take place in the woods visible from her bedroom window.",
@@ -534,39 +410,7 @@ const Horror =[
             "id": 120524
         }
     },
-    {
-        "_id": "573a139af29313caabcf0e72",
-        "fullplot": "In a world where vampires walk the earth, Blade has a goal. His goal is to rid the world of all vampire evil. When Blade witnesses a vampire bite Dr. Karen Jenson, he fights away the beast and takes Jenson back to his hideout. Here, alongside Abraham Whistler, Blade attempts to help heal Jenson. The vampire Quinn who was attacked by Blade, reports back to his master Deacon Frost, who is planning a huge surprise for the human population.",
-        "imdb": {
-            "rating": 7.1,
-            "votes": 174609,
-            "id": 120611
-        },
-        "year": 1998,
-        "plot": "A half-vampire, half-mortal man becomes a protector of the mortal race, while slaying evil vampires.",
-        "genres": [
-            "Action",
-            "Horror"
-        ],
-        "rated": "R",
-        "metacritic": 45,
-        "title": "Blade",
-        "writers": [
-            "David S. Goyer"
-        ],
-        "poster": "https://m.media-amazon.com/images/M/MV5BMTQ4MzkzNjcxNV5BMl5BanBnXkFtZTcwNzk4NTU0Mg@@._V1_SY1000_SX677_AL_.jpg",
-        "num_mflix_comments": 1,
-        "cast": [
-            "Wesley Snipes",
-            "Stephen Dorff",
-            "Kris Kristofferson",
-            "N'Bushe Wright"
-        ],
-        "directors": [
-            "Stephen Norrington"
-        ],
-        "runtime": 120
-    },
+
     {
         "_id": "573a1398f29313caabcea63f",
         "plot": "A group of people stop by a mansion during a storm and discover two magical toy makers, and their haunted collection of dolls.",
@@ -701,34 +545,7 @@ const Romance = [
             "id": 100774
         }
     },
-    {
-        "_id": "573a139af29313caabcef2de",
-        "genres": [
-            "Fantasy",
-            "Romance"
-        ],
-        "runtime": 107,
-        "cast": [
-            "Franciszek Pieczka",
-            "Dojnica Paladiuk",
-            "Jolanta Fraszynska",
-            "Mariusz Saniternik"
-        ],
-        "num_mflix_comments": 1,
-        "title": "Grajacy z talerza",
-        "directors": [
-            "Jan Jakub Kolski"
-        ],
-        "writers": [
-            "Jan Jakub Kolski"
-        ],
-        "year": 1995,
-        "imdb": {
-            "rating": 7.2,
-            "votes": 89,
-            "id": 113205
-        }
-    },
+
     {
         "_id": "573a1394f29313caabcde87e",
         "plot": "Rio Grande takes place after the Civil War when the Union turned their attention towards the Apaches. Union officer Kirby Yorke is in charge of an outpost on the Rio Grande in which he is ...",
@@ -863,66 +680,8 @@ const Romance = [
         },
         "num_mflix_comments": 0
     },
-    {
-        "_id": "573a139af29313caabcf0750",
-        "plot": "While looking for paradise, a cab driver suddenly falls in love.",
-        "genres": [
-            "Romance",
-            "Fantasy"
-        ],
-        "runtime": 103,
-        "cast": [
-            "Tim Roth",
-            "Mili Avital",
-            "Rod Steiger",
-            "Mickey Rooney"
-        ],
-        "num_mflix_comments": 0,
-        "title": "Animals with the Tollkeeper",
-        "fullplot": "While looking for paradise, a cab driver suddenly falls in love.",
-        "directors": [
-            "Michael Di Jiacomo"
-        ],
-        "writers": [
-            "Michael Di Jiacomo"
-        ],
-        "year": 1998,
-        "imdb": {
-            "rating": 6.8,
-            "votes": 345,
-            "id": 118621
-        }
-    },
-    {
-        "_id": "573a13adf29313caabd2ad2c",
-        "plot": "A Kabbadi player rescues a young woman from an unwanted marriage and hides her in his home.",
-        "genres": [
-            "Action",
-            "Romance"
-        ],
-        "runtime": 170,
-        "cast": [
-            "Mahesh Babu",
-            "Bhoomika Chawla",
-            "Prakash Raj",
-            "Chandramohan"
-        ],
-        "title": "Okkadu",
-        "fullplot": "The main drama is set in Hyderabad. For this purpose, a huge and expensive set against Charminar backdrop was erected. Hero Ajay (Mahesh Babu) lives in one of the houses there. He has his own entry into the house, through a trap door, to avoid being noticed by his disciplinarian police officer father (Mukhesh Rishi) and mischievous younger sister (Niharika). His mother (Geetha) is kind and affectionate. Ajay is a kabaddi champion and goes to Kurnool to take part in a tournament. He meets Swapna (Bhoomika Chawla) and rescues her from the clutches of Obul Reddy (Prakash Raj). He then brings her to Hyderabad and takes her to his room through the trap door. And she continues to stay there without anyone's knowledge, blending among the many dolls in his room whenever anyone comes visiting Ajay. Ajay's priorities now are to get a passport and visa for Swapna so that she can move away to the US and then to win the national Kabaddi title for his team. He wins the title but fails to send her abroad, as Swapna refuses to leave him and go. How she becomes completely free of Obul Reddy to be with Ajay forms the rest of the story.",
-        "directors": [
-            "Gunasekhar"
-        ],
-        "writers": [
-            "Gunasekhar"
-        ],
-        "year": 2003,
-        "imdb": {
-            "rating": 8.1,
-            "votes": 3617,
-            "id": 366840
-        },
-        "num_mflix_comments": 0
-    },
+   
+   
     {
         "_id": "573a1395f29313caabce17b1",
         "plot": "Brendan O'Malley arrives at the Mexican home of old flame Belle Breckenridge to find her married to a drunkard getting ready for a cattle drive to Texas. Hot on O'Malley's heels is lawman ...",
@@ -960,40 +719,7 @@ const Romance = [
 
 
 const Comedy =  [
-    {
-        "_id": "573a1393f29313caabcdda18",
-        "plot": "The Bowery Boys head west to clear Louie of an old murder charge that he had killed his gold-mine partner. Sach has the map to the gold mine painted on his back, and Blackjack McCoy has him...",
-        "genres": [
-            "Comedy",
-            "Western"
-        ],
-        "runtime": 66,
-        "rated": "APPROVED",
-        "cast": [
-            "Leo Gorcey",
-            "Huntz Hall",
-            "Bobby Jordan",
-            "Gabriel Dell"
-        ],
-        "num_mflix_comments": 1,
-        "poster": "https://m.media-amazon.com/images/M/MV5BMTI0NzE5ODQ2OV5BMl5BanBnXkFtZTcwODQyODEyMQ@@._V1_SY1000_SX677_AL_.jpg",
-        "title": "Bowery Buckaroos",
-        "fullplot": "The Bowery Boys head west to clear Louie of an old murder charge that he had killed his gold-mine partner. Sach has the map to the gold mine painted on his back, and Blackjack McCoy has him kidnapped by Indian Joe. Gabe poses as a dangerous gunman, the Klondike Kid, while Slip is in charge of all the remaining loose ends.",
-        "directors": [
-            "William Beaudine"
-        ],
-        "writers": [
-            "Edmond Seward (original screenplay)",
-            "Tim Ryan (original screenplay)",
-            "Jerry Warner (original screenplay)"
-        ],
-        "year": 1947,
-        "imdb": {
-            "rating": 6.7,
-            "votes": 205,
-            "id": 39216
-        }
-    },
+
     {
         "_id": "573a1395f29313caabce13fe",
         "plot": "Sam and George strike gold in Alaska. George sends Sam to Seattle to bring George's fiancèe back to Alaska. Sam finds she is already married, and returns instead with Angel. Sam, after ...",
@@ -1096,43 +822,7 @@ const Comedy =  [
             "id": 65492
         }
     },
-    {
-        "_id": "573a1396f29313caabce4ed1",
-        "plot": "After a tied 1st place in a local stunt race, two drivers start a contest to decide who of them will own the prize, a dune buggy. But when a mobster destroys the car, they are determined to get it back.",
-        "genres": [
-            "Action",
-            "Comedy"
-        ],
-        "runtime": 101,
-        "rated": "G",
-        "cast": [
-            "Terence Hill",
-            "Bud Spencer",
-            "Patty Shepard",
-            "Deogratias Huerta"
-        ],
-        "num_mflix_comments": 1,
-        "poster": "https://m.media-amazon.com/images/M/MV5BNWMxYzg5NDUtZWRiNi00ZGRhLWJkOGQtYmYwNmJiOGUwOGRiXkEyXkFqcGdeQXVyNjU1MDYxNzU@._V1_SY1000_SX677_AL_.jpg",
-        "title": "Watch Out, We're Mad",
-        "fullplot": "Kid and Ben tie in a race to win a red dune buggy with a yellow top. During Kid and Ben's hotdog and beer contest, to see who will keep the the dune buggy, a local mob demolishes it! Kid and Ben want revenge... and the replacement of their dune buggy!",
-        "directors": [
-            "Marcello Fondato"
-        ],
-        "writers": [
-            "Vicente Coello (screenplay)",
-            "Jesès R. Folgar (screenplay)",
-            "Marcello Fondato (screenplay)",
-            "Marcello Fondato (story)",
-            "Francesco Scardamaglia (screenplay)",
-            "Francesco Scardamaglia (story)"
-        ],
-        "year": 1974,
-        "imdb": {
-            "rating": 7.4,
-            "votes": 6410,
-            "id": 69697
-        }
-    },
+   
     {
         "_id": "573a1396f29313caabce5074",
         "plot": "A young, easygoing gunman (Hill) worships and competes with an old gunfighter (Fonda) who only wants to retire.",
@@ -1303,40 +993,7 @@ const Comedy =  [
 ]
 
 const Drama = [
-    {
-        "_id": "573a1391f29313caabcd93a3",
-        "plot": "Navy divers clear the torpedo tube of a sunken submarine.",
-        "genres": [
-            "Action",
-            "Drama"
-        ],
-        "runtime": 77,
-        "rated": "PASSED",
-        "cast": [
-            "Kenneth MacKenna",
-            "Frank Albertson",
-            "J. Farrell MacDonald",
-            "Warren Hymer"
-        ],
-        "num_mflix_comments": 1,
-        "title": "Men Without Women",
-        "fullplot": "Aboard the U.S. submarine S13 in the China seas, Chief Torpedoman Burke goes about his duties. In actuality, he is Quartermaine, the infamous former commander of the British ship Royal Scot, which was sunk by Germans with a Field Marshal aboard. Quartermaine had told his sweetheart that the Field Marshal would be aboard, not knowing that she was an informant for the enemy. When the S13 sinks, Burke takes charge when the commander, Ensign Price, is unable to command. Burke must keep his mates alive long enough on the bottom of the sea for rescuers to arrive.",
-        "directors": [
-            "John Ford"
-        ],
-        "writers": [
-            "John Ford (story)",
-            "James Kevin McGuinness (story)",
-            "Dudley Nichols (screen play and scenario)",
-            "Otis C. Freeman (titles)"
-        ],
-        "year": 1930,
-        "imdb": {
-            "rating": 5.8,
-            "votes": 154,
-            "id": 21140
-        }
-    },
+  
     {
         "_id": "573a1392f29313caabcd9a10",
         "plot": "Famous motor-racing champion Joe Greer returns to his hometown to compete in a local race. He discovers his younger brother has aspirations to become a racing champion and during the race ...",
@@ -1372,38 +1029,7 @@ const Drama = [
             "id": 22792
         }
     },
-    {
-        "_id": "573a1392f29313caabcdb82f",
-        "plot": "This is a story about family relationships, set in the time before and during the American Civil War. Ethan Wilkins is a poor and honest man who ministers to the human soul, while his son ...",
-        "genres": [
-            "Drama",
-            "Western"
-        ],
-        "runtime": 103,
-        "rated": "PASSED",
-        "cast": [
-            "Walter Huston",
-            "James Stewart",
-            "Beulah Bondi",
-            "Guy Kibbee"
-        ],
-        "title": "Of Human Hearts",
-        "fullplot": "This is a story about family relationships, set in the time before and during the American Civil War. Ethan Wilkins is a poor and honest man who ministers to the human soul, while his son Jason yearns to be a doctor, helping people in the earthly realm. It is a rich story about striving for excellence, the tension of father-son rebellion, and the love of a mother that can never die.",
-        "directors": [
-            "Clarence Brown"
-        ],
-        "writers": [
-            "Bradbury Foote (screen play)",
-            "Honore Morrow (story)"
-        ],
-        "year": 1938,
-        "imdb": {
-            "rating": 6.9,
-            "votes": 617,
-            "id": 30517
-        },
-        "num_mflix_comments": 0
-    },
+   
     {
         "_id": "573a1393f29313caabcdc370",
         "plot": "An atheist accidentally shoots his Baptist wife. She dies and goes to a crossroads, where the devil tries to lead her astray.",
@@ -1536,36 +1162,7 @@ const Drama = [
             "id": 69035
         }
     },
-    {
-        "_id": "573a1396f29313caabce54e6",
-        "plot": "A young boys' coming of age tale set in a strange, carnivalesque village becomes the recreation of a memory that the director has twenty years later.",
-        "genres": [
-            "Drama",
-            "Fantasy"
-        ],
-        "runtime": 104,
-        "cast": [
-            "Kantarè Suga",
-            "Hiroyuki Takano",
-            "Sen Hara",
-            "Yoshio Harada"
-        ],
-        "title": "Pastoral Hide and Seek",
-        "fullplot": "A young boys' coming of age tale set in a strange, carnivalesque village becomes the recreation of a memory that the director has twenty years later.",
-        "directors": [
-            "Shèji Terayama"
-        ],
-        "writers": [
-            "Shèji Terayama"
-        ],
-        "year": 1974,
-        "imdb": {
-            "rating": 7.9,
-            "votes": 556,
-            "id": 71406
-        },
-        "num_mflix_comments": 0
-    },
+  
     {
         "_id": "573a1396f29313caabce55ba",
         "plot": "In a corrupt, greed-fueled world, a powerful alchemist leads a Christ-like character and seven materialistic figures to the Holy Mountain, where they hope to achieve enlightenment.",
@@ -1704,97 +1301,8 @@ const Top = [
             "id": "567"
         }
     },
-    {
-        "_id": "6605849476d3b79f5013cdbf",
-        "title": "qwerty",
-        "plot": "hksvasvadjkfv",
-        "genres": [
-            "Action",
-            "Adenture"
-        ],
-        "directors": [
-            "sumit"
-        ],
-        "year": "2345",
-        "imdb": {
-            "rating": "4.5",
-            "votes": "45",
-            "id": "500"
-        },
-        "runtime": "120 mins",
-        "rated": "ff",
-        "cast": [
-            "fff"
-        ],
-        "poster": "http://google.com",
-        "fullplot": "asdfghjkl;",
-        "writers": [
-            "sdfghjk"
-        ],
-        "num_mflix_comments": "67"
-    },
-    {
-        "_id": "6605847176d3b79f5013cdbd",
-        "title": "qwerty",
-        "plot": "hksvasvadjkfv",
-        "genres": [
-            "Action",
-            "Adenture"
-        ],
-        "directors": [
-            "sumit"
-        ],
-        "year": "2345",
-        "imdb": {
-            "rating": "4.5",
-            "votes": "45",
-            "id": "500"
-        },
-        "runtime": "120 mins",
-        "rated": "ff",
-        "cast": [
-            "fff"
-        ],
-        "poster": "http://google.com",
-        "fullplot": "asdfghjkl;",
-        "writers": [
-            "sdfghjk"
-        ],
-        "num_mflix_comments": "67"
-    },
-    {
-        "_id": "573a13e6f29313caabdc5478",
-        "plot": "Robert Kenner is a lonely man looking for love. Today, if he can actually get his boss to give him some time off, he is going on his first date for 6 years. Oh, and he is also the world's only SuperHero.",
-        "genres": [
-            "Action",
-            "Comedy",
-            "Romance"
-        ],
-        "runtime": 85,
-        "cast": [
-            "Brett Goldstein",
-            "Catherine Tate",
-            "Natalia Tena",
-            "Laura Haddock"
-        ],
-        "num_mflix_comments": 1,
-        "title": "SuperBob",
-        "fullplot": "Faster than a Speeding Bullet, Crap with Girls: After a freak meteor storm turns postman Bob into a superhero, he must face his greatest challenge: going on his first date in six years. Featuring stellar support from top tier comedic talent, Bob must balance international politics, saving the world and getting the girl.",
-        "directors": [
-            "Jon Drever"
-        ],
-        "writers": [
-            "William Bridges",
-            "Jon Drever (story)",
-            "Brett Goldstein"
-        ],
-        "year": 2015,
-        "imdb": {
-            "rating": "",
-            "votes": "",
-            "id": 3055402
-        }
-    },
+    
+    
     {
         "_id": "573a13eef29313caabdd6ff4",
         "plot": "A struggling writer meets death and falls in love. He must decide if his true love is in this world or the next, and if his dreams of success are worth dying for.",
@@ -1860,38 +1368,7 @@ const Top = [
             "id": 3924144
         }
     },
-    {
-        "_id": "573a13dcf29313caabdb2dec",
-        "plot": "Charlie Kaufman's first stop-motion film about a man crippled by the mundanity of his life.",
-        "genres": [
-            "Animation",
-            "Comedy",
-            "Fantasy"
-        ],
-        "runtime": 90,
-        "rated": "R",
-        "cast": [
-            "Jennifer Jason Leigh",
-            "David Thewlis",
-            "Tom Noonan"
-        ],
-        "title": "Anomalisa",
-        "fullplot": "Charlie Kaufman's first stop-motion film about a man crippled by the mundanity of his life.",
-        "directors": [
-            "Duke Johnson",
-            "Charlie Kaufman"
-        ],
-        "writers": [
-            "Charlie Kaufman"
-        ],
-        "year": 2015,
-        "imdb": {
-            "rating": "",
-            "votes": "",
-            "id": 2401878
-        },
-        "num_mflix_comments": 0
-    },
+   
     {
         "_id": "573a13e6f29313caabdc6a9a",
         "plot": "The journey of a professional wrestler who becomes a small town pastor and moonlights as a masked vigilante fighting injustice. While facing crises at home and at the church, the Pastor ...",
@@ -1926,38 +1403,7 @@ const Top = [
             "id": 3103166
         }
     },
-    {
-        "_id": "573a13d3f29313caabd967ef",
-        "plot": "In a post-apocalyptic future, a biological warfare program gone wrong leaves only four survivors defending themselves from \"the infected\" - mindless killers. As they struggle to survive and make sense of what is happening, they find another survivor, intent on revealing the truth.",
-        "genres": [
-            "Action",
-            "Horror",
-            "Sci-Fi"
-        ],
-        "cast": [
-            "Larry Butchins",
-            "Zach Cohen",
-            "Susanne Gschwendtner",
-            "Davina Kevelson"
-        ],
-        "num_mflix_comments": 0,
-        "title": "Another World",
-        "fullplot": "The movie is a post-apocalyptic horror/science fiction film. the setting is in a near post apocalyptic future where a biological warfare program goes wrong, and turns most of humanity to mindless, murderous creatures (hence forth - \"infected\"). There are five characters, which are still uninfected, trying to survive constant attacks by the infected. each one of them represents in some way a different aspect of human existence, a different world-view, but most important, a different moral view about the world and his/her place in it - The Colonel - A professional soldier. represents the political-military-economic establishment, which sees life as a constant violent struggle for power and resources. The Doctor - Represents a commitment to love, justice and non-violent struggle against all wrong. The Wizard - A young man, an inventor and an autodidact scientist, who looks at life as a puzzle to be solved. he strives to discover, understand and invent, with no thought as to the consequences. The Daughter - A simple girl with simple ambitions - sailing through life enjoying every comfort, while ignoring or unaware of bigger and more profound issues. The Mouser - A murderer and rapist, evil in the most banal aspect of the word. The plot takes place during their last six days. all along, as the characters evolve, they listen to a daily radio program dealing with the extinction of the dinosaurs, finding correlating themes to their own situation. as the protagonists move and try to survive, and as their world views and correlations to the situation are gradually reveled, the following themes are explored: the essence of evil, the boundaries of moral responsibility, species (and humankind) extinction, love, grace, euthanasia and more.",
-        "directors": [
-            "Eitan Reuven"
-        ],
-        "writers": [
-            "Shlomi Aviner",
-            "Michael Birinbaum",
-            "Eitan Reuven"
-        ],
-        "year": 2015,
-        "imdb": {
-            "rating": "",
-            "votes": "",
-            "id": 1920846
-        }
-    },
+   
     {
         "_id": "573a1391f29313caabcd68d0",
         "plot": "A penniless young man tries to save an heiress from kidnappers and help her secure her inheritance.",
@@ -2214,39 +1660,8 @@ const Top = [
             "Peter Jackson"
         ],
         "runtime": 178
-    },
-    {
-        "_id": "573a13d8f29313caabda6b38",
-        "plot": "Vishwanathan, a Kathak dance teacher in New York, is in a rather happy marriage with Nirupama who is a nuclear oncologist. She hires a detective to keep a watch on her husband, who ...",
-        "genres": [
-            "Action",
-            "Adventure",
-            "Crime"
-        ],
-        "runtime": 148,
-        "cast": [
-            "Kamal Haasan",
-            "Rahul Bose",
-            "Shekhar Kapur",
-            "Pooja Kumar"
-        ],
-        "num_mflix_comments": 0,
-        "title": "Vishwaroopam",
-        "fullplot": "Vishwanathan, a Kathak dance teacher in New York, is in a rather happy marriage with Nirupama who is a nuclear oncologist. She hires a detective to keep a watch on her husband, who apparently ends up in a wrong place that reveals Vishwanathan's true identity.",
-        "directors": [
-            "Kamal Haasan"
-        ],
-        "writers": [
-            "Kamal Haasan",
-            "Atul Tiwari (hindi dialogue)"
-        ],
-        "year": 2013,
-        "imdb": {
-            "rating": 8.8,
-            "votes": 33015,
-            "id": 2199711
-        }
     }
+   
 ]
 
 const homeMovies = {Action, Horror, Romance, Comedy, Drama, Top}
