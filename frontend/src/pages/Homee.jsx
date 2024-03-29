@@ -19,7 +19,7 @@ import ModalProvider from '../providers/ModalProvider.jsx';
 import { UserContext } from '../context/UserContext.jsx';
 import SubscriptionModal from '../components/Subscription/SubscriptionModal.jsx';
 import DropDownHomeMenu from '../components/DropDownHomeMenu.jsx';
-import { Checkbox, CircularProgress } from '@chakra-ui/react';
+import { Checkbox, CircularProgress, Button } from '@chakra-ui/react';
 
 const classNames = (...classes) => {
     return classes.filter(Boolean).join(' ');
@@ -43,6 +43,7 @@ const Homee = () => {
     const [modalMovie, setModalMovie] = useState();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const userData = useContext(UserContext);
+
     const [movieLoading, setMovieLoading] = useState(null)
     const [actionMovies, setActionMovies] = useState([])
     const [horrorMovies, setHorrorMovies] = useState([])
@@ -52,14 +53,29 @@ const Homee = () => {
     const [topRatedMovie, setTopRatedMovie] = useState([])
     const [watchHistoryMovies, setWatchHistoryMovies] = useState([])
     const [isAdvancedSearchSelected, setIsAdvancedSearchSelected] = useState(false);
-    console.log('user', user)
+    console.log('user', user);
+    //const arr = [1, 2, 3, 4, 5];
 
+    const runOnCLick = async (query) =>{
+        setLoading(true);
+        setAutocompleteResults([]);
+        //setValue('search', query);
+        navigate(`/movie/${query}`);
+        // navigate(`/searchResult?query=${query}&isAdvSearch=${isAdvancedSearchSelected}`)
+        // const response = await axios.get(`http://localhost:3000/api/search?query=${query}`);
+        // const response = await axios.post(`http://localhost:3002/api/fuzzySearch?q=${query}`);
+        // console.log(response);
+        // setSearchResults(response.data);
+        setLoading(false);
+    }
 
     const runSearch = async (query) => {
+        
         setLoading(true);
         setAutocompleteResults([]);
         setValue('search', query);
-        navigate(`/searchResult?query=${query}&isAdvSearch=${isAdvancedSearchSelected}${genreSelected ? `&genre=${genreSelected}` : ''}`);
+        navigate(`/movie/${query}`);
+        // navigate(`/searchResult?query=${query}&isAdvSearch=${isAdvancedSearchSelected}${genreSelected ? `&genre=${genreSelected}` : ''}`);
         // const response = await axios.get(`http://localhost:3000/api/search?query=${query}`);
         // const response = await axios.post(`http://localhost:3002/api/fuzzySearch?q=${query}`);
         // console.log(response);
@@ -68,8 +84,9 @@ const Homee = () => {
     };
 
     const onFormSubmit = () => {
+        console.log("[HEY]");
         if (selectedAutocompleteResultIndex !== null) {
-            runSearch(autocompleteResults[selectedAutocompleteResultIndex]);
+            runSearch(autocompleteResults[selectedAutocompleteResultIndex].title);
         } else {
             runSearch(currentValue);
         }
@@ -101,7 +118,7 @@ const Homee = () => {
                 }
             }).then((response) => {
                 console.log('response.data', response.data)
-                setAutocompleteResults(response.data.map((u) => u.title));
+                setAutocompleteResults(response.data);
             }).catch((err) => {
                 toast.error(err.message)
             }).finally(() => {
@@ -133,6 +150,15 @@ const Homee = () => {
         }
     };
 
+    const handleWatchNow = (index)=>{
+        console.log(index);
+        console.log(userData);
+        if(userData.isLoggedIn){
+            navigate(`/video/${index+1}`)
+        } else {
+            navigate('/login')
+        }
+    }
 
     useEffect(() => {
         axios.post("http://localhost:3002/api/autoSuggest",
@@ -355,14 +381,16 @@ const Homee = () => {
                                             return (
                                                 <div
                                                     key={index}
-                                                    onClick={() => { runSearch(result) }}
+                                                    onClick={() => { 
+                                                        console.log(result);
+                                                        runOnCLick(result._id) }}
                                                     onMouseOver={() => setSelectedAutocompleteResultIndex(index)}
                                                     onMouseOut={() => setSelectedAutocompleteResultIndex(null)}
                                                     className={classNames(
                                                         selectedAutocompleteResultIndex === index && 'p-2 rounded-xl cursor-pointer'
                                                     )}
                                                 >
-                                                    {result}
+                                                    {result.title}
                                                 </div>
                                             );
                                         })}
@@ -411,10 +439,10 @@ const Homee = () => {
                     modules={[Autoplay, Navigation]}
                     className="mySwiper"
                 >
-                    {topRatedMovie && topRatedMovie.slice(0, 5).map((movie) => (
+                    {topRatedMovie && topRatedMovie.slice(0, 5).map((movie, index) => (
                         <SwiperSlide>
                             <div className="w-full h-[500px] sm:h-[400px] pl-5 flex flex-col justify-center ">
-                                <video src="https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/video1.mp4?alt=media&token=46ac4bba-0850-495d-bcff-8eea28621da5" autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
+                                <video src="https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/video1.mp4?alt=media&token=46ac4bba-0850-495d-bcff-8eea28621da5" autoPlay muted playsInline className="absolute inset-0 w-full h-full object-cover">
                                 </video>
                                 <div className="w-full sm:w-3/4 p-10 flex flex-col justify-center items-start gap-y-3 sm:gap-y-6 relative z-10">
                                     <div className="text-[#fff] font-bold text-4xl">
@@ -441,9 +469,9 @@ const Homee = () => {
                                         {/* <button className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
                                         Watch Now
                                     </button> */}
-                                        <Link to="/video" className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
+                                        <Button onClick={()=>handleWatchNow(index)} className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
                                             Watch Now
-                                        </Link>
+                                        </Button>
                                     </div>
                                 </div>
                             </div>

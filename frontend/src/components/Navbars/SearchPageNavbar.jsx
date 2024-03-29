@@ -38,6 +38,20 @@ const SearchPageNavbar = () => {
     const [isAdvancedSearchSelected, setIsAdvancedSearchSelected] = useState(false);
     console.log('user', user)
 
+    const runOnCLick = async (query) =>{
+        setLoading(true);
+        setAutocompleteResults([]);
+        //setValue('search', query);
+        navigate(`/movie/${query}`);
+        //window.location.reload();;
+        // navigate(`/searchResult?query=${query}&isAdvSearch=${isAdvancedSearchSelected}`)
+        // const response = await axios.get(`http://localhost:3000/api/search?query=${query}`);
+        // const response = await axios.post(`http://localhost:3002/api/fuzzySearch?q=${query}`);
+        // console.log(response);
+        // setSearchResults(response.data);
+        setLoading(false);
+    }
+
 
     const runSearch = async (query) => {
         setLoading(true);
@@ -50,7 +64,7 @@ const SearchPageNavbar = () => {
 
     const onFormSubmit = () => {
         if (selectedAutocompleteResultIndex !== null) {
-            runSearch(autocompleteResults[selectedAutocompleteResultIndex]);
+            runSearch(autocompleteResults[selectedAutocompleteResultIndex].title);
         } else {
             runSearch(currentValue);
         }
@@ -82,7 +96,7 @@ const SearchPageNavbar = () => {
                 }
             }).then((response) => {
                 console.log('response.data', response.data)
-                setAutocompleteResults(response.data.map((u) => u.title));
+                setAutocompleteResults(response.data);
             }).catch((err) => {
                 toast.error(err.message)
             }).finally(() => {
@@ -158,14 +172,14 @@ const SearchPageNavbar = () => {
                                             return (
                                                 <div
                                                     key={index}
-                                                    onClick={() => { runSearch(result) }}
+                                                    onClick={() => { runOnCLick(result._id) }}
                                                     onMouseOver={() => setSelectedAutocompleteResultIndex(index)}
                                                     onMouseOut={() => setSelectedAutocompleteResultIndex(null)}
                                                     className={classNames(
                                                         selectedAutocompleteResultIndex === index && 'p-2 rounded-xl cursor-pointer'
                                                     )}
                                                 >
-                                                    {result}
+                                                    {result.title}
                                                 </div>
                                             );
                                         })}

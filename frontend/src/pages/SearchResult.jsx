@@ -15,12 +15,12 @@ const SearchResult = () => {
   const query = queryParams.get("query");
   const isAdvSearch = queryParams.get("isAdvSearch");
   const genre = queryParams.get("genre");
-
+  
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const getSearchResults = async () => {
-    console.log("query, isAdvSearch", query, isAdvSearch);
+    console.log("query, isAdvSearch", "isTitle", query, isAdvSearch);
     if (isAdvSearch === "true") {
       if(genre===null || genre===" "){
         axios.post(`http://localhost:3002/api/semantic?q=${query}`)
