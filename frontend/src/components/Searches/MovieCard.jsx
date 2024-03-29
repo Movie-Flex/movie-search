@@ -1,5 +1,7 @@
+import { useNavigate } from "react-router-dom";
 
 export default function MovieCard({ movie }) {
+  const navigate = useNavigate();
   return (
     
       <div class=" rounded-md bg-gray-800 shadow-lg">
@@ -13,7 +15,10 @@ export default function MovieCard({ movie }) {
           </div>
 
           <div class="flex-col text-gray-300">
-            <p class="pt-4 text-2xl font-bold">{movie.title} ({movie.year})</p>
+            <p class="pt-4 text-2xl font-bold cursor-pointer hover:text-blue-500"
+            onClick={()=>navigate("/movie/"+movie._id)}
+
+            >{movie.title} ({movie.year})</p>
             <hr class="hr-text" data-content="" />
             <div class="text-md flex justify-between px-4 my-2">
               <span class="font-bold">{movie.runtime} mins | 
