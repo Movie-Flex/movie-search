@@ -61,7 +61,7 @@ const Homee = () => {
         setLoading(true);
         setAutocompleteResults([]);
         setValue('search', query);
-        navigate(`/searchResult?query=${query}&isAdvSearch=${isAdvancedSearchSelected}`)
+        navigate(`/searchResult?query=${query}&isAdvSearch=${isAdvancedSearchSelected}${genreSelected ? `&genre=${genreSelected}` : ''}`);
         // const response = await axios.get(`http://localhost:3000/api/search?query=${query}`);
         // const response = await axios.post(`http://localhost:3002/api/fuzzySearch?q=${query}`);
         // console.log(response);
@@ -882,7 +882,7 @@ const Homee = () => {
                 </div>
             </section> */}
         </div>
-         {user && user.subscription==="free" && isFirstTime&&(
+         {user&& user.role!=="admin" && user.subscription==="free" && isFirstTime&&(
             <SubscriptionModal setIsFirstTime={setIsFirstTime} isFirstTime={isFirstTime}/>
         )}
     </>
