@@ -16,8 +16,6 @@ import toast from 'react-hot-toast';
 import CardProvider from '../providers/CardProvider.jsx';
 import CardProviderOnHover from '../providers/CardProviderOnHover.jsx';
 import ModalProvider from '../providers/ModalProvider.jsx';
-import VideoPlayer from './VideoPlayer.jsx'
-import { useLogout } from '../hooks/useLogout.jsx';
 import { UserContext } from '../context/UserContext.jsx';
 import SubscriptionModal from '../components/Subscription/SubscriptionModal.jsx';
 import DropDownHomeMenu from '../components/DropDownHomeMenu.jsx';

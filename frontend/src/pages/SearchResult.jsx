@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 import AdvancedSearch from "../components/Searches/AdvancedSearch";
 import FuzzySearch from "../components/Searches/FuzzySearch";
 import DiamondFigures from "../utils/DiamondFigures";
+import SearchPageNavbar from "../components/Navbars/SearchPageNavbar";
 
 const SearchResult = () => {
   const location = useLocation();
@@ -52,20 +53,23 @@ const SearchResult = () => {
   }, []);
 
   return (
-    <Skeleton isLoaded={true}>
-      {loading ? (
-        <DiamondFigures />
-      ) : (
-        <>
-          {isAdvSearch === "true" && (
-            <AdvancedSearch searchResult={searchResult} />
-          )}
-          {isAdvSearch === "false" && (
-            <FuzzySearch searchResult={searchResult} />
-          )}
-        </>
-      )}
-    </Skeleton>
+    <>
+      <div className="bg-[#171D21] min-h-[100vh] flex flex-col justify-between">
+        <SearchPageNavbar />
+        {loading ? (
+          <DiamondFigures />
+        ) : (
+          <>
+            {isAdvSearch === "true" && (
+              <AdvancedSearch searchResult={searchResult} />
+            )}
+            {isAdvSearch === "false" && (
+              <FuzzySearch searchResult={searchResult} />
+            )}
+          </>
+        )}
+      </div>
+    </>
   );
 };
 
