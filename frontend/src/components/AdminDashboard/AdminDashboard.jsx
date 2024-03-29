@@ -10,6 +10,7 @@ import UpdateInfo from "../UpdateUserInformation/UpdateInfo";
 import AddMovie from "./AdminFunctionalities/AddMovie";
 import DeleteMovie from "./AdminFunctionalities/DeleteMovie";
 import MakeAdmin from "./AdminFunctionalities/MakeAdmin";
+import UserSubscriptionInfo from "./AdminFunctionalities/UserSubsciptionInfo";
 
 
 export default function AdminDashboard() {
@@ -40,6 +41,7 @@ export default function AdminDashboard() {
 
         {sideNav===2 && <AddMovie/>}
         {sideNav===3 && <DeleteMovie/>}
+        {sideNav === 4 && <UserSubscriptionInfo />}
         {sideNav===5 &&  <MakeAdmin/>}
 
        
