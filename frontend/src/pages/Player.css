@@ -1,0 +1,75 @@
+.plyr__controls {
+    /* position: absolute;
+    top: 0; 
+    left: 0;
+    right: 0; */
+}
+
+.plyr__controls button[data-plyr="rewind"] {
+    left: 553px;
+}
+
+.plyr__controls button[data-plyr="play"] {
+    left: 578px;
+}
+
+.plyr__controls button[data-plyr="fast-forward"] {
+    left: 603px;
+}
+
+.plyr__controls button[data-plyr="restart"] {
+    /* left: 620px; */
+    /* top: 392px */
+}
+
+.plyr__controls .plyr__time--current {
+    order: -1;
+    /* top: 350px; */
+    
+}
+
+.plyr__controls .plyr__volume {
+    /* order: -1; */
+    top: -785px;
+    /* left: 1300px;  */
+}
+
+.plyr__controls .plyr__time--duration {
+    order: -1;
+}
+
+
+.plyr__controls .plyr__progress {
+    left: -140px;
+    top: -50px;
+    width: 1525px;
+    /* left: -140px */
+    
+}
+
+
+.plyr__controls .plyr__progress input[type=range]{
+    width: 1525px;
+    left: -90px;
+}
+
+.plyr__controls button[data-plyr="pip"]{
+    top: -785px;
+}
+
+.plyr__controls .plyr__progress__buffer {
+    left: -87px;
+    width: 1515px;
+}
+
+/* .back-button {
+    position: absolute;
+    top: 10px; 
+    left: 10px; 
+    z-index: 10;
+    padding: 5px 10px;
+    background-color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+} */

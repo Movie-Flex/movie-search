@@ -2,9 +2,18 @@ import React, { useEffect } from 'react';
 import Hls from 'hls.js';
 import Plyr from 'plyr';
 import 'plyr/dist/plyr.css';
+import './Player.css';
 
 const VideoPlayer = () => {
   useEffect(() => {
+
+    // document.getElementById('backButton').addEventListener('click', function() {
+    //     // Example: navigate back
+    //     window.history.back();
+        
+    //     // Or, for custom behavior, replace the above with your own logic
+    // });
+
     const video = document.getElementById('player');
     const source = "https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/samplevideo1%2Fmaster_tier2.m3u8?alt=media";
 
@@ -13,6 +22,7 @@ const VideoPlayer = () => {
       hls.loadSource(source);
       hls.on(Hls.Events.MANIFEST_PARSED, function () {
         const availableQualities = hls.levels.map(level => level.height);
+        // const player = new Plyr('#player');
 
         const defaultOptions = {
           controls: [
@@ -44,8 +54,9 @@ const VideoPlayer = () => {
   }, []);
 
   return (
-    <div style={{ height: '400px' }}>
-      <video id="player" controls></video>
+    <div style={{ height: '100vh' }}>
+      <video id="player" style={{height:'100vh'}} controls></video>
+      {/* <button id="backButton" class="back-button">Back</button> */}
     </div>
   );
 };
