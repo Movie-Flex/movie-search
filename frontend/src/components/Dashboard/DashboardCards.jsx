@@ -16,9 +16,6 @@ export default function DashBoardCards() {
         <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">
           {user.name ? user.name : " "}
         </h1>
-        <h3 class="text-gray-600 font-lg text-semibold leading-6">
-          A {user.role ? user.role : " "} User
-        </h3>
 
         <ul class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
           <li class="flex items-center py-3">

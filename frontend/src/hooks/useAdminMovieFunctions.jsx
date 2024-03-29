@@ -69,5 +69,23 @@ export const useAdminMovieFunctions = () => {
         }
     }
 
-  return { addMovie , deleteMovie,adminGenerateToken};
+    const getSubscriptionData = async (page) => {
+      try{
+        const response = await axios.get(`http://localhost:3002/api/subs?p=${page}`,{
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
+        if(response.status === 200){
+          return response.data;
+        }else{
+          console.log(response.data.message);
+        }
+      }
+      catch(error){
+        console.log(error);
+      }
+    }
+
+  return { addMovie , deleteMovie,adminGenerateToken,getSubscriptionData};
 };

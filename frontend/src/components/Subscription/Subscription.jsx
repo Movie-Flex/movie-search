@@ -12,7 +12,7 @@ export default function Subscription() {
 
   var subscriptionfree = user.subscription === "free" ? true : false;
 
-  const [yearly, setYearly] = useState(true);
+  const [yearly, setYearly] = useState("true");
   const [amountDetails, setAmountDetails] = useState(tempSubscriptionData);
 
   const { getAmountDetails } = GetAmountDetails();

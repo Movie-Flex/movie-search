@@ -26,7 +26,7 @@ export default function MakeAdmin() {
 
   return (
     <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
-      <h1 class="text-3xl font-bold mb-8">Make Admin</h1>
+      <h1 class="text-3xl font-bold mb-8">Approve Admin</h1>
       <div class="-mx-3 md:flex mb-6">
         <div class="md:w-full px-3">
           <label
@@ -60,9 +60,6 @@ export default function MakeAdmin() {
           Make Admin
         </button>
       </div>
-
-      {/* show the genrated token from the backend */}
-      {/* also make the copy ion so that user can copy */}
       <div class="mt-4">
         <h1 class="text-xl font-bold">Generated Token</h1>
         <p class="text-lg font-bold">{generatedToken}</p>

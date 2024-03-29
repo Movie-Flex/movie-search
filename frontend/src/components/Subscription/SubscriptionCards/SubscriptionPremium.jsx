@@ -11,22 +11,21 @@ export default function SubscriptionPremium({ props, yearly, setYearly }) {
 
   const {
     user,
-    paymentGatewaySendingData,
     setPaymentGatewaySendingData,
     token,
-    paymentGatewayReceivingData,
     setPaymentGatewayReceivingData,
   } = useContext(UserContext);
 
+  
   const handlePremiumSubscription = async () => {
     setPaymentGatewaySendingData({
       dur: yearly ? "feeYearly" : "feeMonthly",
       type: "premium",
     });
-
+  
     try {
       const response = await axios.post(
-        `http://localhost:3002/payment/order?dur=${paymentGatewaySendingData.dur}&type=${paymentGatewaySendingData.type}`,
+        `http://localhost:3002/payment/order?dur=${yearly ? "feeYearly" : "feeMonthly"}&type=premium`,
         {},
         {
           headers: {
