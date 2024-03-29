@@ -1,17 +1,6 @@
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 
-const user = {
-  name: "zx",
-  email: "zx@gmail.com",
-  username: "zx",
-  role: "standard_user",
-  subscription: "free",
-  createdAt: "2024-03-22T15:18:19.806Z",
-  issuedAt: 1711365039800,
-  iat: 1711365039,
-  exp: 1711371039,
-};
 export default function DashBoardCards() {
   const { user } = useContext(UserContext);
   return (
