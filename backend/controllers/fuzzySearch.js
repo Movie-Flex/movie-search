@@ -22,7 +22,7 @@ const fuzzySearch = async (req, res) => {
           path: 'title',
           fuzzy: {
             maxEdits: 2,
-            prefixLength: 3
+            prefixLength: 2
           }
         }
       }

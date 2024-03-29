@@ -28,6 +28,7 @@ const ModalProvider = ({
                     onClose={() => { setIsModalOpen(false) }}
                     isOpen={isModalOpen}
                     scrollBehavior='inside'
+                    blockScrollOnMount={false}
                 >
                     <ModalOverlay />
                     <ModalContent className='max-w-[70vw] min-w-[70vw] max-h-[95vh] min-h-[95vh]'>
