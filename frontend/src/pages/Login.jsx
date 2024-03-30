@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
+import SpinLoader from "../utils/SpinLoader";
 
 const Login = () => {
   const { login } = useLogin();
@@ -10,6 +11,7 @@ const Login = () => {
     userId: "",
     password: "",
   });
+  const [loading ,setLoading]=useState(false)
 
   const [show, setShow] = useState(false);
 
@@ -21,9 +23,12 @@ const Login = () => {
     e.preventDefault();
     console.log(loginData);
     try {
+      setLoading(true)
       await login(loginData);
+      setLoading(false)
     } catch (error) {
       console.log("Login Error", error);
+      setLoading(false)
     }
   };
 
@@ -124,10 +129,13 @@ const Login = () => {
                   handleLogin(e, loginData);
                 }}
                 type="submit"
-                class="w-full bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium 
+                class="w-full flex items-center justify-center bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium 
                 rounded-lg text-sm px-5 py-2.5 text-center bg-primary-600 hover:bg-primary-700 focus:ring-primary-800   text-white"
               >
-                Sign in
+                {!loading ?`Sign in`:(
+                 <SpinLoader/>
+                
+                )}
               </button>
               <p class="text-sm text-white">
                 Don't have an account yet?

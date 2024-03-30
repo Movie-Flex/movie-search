@@ -4,6 +4,7 @@ import { useSignup } from "../hooks/useSignUp";
 import checkStrongNess from "../utils/PasswordCheck";
 import toast from "react-hot-toast";
 import { useAvailableUser } from "../hooks/useAvailableUser";
+import SpinLoader from "../utils/SpinLoader";
 
 const Signup = () => {
   const {  availableUserName,availableUserEmail } = useAvailableUser();
@@ -24,6 +25,7 @@ const Signup = () => {
   const [passwordStrength, setPasswordStrength] = useState("Weak");
   const [show, setShow] = useState(false);
   const [termsCheckBox, setTermsCheckBox] = useState(false);
+  const [loading,setLoading]=useState(false)
 
   const toggleShow = () => {
     setShow(!show);
@@ -36,9 +38,12 @@ const Signup = () => {
     }
     e.preventDefault();
     try {
+      setLoading(true)
       await signup(signupData);
+      setLoading(false)
     } catch (error) {
       console.error("Signup error:", error);
+      setLoading(false)
     }
   };
 
@@ -293,10 +298,14 @@ const Signup = () => {
                   handleSignup(e, signupData);
                 }}
                 type="submit"
-                class="w-full bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm 
+                class="w-full  flex items-center justify-center bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm 
                 px-5 py-2.5 text-center bg-primary-600 hover:bg-primary-700 focus:ring-primary-800  text-white"
-              >
-                Create an account
+              > 
+               {!loading ?`Create an account`:(
+                 <SpinLoader/>
+                
+                )}
+                
               </button>
               <p class="text-sm font-light text-white">
                 Already have an account?{" "}
