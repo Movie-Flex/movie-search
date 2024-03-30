@@ -8,7 +8,7 @@ export default function MovieCard({ movie }) {
   const navigate = useNavigate();
   return (
     
-      <div class=" rounded-md bg-gray-800 shadow-lg">
+      <div class=" rounded-md bg-gray-800 shadow-lg mt-5">
         <div class="md:flex px-4 leading-none max-w-4xl">
           <div class="flex-none ">
             <img
@@ -92,7 +92,7 @@ export default function MovieCard({ movie }) {
             </div>
           </div>
         </div>
-        <div class="flex justify-between items-center px-4 mb-4 w-full">
+        {/* <div class="flex justify-between items-center px-4 mb-4 w-full">
           <div class="flex">
             <i class="material-icons mr-2 text-red-600">favorite_border</i>
             <i class="material-icons text-blue-600">remove_red_eye</i>
@@ -109,7 +109,7 @@ export default function MovieCard({ movie }) {
             <i class="material-icons ml-2 text-yellow-600">star_half</i>
             <i class="material-icons ml-2 text-yellow-600">star</i>
           </div>
-        </div>
+        </div> */}
       </div>
     
   );

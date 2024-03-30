@@ -47,8 +47,8 @@ function YourMovies() {
           <DiamondFigures />
         </div>
       ) : (
-        <div style={{ background: "black", padding: "20px", height:"100vh" }}>
-          <h1 style={{ color: "white", textAlign: "center", fontSize: "3rem" }}>
+        <div style={{ padding: "0px", height:"100vh" }} className="bg-gray-900">
+          <h1  style={{ color: "white", textAlign: "center", fontSize: "3rem" }}>
             Your Movies
           </h1>
           <button
@@ -108,8 +108,8 @@ function YourMovies() {
 
 function MovieSection({ title, movies, setModalMovie, setIsModalOpen }) {
   return (
-    <div className="w-full p-5 flex flex-col">
-      <div className="text-3xl text-white font-bold">{title}</div>
+    <div className="w-full flex flex-col bg-gray-900">
+      <div className="text-3xl p-6 text-white font-bold">{title}</div>
       <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
         {movies &&
           movies.length > 0 &&

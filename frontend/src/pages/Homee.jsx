@@ -62,7 +62,7 @@ const Homee = () => {
         setLoading(true);
         setAutocompleteResults([]);
         //setValue('search', query);
-        navigate(`/movie/${query}`);
+        navigate(`/movie/${query}/${Math.floor(Math.random()*5)+1}`);
         setLoading(false);
     }
 

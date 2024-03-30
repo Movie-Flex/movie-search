@@ -148,7 +148,7 @@ const CardProviderOnHover = ({
             justify="space-between"
             align="center"
           >
-            <Button
+            {/* <Button
               onClick={() => {
                 setModalMovie(movie);
                 setIsModalOpen(true);
@@ -158,7 +158,7 @@ const CardProviderOnHover = ({
               colorScheme="yellow"
             >
               MORE INFO
-            </Button>
+            </Button> */}
             <Text
               fontSize="16px"
               display="flex"
