@@ -47,7 +47,7 @@ function YourMovies() {
           <DiamondFigures />
         </div>
       ) : (
-        <div style={{ background: "black", padding: "20px" }}>
+        <div style={{ background: "black", padding: "20px", height:"100vh" }}>
           <h1 style={{ color: "white", textAlign: "center", fontSize: "3rem" }}>
             Your Movies
           </h1>
