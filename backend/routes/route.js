@@ -90,7 +90,7 @@ router.post('/postComments/:id', comments.postComments)
 router.post('/rateMovie/:movieId/:rating', rateMovie)
 
     // movie status for a particular user
-router.get('/movieStatus/:id', movieStatus)
+router.post('/movieStatus/:id', movieStatus)
 
 
 // admin action related api's

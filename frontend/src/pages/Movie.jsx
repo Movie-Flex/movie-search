@@ -203,7 +203,13 @@ const Movie = () => {
         const getOptions = async()=>{
             try{
                 setLoader(true);
-                const response = await axios.get(`http://localhost:3002/api/movieStatus/${params.id}`);
+                const response = await axios.post(`http://localhost:3002/api/movieStatus/${params.id}`, {
+                    
+                }, {
+                    headers:{
+                        authorization : `Bearer ${userData.token}`
+                    }
+                });
                 if(response.data.message){
                     return;
                 }
