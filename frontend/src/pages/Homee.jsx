@@ -9,7 +9,7 @@ import debounce from 'debounce';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import logo from "../assets/images/logo.png"
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -20,6 +20,7 @@ import { UserContext } from '../context/UserContext.jsx';
 import SubscriptionModal from '../components/Subscription/SubscriptionModal.jsx';
 import DropDownHomeMenu from '../components/DropDownHomeMenu.jsx';
 import { Checkbox, CircularProgress, Button } from '@chakra-ui/react';
+import DiamondFigures from '../utils/DiamondFigures.jsx';
 
 const classNames = (...classes) => {
     return classes.filter(Boolean).join(' ');
@@ -53,6 +54,7 @@ const Homee = () => {
     const [topRatedMovie, setTopRatedMovie] = useState([])
     const [watchHistoryMovies, setWatchHistoryMovies] = useState([])
     const [isAdvancedSearchSelected, setIsAdvancedSearchSelected] = useState(false);
+    const [loaderCompletepage, setLoaderCompletepage] = useState(false);
     console.log('user', user);
     //const arr = [1, 2, 3, 4, 5];
 
@@ -61,11 +63,6 @@ const Homee = () => {
         setAutocompleteResults([]);
         //setValue('search', query);
         navigate(`/movie/${query}`);
-        // navigate(`/searchResult?query=${query}&isAdvSearch=${isAdvancedSearchSelected}`)
-        // const response = await axios.get(`http://localhost:3000/api/search?query=${query}`);
-        // const response = await axios.post(`http://localhost:3002/api/fuzzySearch?q=${query}`);
-        // console.log(response);
-        // setSearchResults(response.data);
         setLoading(false);
     }
 
@@ -78,10 +75,6 @@ const Homee = () => {
         setValue('search', query);
         // navigate(`/movie/${query}`);
         navigate(`/searchResult?query=${query}&isAdvSearch=${isAdvancedSearchSelected}${genreSelected ? `&genre=${genreSelected}` : ''}`);
-        // const response = await axios.get(`http://localhost:3000/api/search?query=${query}`);
-        // const response = await axios.post(`http://localhost:3002/api/fuzzySearch?q=${query}`);
-        // console.log(response);
-        // setSearchResults(response.data);
         setLoading(false);
     };
 
@@ -163,22 +156,38 @@ const Homee = () => {
     }
 
     useEffect(() => {
-        axios.post("http://localhost:3002/api/autoSuggest",
+        setLoaderCompletepage(true);
+        const getHomePageMovies = async () => 
+        { axios.get("http://localhost:3002/api/homeMovies")
+             .then((response) => {
+                 if (response.status === 200) {
+                   console.log('response.data', response.data)
+                     setTopRatedMovie(response.data.Top);
+                     setDramaMovies(response.data.Drama);
+                     setComedyMovies(response.data.Comedy);
+                     setRomanceMovies(response.data.Romance);
+                     setHorrorMovies(response.data.Horror);
+                     setActionMovies(response.data.Action);
+                 }
+             })
+             .catch((err) => {
+                 toast.error(err.message);
+             })}
+ 
+            
+ 
+        const getWatchHistory=async()=>{
+            axios.post("http://localhost:3002/api/getWatchHistory",{},
             {
-                toSearch: ["Action"]
-            },
-            {
-                params: {
-                    q: "love"
-                },
+                
                 headers: {
-                    Authorization: `Bearer ${userData.token}`
+                    'authorization': `Bearer ${userData.token}`
                 }
             })
             .then((response) => {
                 if (response.status === 200) {
                     console.log('response.data 1', response.data)
-                    setRecommendedMovies(response.data);
+                    setRecommendedMovies(response.data.watchHistory);
                 }
             })
             .catch((err) => {
@@ -187,59 +196,30 @@ const Homee = () => {
             .finally(() => {
                 setLoadingRecommended(false)
             })
+        }
+
+        getWatchHistory();
+        getHomePageMovies();
+
+        setLoaderCompletepage(false);
 
 
     }, [])
 
-    useEffect( () => {
-
-        const getHomePageMovies = async () => 
-         { axios.get("http://localhost:3002/api/homeMovies")
-              .then((response) => {
-                  if (response.status === 200) {
-                    console.log('response.data', response.data)
-                      setTopRatedMovie(response.data.Top);
-                      setDramaMovies(response.data.Drama);
-                      setComedyMovies(response.data.Comedy);
-                      setRomanceMovies(response.data.Romance);
-                      setHorrorMovies(response.data.Horror);
-                      setActionMovies(response.data.Action);
-                  }
-              })
-              .catch((err) => {
-                  toast.error(err.message);
-              })}
   
-              getHomePageMovies();
-  
-      }, [])
-
-
-    // useEffect(async () => {
-
-    //     axios.get("http://localhost:3002/api/getWatchHistory", {
-    //         headers: {
-    //             'Authorization': `Bearer ${userData.token}`
-    //         }
-    //     })
-    //         .then((response) => {
-    //             console.log('response', response)
-    //             if (response.status == 200) {
-    //                 setWatchHistoryMovies(response.data);
-    //             }
-    //         })
-    //         .catch((err) => {
-    //             console.log('err', err)
-    //             toast.error(err.message);
-    //         })
-
-    // }, [])
-
 
 
     return (
         <>
-        <div className='bg-[#171D21] min-h-[100vh] flex flex-col justify-between'>
+       {loaderCompletepage?(
+        
+      <div className="bg-[#171D21] min-h-[100vh] flex flex-col items-center justify-end">
+         <DiamondFigures/>
+      </div>
+
+       ):(
+        <>
+         <div className='bg-[#171D21] min-h-[100vh] flex flex-col justify-between'>
             <div className="w-full flex justify-between items-center mt-2">
                 <div className="">
                     <img src={logo} alt="Movie Flex" className='h-14 w-auto' />
@@ -380,9 +360,9 @@ const Homee = () => {
                 </Swiper>
             </div>
 
-
+           
             <div className="mt-5">
-                {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
+                {!loadingRecommended && recommendedMovies && recommendedMovies.watchHistory &&recommendedMovies.watchHistory.length>0 && (<div className="w-full p-5 flex flex-col">
                     <div className="text-3xl text-white font-bold">Recommended Movies</div>
                     <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
                         {!loadingRecommended && recommendedMovies && recommendedMovies.map((movie) => {
@@ -483,7 +463,7 @@ const Homee = () => {
 
             {/* Genre 1 */}
             <div className="mt-5">
-                {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
+                {!loadingRecommended && (<div className="w-full p-5 flex flex-col">
                     <div className="text-3xl text-white font-bold">Horror Movies</div>
                     <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
                         {!loadingRecommended && horrorMovies && horrorMovies.map((movie) => {
@@ -534,7 +514,7 @@ const Homee = () => {
 
             {/* Genre 2 */}
             <div className="mt-5">
-                {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
+                {!loadingRecommended && (<div className="w-full p-5 flex flex-col">
                     <div className="text-3xl text-white font-bold">Action Movies</div>
                     <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
                         {!loadingRecommended && actionMovies && actionMovies.map((movie) => {
@@ -585,7 +565,7 @@ const Homee = () => {
 
             {/* Genre 3 */}
             <div className="mt-5">
-                {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
+                {!loadingRecommended  && (<div className="w-full p-5 flex flex-col">
                     <div className="text-3xl text-white font-bold">Romance Movies</div>
                     <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
                         {!loadingRecommended && romanceMovies && romanceMovies.map((movie) => {
@@ -636,7 +616,7 @@ const Homee = () => {
 
             {/* Genre 4 */}
             <div className="mt-5">
-                {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
+                {!loadingRecommended  && (<div className="w-full p-5 flex flex-col">
                     <div className="text-3xl text-white font-bold">Comedy Movies</div>
                     <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
                         {!loadingRecommended && comedyMovies && comedyMovies.map((movie) => {
@@ -687,7 +667,7 @@ const Homee = () => {
 
             {/* Genre 5 */}
             <div className="mt-5">
-                {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
+                {!loadingRecommended && (<div className="w-full p-5 flex flex-col">
                     <div className="text-3xl text-white font-bold">Drama Movies</div>
                     <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
                         {!loadingRecommended && dramaMovies && dramaMovies.map((movie) => {
@@ -734,82 +714,13 @@ const Homee = () => {
                 </div>)}
             </div>
 
-            {/* <section class="upcoming">
-                <div class="container">
-
-                    <div class="flex-wrapper">
-
-                        <div class="title-wrapper">
-                            <p class="section-subtitle">Online Streaming</p>
-
-                            <h2 class="h2 section-title">Upcoming Movies</h2>
-                        </div>
-
-                        <ul class="filter-list">
-
-                            <li>
-                                <button class="filter-btn">Movies</button>
-                            </li>
-
-                            <li>
-                                <button class="filter-btn">TV Shows</button>
-                            </li>
-
-                            <li>
-                                <button class="filter-btn">Anime</button>
-                            </li>
-
-                        </ul>
-
-                    </div>
-
-                    <ul class="movies-list  has-scrollbar">
-
-                        <li>
-                            <div class="movie-card">
-
-                                <a href="./movie-details.html">
-                                    <figure class="card-banner">
-                                        <img src="https://codewithsadee.github.io/filmlane/assets/images/upcoming-1.png" alt="The Northman movie poster" />
-                                    </figure>
-                                </a>
-
-                                <div class="title-wrapper">
-                                    <a href="./movie-details.html">
-                                        <h3 class="card-title">The Northman</h3>
-                                    </a>
-
-                                    <time datetime="2022">2022</time>
-                                </div>
-
-                                <div class="card-meta">
-                                    <div class="badge badge-outline">HD</div>
-
-                                    <div class="duration">
-                                        <ion-icon name="time-outline"></ion-icon>
-
-                                        <time datetime="PT137M">137 min</time>
-                                    </div>
-
-                                    <div class="rating">
-                                        <ion-icon name="star"></ion-icon>
-
-                                        <data>8.5</data>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </li>
-
-
-                    </ul>
-
-                </div>
-            </section> */}
+           
         </div>
          {user&& user.role!=="admin" && user.subscription==="free" && isFirstTime&&(
             <SubscriptionModal setIsFirstTime={setIsFirstTime} isFirstTime={isFirstTime}/>
         )}
+        </>
+       )}
     </>
     )
 }

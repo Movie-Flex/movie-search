@@ -9,7 +9,7 @@ import { FaAngleDoubleRight, FaRegStar, FaStar } from 'react-icons/fa'
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import logo from "../assets/images/logo.png"
 import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';

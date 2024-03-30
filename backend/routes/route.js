@@ -64,7 +64,7 @@ router.post('/addToWatchHistory/:id',addToWatchHistory)
 
 router.delete('/deleteWatchHistory/:id',deleteWatchHistory)
 
-router.get('/getWatchHistory',getWatchHistory)
+router.post('/getWatchHistory',getWatchHistory)
 
 
     // Favourite Movies crud
