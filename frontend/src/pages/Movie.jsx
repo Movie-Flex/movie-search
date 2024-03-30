@@ -70,7 +70,8 @@ const Homee = () => {
         setLoading(true);
         setAutocompleteResults([]);
         //setValue('search', query);
-        navigate(`/movie/${query}`);
+
+        navigate(`/movie/${query}/${Math.floor(Math.random()*5)+1}`);
         window.location.reload();;
         // navigate(`/searchResult?query=${query}&isAdvSearch=${isAdvancedSearchSelected}`)
         // const response = await axios.get(`http://localhost:3000/api/search?query=${query}`);
@@ -164,7 +165,7 @@ const Homee = () => {
         console.log(index);
         console.log(userData);
         if (userData.isLoggedIn) {
-            navigate(`/video/${index + 1}`)
+            navigate(`/video/${index}`)
         } else {
             navigate('/login')
         }
@@ -486,7 +487,7 @@ const Homee = () => {
                                                 {/* <button className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
                                         Watch Now
                                     </button> */}
-                                                <Button onClick={() => handleWatchNow()} className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
+                                                <Button onClick={() => handleWatchNow(params.idx)} className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
                                                     Watch Now
                                                 </Button>
                                             </div>

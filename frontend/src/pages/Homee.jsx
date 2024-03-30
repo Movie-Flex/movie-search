@@ -60,7 +60,7 @@ const Homee = () => {
         setLoading(true);
         setAutocompleteResults([]);
         //setValue('search', query);
-        navigate(`/movie/${query}`);
+        navigate(`/movie/${query}/${Math.floor(Math.random()*5)+1}`);
         // navigate(`/searchResult?query=${query}&isAdvSearch=${isAdvancedSearchSelected}`)
         // const response = await axios.get(`http://localhost:3000/api/search?query=${query}`);
         // const response = await axios.post(`http://localhost:3002/api/fuzzySearch?q=${query}`);
