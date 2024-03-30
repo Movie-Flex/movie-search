@@ -4,8 +4,7 @@ const { generateToken } = require('../middlewares/generateToken');
 const { getUser } = require('../middlewares/getUserFromToken');
 const User_2 = require('../models/user'); 
 const Role = require('../models/role'); 
-const Subscription = require('../models/subscription');
-const PaymentDetails = require('../models/payment'); 
+const Subscription = require('../models/subscription'); 
 
 const mongoURI = process.env.MONGODB_URI
 
@@ -36,14 +35,7 @@ const role = async (req, res, db) => {
 
             const subscription = await Subscription.findOne({ email: email });
 
-            const paymentDetail = await PaymentDetails.findOne({ email: email });
-            if(paymentDetail){
-                const newToken = await generateToken(user, newRole, subscription.subscription,paymentDetail.duration );
-            }
-            else{
-                const newToken = await generateToken(user, newRole, subscription.subscription, "free" );
-            }
-            
+            const newToken = await generateToken(user, newRole, subscription.subscription, subscription.duration);
             return res.status(200).json({ message: `Role updated to ${newRole}`, token: newToken });
         }
 
