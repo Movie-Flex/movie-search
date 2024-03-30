@@ -42,7 +42,7 @@ const SearchPageNavbar = () => {
         setLoading(true);
         setAutocompleteResults([]);
         //setValue('search', query);
-        navigate(`/movie/${query}`);
+        navigate(`/movie/${query}/${Math.floor(Math.random()*5)+1}`);
         //window.location.reload();;
         // navigate(`/searchResult?query=${query}&isAdvSearch=${isAdvancedSearchSelected}`)
         // const response = await axios.get(`http://localhost:3000/api/search?query=${query}`);
