@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import {
     Modal,
     ModalOverlay,
@@ -19,6 +19,12 @@ const ModalProvider = ({
     isModalOpen,
     setIsModalOpen
 }) => {
+    const rand_number= Math.floor(Math.random()*(5)) + 1;
+    console.log(rand_number);
+    const navigate  = useNavigate();
+    const handleViewMovie = (id) =>{
+        navigate(`/movie/${id}/${rand_number}`);
+    }
 
     return (
         <div className=''>
@@ -48,15 +54,19 @@ const ModalProvider = ({
                                 alt={movie.title}
                                 borderRadius='lg'
                             /> */}
-                            <Link to="/video"><video src="https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/video1.mp4?alt=media&token=46ac4bba-0850-495d-bcff-8eea28621da5" autoPlay muted loop playsInline className="h-[60vh] m-auto object-fill rounded-2xl">
+                            <Link to={`/video/${rand_number}`}><video src={`https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/clip${rand_number}.mp4?alt=media`} autoPlay muted loop playsInline className="h-[60vh] m-auto object-fill rounded-2xl">
                             </video>
                             </Link>
+
+                            <Button className='rounded mt-5' style={{background: "#ECC94B"}} onClick={()=>handleViewMovie(movie._id)}> 
+                                View Movie
+                            </Button>
 
                             <div className="flex flex-col items-start justify-center mt-5 gap-3">
                                 <div className="flex justify-center items-center gap-2 bg-[#ECC94B] p-2 px-4 rounded-3xl font-semibold">
                                     <span>Rating </span>
                                     <span><FaStar /></span>
-                                    <span className='text-[#171D21]'>{movie.imdb.rating}</span>
+                                    <span className='text-[#171D21]'>{Math.ceil(Number(movie.imdb.rating))}</span>
                                 </div>
                                 <div className="flex justify-center items-center gap-2 ">
                                     <span className='bg-black pr-2 rounded-3xl font-semibold flex gap-1 items-center'><span className='bg-[#ECC94B] p-2 px-6 rounded-3xl font-semibold'>Genre</span><span><FaAngleDoubleRight className='text-white' /></span>  </span>

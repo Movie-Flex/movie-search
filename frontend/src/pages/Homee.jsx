@@ -69,6 +69,8 @@ const Homee = () => {
         setLoading(false);
     }
 
+    
+
     const runSearch = async (query) => {
         
         setLoading(true);
@@ -339,7 +341,7 @@ const Homee = () => {
                     {topRatedMovie && topRatedMovie.slice(0, 5).map((movie, index) => (
                         <SwiperSlide>
                             <div className="w-full h-[500px] sm:h-[400px] pl-5 flex flex-col justify-center ">
-                                <video src="https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/video1.mp4?alt=media&token=46ac4bba-0850-495d-bcff-8eea28621da5" autoPlay muted playsInline className="absolute inset-0 w-full h-full object-cover">
+                                <video src={`https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/clip${index+1}.mp4?alt=media`} autoPlay muted playsInline className="absolute inset-0 w-full h-full object-cover">
                                 </video>
                                 <div className="w-full sm:w-3/4 p-10 flex flex-col justify-center items-start gap-y-3 sm:gap-y-6 relative z-10">
                                     <div className="text-[#fff] font-bold text-4xl">
