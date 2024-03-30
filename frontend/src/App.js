@@ -13,6 +13,7 @@ import SearchResult from './pages/SearchResult';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 import Movie from './pages/Movie';
+import YourMovies from './pages/YourMovies';
 
 function App() {
   return (
@@ -63,6 +64,9 @@ function App() {
               />
               <Route path='/movie/:id/:idx'
               element={<Movie/>}/>
+
+<Route path='/getYourMovies'
+              element={<YourMovies/>}/>
             </Routes>
 
           </div>
