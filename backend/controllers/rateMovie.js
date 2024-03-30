@@ -50,11 +50,13 @@ const rateMovie = async (req, res) => {
                 // const updatedVotes = requiredMovieVotes + 1;
                 const updatedRating = (requiredMovieRating * requiredMovieVotes + rating - existingRating) / (requiredMovieVotes);
                 
-                await allMovieCollection.findOneAndUpdate(
-                    { _id: new ObjectId(movieId) },
-                    { $set: { 'imdb.rating': updatedRating} }
-                );
+                // await allMovieCollection.findOneAndUpdate(
+                //     { _id: new ObjectId(movieId) },
+                //     { $set: { 'imdb.rating': updatedRating} }
+                // );
+                await existingUser.save();
 
+                return res.status(200).json({ message: "Successfully updated rating for this movie." });
 
             }else {
                 existingUser.vote.movieId.push(movieId);
@@ -68,15 +70,16 @@ const rateMovie = async (req, res) => {
                 const updatedVotes = requiredMovieVotes + 1;
                 const updatedRating = (requiredMovieRating * requiredMovieVotes + rating) / (updatedVotes);
 
-                await allMovieCollection.updateOne(
-                    { _id: new ObjectId(movieId) },
-                    { $set: { 'imdb.rating': updatedRating, 'imdb.votes': updatedVotes } }
-                );
+                // await allMovieCollection.updateOne(
+                //     { _id: new ObjectId(movieId) },
+                //     { $set: { 'imdb.rating': updatedRating, 'imdb.votes': updatedVotes } }
+                // );
+
+                await existingUser.save();
+
+                return res.status(200).json({ message: "Successfully added rating for this movie." });
 
             }
-            await existingUser.save();
-
-            return res.status(200).json({ message: "Successfully updated rating for this movie." });
 
         } else {
             const newRating = new RatedMovies({
@@ -95,10 +98,10 @@ const rateMovie = async (req, res) => {
             const updatedVotes = requiredMovieVotes + 1;
             const updatedRating = (requiredMovieRating * requiredMovieVotes + rating) / (updatedVotes);
 
-            await allMovieCollection.updateOne(
-                { _id: new ObjectId(movieId) },
-                { $set: { 'imdb.rating': updatedRating, 'imdb.votes': updatedVotes } }
-            );
+            // await allMovieCollection.updateOne(
+            //     { _id: new ObjectId(movieId) },
+            //     { $set: { 'imdb.rating': updatedRating, 'imdb.votes': updatedVotes } }
+            // );
             return res.status(200).json({ message: "Successfully added rating for this movie." });
         }
     } catch (err) {

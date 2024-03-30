@@ -22,7 +22,7 @@ const subscription = async (req, res) => {
             return res.status(209).json({ message: 'No authentication token found in bearer.' });
         }
 
-        const { subscription: newSubscription } = req.body;
+        const { subscription: newSubscription, duration } = req.body;
         const tokenToUser = getUser(token);
         const email = tokenToUser.email;
 
@@ -31,11 +31,11 @@ const subscription = async (req, res) => {
 
         // Update the subscription if a new subscription is provided
         if (newSubscription) {
-            await Subscription.updateOne({ email: email }, { $set: { subscription: newSubscription } });
+            await Subscription.updateOne({ email: email }, { $set: { subscription: newSubscription , duration : duration} });
 
             const role = await Role.findOne({ email: email });
 
-            const newToken = await generateToken(user, role.role, newSubscription);
+            const newToken = await generateToken(user, role.role, newSubscription, duration);
             return res.status(200).json({ message: `Subscription updated to ${newSubscription}`, token: newToken });
         }
 

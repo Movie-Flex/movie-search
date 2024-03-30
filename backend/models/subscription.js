@@ -12,6 +12,10 @@ const subscriptionSchema = new Schema({
         enum: ['free', 'diamond', 'premium'],
         default: 'free'
     },
+    duration :{
+        type : String,
+        default : "null"
+    },
     createdAt: {
         type: Date,
         default: Date.now

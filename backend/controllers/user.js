@@ -34,6 +34,7 @@ const registerUser = async (req, res) => {
         //     role = req.body.role
         // }
         const subscription = "free"
+        const duration = "null"
         // const hashedPassword = await bcrypt.hash(password, 10); // change this to rsa encryption
 
         // encryption using RSA public-key cryptography
@@ -58,9 +59,10 @@ const registerUser = async (req, res) => {
         const newSubscription = new Subscription({
             email: email,
             subscription: subscription,
+            duration : duration
         });
         await newSubscription.save();
-        const token = generateToken(newUser, newRole.role, newSubscription.subscription);
+        const token = generateToken(newUser, newRole.role, newSubscription.subscription, newSubscription.duration);
         return res.status(200).json({ message: "Account created successfully", token });
 
     } catch (error) {
@@ -110,7 +112,7 @@ const loginUser = async (req, res) => {
                 const daysInYear = (paymentDate.getFullYear()) % 4 == 0 ? 366 : 365;
 
                 if ((duration == 'feeMonthly' && daysUsed > daysInMonth || duration == 'feeYearly' && daysUsed > daysInYear)) {
-                    await Subscription.findOneAndUpdate({ email: user.email }, { $set: { subscription: "free" } });
+                    await Subscription.findOneAndUpdate({ email: user.email }, { $set: { subscription: "free" , duration : "null"} });
                     await PaymentDetail.findOneAndUpdate({ email: user.email }, { $set: { status: "inactive" } });
                 }
             }
@@ -138,7 +140,7 @@ const loginUser = async (req, res) => {
 
             role = await Role.findOne({ email: user.email });
             const subscription = await Subscription.findOne({ email: user.email });
-            const token = generateToken(user, role.role, subscription.subscription);
+            const token = generateToken(user, role.role, subscription.subscription, subscription.duration);
             return res.status(200).json({ token });
         }
 

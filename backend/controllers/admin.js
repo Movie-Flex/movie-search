@@ -4,6 +4,10 @@ const collectionName = 'embedded_movies';
 const collection_name = 'subscriptions'
 const { isAdmin } = require('../middlewares/admin');
 const { ObjectId } = require('mongodb');
+
+const { verifyToken } = require('../middlewares/verifyToken');
+
+
 function isValidMovieData(movieData) {
   return movieData && movieData.title && movieData.plot && movieData.year && movieData.directors && movieData.imdb;
 }
@@ -166,7 +170,7 @@ const getSubs = async (req, res) => {
     client = connectedClient;
     const totalCount = await collection.countDocuments();
     const totalPages = Math.ceil(totalCount / perPage);
-    const skip = perPage * (page-1);
+    const skip = perPage * (page - 1);
     const subs = await collection.find().project({
       languages: 0,
       released: 0,
@@ -196,4 +200,9 @@ const getSubs = async (req, res) => {
   }
 }
 
-module.exports = { addMovie, deleteMovie, updateMovie, getSubs };
+module.exports = {
+  addMovie: [verifyToken, addMovie],
+  deleteMovie: [verifyToken, deleteMovie],
+  updateMovie: [verifyToken, updateMovie],
+  getSubs: [verifyToken, getSubs]
+};
