@@ -7,8 +7,7 @@ The following tech stack has been incorporated for creating the app - <br>
 • Frontend: ReactJS - 18.2.0, HTML5, CSS-tailwind <br>
 • Backend: NodeJS - Express 4.18.3 <br>
 • Database: MongoDB Atlas Cluster <br>
-• Dev-Ops: Docker, Kubernetes <br>
-• Cloud Deployment: AWS <br>
+
 
 <b>NOTE : FIRST START BACKEND SERVER AND THEN FRONTEND </b> 
 
