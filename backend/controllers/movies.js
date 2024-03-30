@@ -69,14 +69,14 @@ const movies = async (req, res) => {
 const oneMovie = async (req, res) => {
     let client;
     try {
-        const bearer = req.headers['authorization'];
-        if (!bearer) {
-            return res.status(404).json({ message: "No bearer token" });
-        }
-        const token = bearer.split(" ")[1];
-        if (!token) {
-            return res.status(404).json({ message: "No token in the bearer" });
-        }
+        // const bearer = req.headers['authorization'];
+        // if (!bearer) {
+        //     return res.status(404).json({ message: "No bearer token" });
+        // }
+        // const token = bearer.split(" ")[1];
+        // if (!token) {
+        //     return res.status(404).json({ message: "No token in the bearer" });
+        // }
 
         const { id } = req.body;
         if (!id) {
