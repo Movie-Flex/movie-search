@@ -145,14 +145,27 @@ const Homee = () => {
         }
     };
 
-    const handleWatchNow = (index)=>{
-        console.log(index);
-        console.log(userData);
-        if(userData.isLoggedIn){
-            navigate(`/video/${index+1}`)
-        } else {
-            navigate('/login')
+    const handleWatchNow = (index, id) => {
+        if(!userData.isLoggedIn){
+            toast.error("User not logged in");
+            navigate(`/login`);
+            return;
         }
+        setLoaderCompletepage(true);
+        axios.post(`http://localhost:3002/api/addToWatchHistory/${id}`, {}, {
+            headers:{
+                authorization : `Bearer ${userData.token}`
+            }
+        })
+        .then((response)=>{
+            console.log(response);
+            setLoaderCompletepage(false);
+            navigate(`/video/${index+1}`);
+        })
+        .catch((err)=>{
+            toast.error(err.message);
+            setLoaderCompletepage(false);
+        })
     }
 
     useEffect(() => {
@@ -348,7 +361,7 @@ const Homee = () => {
                                         {/* <button className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
                                         Watch Now
                                     </button> */}
-                                        <Button onClick={()=>handleWatchNow(index)} className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
+                                        <Button onClick={()=>handleWatchNow(index, movie._id)} className="flex items-center px-4 py-2 bg-[#009846] text-[#FFFFFF] rounded-full text-lg">
                                             Watch Now
                                         </Button>
                                     </div>

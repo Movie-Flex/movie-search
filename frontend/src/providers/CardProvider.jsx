@@ -58,9 +58,7 @@ const CardProvider = ({
                         <Text color='#ECC94B' fontSize='16px'>{year}</Text>
                     </Stack>
                     <Stack mt='6' spacing='3' display='flex' flexDirection='row' justify='space-between' align='center'>
-                        <Button variant='solid' colorScheme='yellow'>
-                            Watch now
-                        </Button>
+                        
                         <Text fontSize='16px' display='flex' flexDirection='row' gap='5px' alignItems='center'>
                             <span className='text-[#ECC94B]'><FaRegClock /></span>
                             <span className='text-white'>{runtime}</span>
