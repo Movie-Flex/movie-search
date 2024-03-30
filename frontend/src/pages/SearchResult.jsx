@@ -89,7 +89,7 @@ const SearchResult = () => {
           <DiamondFigures />
         ) : (
           <>
-          <div className="flex bg-gray-900 py-4 px-4  max-w-screen-xl lg:py-6 lg:px-6">
+          <div className="flex bg-gray-900 py-4 px-4 lg:py-6 lg:px-6">
           <button
             onClick={() => window.history.back()}
             className="flex items-center text-gray-200 hover:text-gray-100"
@@ -111,10 +111,10 @@ const SearchResult = () => {
             <span>Back</span>
           </button>
         </div>
-          <div className="flex bg-gray-900 py-4 px-4  max-w-screen-xl lg:py-6 lg:px-6">
+          <div className="flex bg-gray-900 py-4 px-4 lg:py-6 lg:px-6">
           <button
             onClick={() => navigate("/")}
-            className="flex items-center text-gray-200 hover:text-gray-100"
+            className="flex items-center gap-2 text-gray-200 hover:text-gray-100"
           >
             <svg
                   xmlns="http://www.w3.org/2000/svg"
