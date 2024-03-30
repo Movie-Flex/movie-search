@@ -383,7 +383,7 @@ const Homee = () => {
 
             <div className="mt-5">
                 {!loadingRecommended && recommendedMovies && (<div className="w-full p-5 flex flex-col">
-                    <div className="text-3xl text-white font-bold">Recommended Movies</div>
+                    <div className="text-3xl text-white font-bold">Watch History</div>
                     <div className="flex justify-start overflow-y-hidden overflow-x-scroll gap-5 m-3">
                         {!loadingRecommended && recommendedMovies && recommendedMovies.map((movie) => {
                             return (
