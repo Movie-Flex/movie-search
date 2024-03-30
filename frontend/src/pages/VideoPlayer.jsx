@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Hls from 'hls.js';
 import Plyr from 'plyr';
 import 'plyr/dist/plyr.css';
-//import './Player.css';
+import './Player.css';
 import { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
 import { useParams } from 'react-router-dom';
 import { Audio } from 'react-loader-spinner';
+import axios from 'axios';
 const VideoPlayer = () => {
   const [loading, setLoading] = useState(true); // State to manage loading
   const userdata = useContext(UserContext);
@@ -98,7 +99,7 @@ const VideoPlayer = () => {
       >
         <Audio
           type="ThreeDots"
-          color="#00BFFF"
+          color="#ECC94B"
           height={80}
           width={80}
           timeout={0} // Remove the timeout

@@ -22,12 +22,13 @@ import { UserContext } from '../context/UserContext.jsx';
 import SubscriptionModal from '../components/Subscription/SubscriptionModal.jsx';
 import DropDownHomeMenu from '../components/DropDownHomeMenu.jsx';
 import { Checkbox, CircularProgress, Button } from '@chakra-ui/react';
+import DiamondFigures from "../utils/DiamondFigures";
 
 const classNames = (...classes) => {
     return classes.filter(Boolean).join(' ');
 };
 
-const Homee = () => {
+const Movie = () => {
    
     const navigate = useNavigate();
     const params = useParams();
@@ -41,23 +42,11 @@ const Homee = () => {
     const [autocompleteResults, setAutocompleteResults] = useState([]);
     const [selectedAutocompleteResultIndex, setSelectedAutocompleteResultIndex] = useState(null);
     const [searchResults, setSearchResults] = useState([]);
-    const [isLoading, setLoading] = useState(false);
-    const [recommendedMovies, setRecommendedMovies] = useState();
-    const [loadingRecommended, setLoadingRecommended] = useState(true);
-    const [modalMovie, setModalMovie] = useState();
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const userData = useContext(UserContext);
     const [movie, setMovie] = useState({});
     const [movieLoading, setMovieLoading] = useState(null)
-    const [actionMovies, setActionMovies] = useState([])
-    const [horrorMovies, setHorrorMovies] = useState([])
-    const [romanceMovies, setRomanceMovies] = useState([])
-    const [dramaMovies, setDramaMovies] = useState([])
-    const [comedyMovies, setComedyMovies] = useState([])
-    const [topRatedMovie, setTopRatedMovie] = useState([])
-    const [watchHistoryMovies, setWatchHistoryMovies] = useState([])
     const [isAdvancedSearchSelected, setIsAdvancedSearchSelected] = useState(false);
-    const [loader, setLoader] = useState(true);
+    const [loader, setLoader] = useState(false);
     const [noMatch, setNoMatch] = useState(false);
     const [showfav, setShowFav] = useState(false);
     const [showlater, setShowLater] = useState(false);
@@ -67,7 +56,7 @@ const Homee = () => {
     //const arr = [1, 2, 3, 4, 5];
 
     const runOnCLick = async (query) =>{
-        setLoading(true);
+        setLoader(true);
         setAutocompleteResults([]);
         //setValue('search', query);
 
@@ -78,11 +67,11 @@ const Homee = () => {
         // const response = await axios.post(`http://localhost:3002/api/fuzzySearch?q=${query}`);
         // console.log(response);
         // setSearchResults(response.data);
-        setLoading(false);
+        setLoader(false);
     }
 
     const runSearch = async (query) => {
-        setLoading(true);
+        setLoader(true);
         setAutocompleteResults([]);
         setValue('search', query);
         //navigate(`/movie/${query}`);
@@ -92,7 +81,7 @@ const Homee = () => {
         // const response = await axios.post(`http://localhost:3002/api/fuzzySearch?q=${query}`);
         // console.log(response);
         // setSearchResults(response.data);
-        setLoading(false);
+        setLoader(false);
     };
 
     const onFormSubmit = () => {
@@ -162,13 +151,26 @@ const Homee = () => {
     };
 
     const handleWatchNow = (index) => {
-        console.log(index);
-        console.log(userData);
-        if (userData.isLoggedIn) {
-            navigate(`/video/${index}`)
-        } else {
-            navigate('/login')
+        if(!userData.isLoggedIn){
+            toast.error("User not logged in");
+            navigate(`/login`);
+            return;
         }
+        setLoader(true);
+        axios.post(`http://localhost:3002/api/addToWatchHistory/${params.id}`, {}, {
+            headers:{
+                authorization : `Bearer ${userData.token}`
+            }
+        })
+        .then((response)=>{
+            console.log(response);
+            setLoader(false);
+            navigate(`/video/${index}`)
+        })
+        .catch((err)=>{
+            toast.error(err.message);
+            setLoader(false);
+        })
     }
 
 
@@ -178,16 +180,13 @@ const Homee = () => {
     useEffect(() => {
         const getMovie = async () => {
             try {
+                setLoader(true);
                 const response = await axios.post('http://localhost:3002/api/movie', {
                     id: params.id
-                }, {
-                    headers: {
-                        authorization: `Bearer ${user.token}`
-                    }
                 });
 
                 if (response.data.message) {
-
+                    toast.error(response.data.message);
                     setNoMatch(true);
                     setLoader(false);
                     return;
@@ -202,22 +201,28 @@ const Homee = () => {
         };
 
         const getOptions = async()=>{
-            
-            const response = await axios.get(`http://localhost:3002/api/movieStatus/${movie._id}`);
-            if(response.data.message){
-                return;
-            }
-            if(response.data.rating!==0){
-                setShowRated(true);
-            }
-            if(response.data.favouriteMovie){
-                setShowFav(true);
-            }
-            if(response.data.watchLater){
-                setShowLater(true);
-            }
-            if(userData.isLoggedIn){
-                setShowOptions(true);
+            try{
+                setLoader(true);
+                const response = await axios.get(`http://localhost:3002/api/movieStatus/${params.id}`);
+                if(response.data.message){
+                    return;
+                }
+                if(response.data.rating!==0){
+                    setShowRated(true);
+                }
+                if(response.data.favouriteMovie){
+                    setShowFav(true);
+                }
+                if(response.data.watchLater){
+                    setShowLater(true);
+                }
+                if(userData.isLoggedIn){
+                    setShowOptions(true);
+                }
+            }  catch (error) {
+                console.error('Error getting status:', error);
+                toast.error("Error getting movie")
+                setLoader(false);
             }
         }
         getMovie();
@@ -249,7 +254,7 @@ const Homee = () => {
     const [userRating, setUserRating] = useState(0);
 
     const handleRatingSubmission = async () => {
-        axios.post(`http://localhost:3002/api/rateMovie/${movie._id}/${userRating * 2}`, {}, {
+        axios.post(`http://localhost:3002/api/rateMovie/${params.id}/${userRating * 2}`, {}, {
             headers: {
                 authorization: `Bearer ${userData.token}`
             }
@@ -259,6 +264,7 @@ const Homee = () => {
                     toast.error(response.data.error);
                     return;
                 }
+                toast.success("Movie Rated Successfully");
             }).catch((err) => {
                 toast.error(err.message);
             })
@@ -266,7 +272,7 @@ const Homee = () => {
 
     const handleAddToFavorites = () => {
         if(showfav){
-            axios.delete(`http://localhost:3002/api/deleteFavouriteMovie/${movie._id}`,{
+            axios.delete(`http://localhost:3002/api/deleteFavouriteMovie/${params.id}`,{
                 headers:{
                     authorization: `Bearer ${userData.token}`
                 }
@@ -284,7 +290,7 @@ const Homee = () => {
             })
             return;
         }
-        axios.post(`http://localhost:3002/api/addFavouriteMovies/${movie._id}`, {}, {
+        axios.post(`http://localhost:3002/api/addFavouriteMovies/${params.id}`, {}, {
             headers: {
                 authorization: `Bearer ${userData.token}`
             }
@@ -304,7 +310,7 @@ const Homee = () => {
 
     const handleAddToWatchLater = () => {
         if(showlater){
-            axios.delete(`http://localhost:3002/api/deleteWatchLaterMovie/${movie._id}`,{
+            axios.delete(`http://localhost:3002/api/deleteWatchLaterMovie/${params.id}`,{
                 headers:{
                     authorization: `Bearer ${userData.token}`
                 }
@@ -322,7 +328,7 @@ const Homee = () => {
             })
             return;
         }
-        axios.post(`http://localhost:3002/api/addWatchLaterMovies/${movie._id}`, {}, {
+        axios.post(`http://localhost:3002/api/addWatchLaterMovies/${params.id}`, {}, {
             headers: {
                 authorization: `Bearer ${userData.token}`
             }
@@ -343,22 +349,11 @@ const Homee = () => {
     return (
         <>
             {
-                loader && (
-                    <div className="flex justify-center items-center h-screen">
-                        <CircularProgress isIndeterminate color="green.300" />
-                    </div>
-                )
-            }
-            {
-                noMatch && (
-                    <div className="flex justify-center items-center h-screen text-black font-bold text-2xl">
-                        No Movie Found
-                    </div>
-                )
-            }
-            {
-                !noMatch && !loader && (
-                    <div className='bg-[#171D21] min-h-[100vh] flex flex-col justify-between'>
+                loader ? (
+                    <DiamondFigures/>
+                ) : (noMatch) ? (<div className="flex justify-center items-center h-screen text-white font-bold text-2xl bg-gray-900">
+                No Movie Found
+            </div>): (<div className='bg-[#171D21] min-h-[100vh] flex flex-col justify-between'>
                         <div className="w-full flex justify-between items-center mt-2">
                             <div className="">
                                 <img 
@@ -417,7 +412,7 @@ const Homee = () => {
                                             )}
 
                                         </div>
-                                        <span className='text-white font-bolds text-xl'><FaSearch /></span>
+                                        <span className='text-white font-bolds text-xl' onClick={()=>runSearch(currentValue)}><FaSearch /></span>
                                         <div className="">
                                             <Checkbox
                                                 className='text-white'
@@ -460,7 +455,7 @@ const Homee = () => {
 
                                 <SwiperSlide>
                                     <div className="w-full h-[700px] sm:h-[600px] pl-5 flex flex-col justify-center ">
-                                        <video src={`https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/clip${params.idx?params.idx:(Math.floor(Math.random()*5)+1)}.mp4?alt=media`} autoPlay muted playsInline className="absolute inset-0 w-full h-full object-cover">
+                                        <video src={`https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/clip${params.idx?params.idx:(Math.floor(Math.random()*5)+1)}.mp4?alt=media`} autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
                                         </video>
                                         <div className="w-full sm:w-3/4 p-10 flex flex-col justify-center items-start gap-y-3 sm:gap-y-6 relative z-10">
                                             <div className="text-[#fff] font-bold text-4xl">
@@ -592,12 +587,11 @@ const Homee = () => {
                         </div>
 
 
-                    </div>
-                )
+                    </div>)
             }
 
         </>
     )
 }
 
-export default Homee
+export default Movie

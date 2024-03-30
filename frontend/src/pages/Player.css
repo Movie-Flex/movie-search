@@ -1,9 +1,9 @@
-.plyr__controls {
+/* .plyr__controls {
     /* position: absolute;
     top: 0; 
     left: 0;
     right: 0; */
-}
+/*}
 
 .plyr__controls button[data-plyr="rewind"] {
     left: 553px;
@@ -20,19 +20,19 @@
 .plyr__controls button[data-plyr="restart"] {
     /* left: 620px; */
     /* top: 392px */
-}
+/*}
 
 .plyr__controls .plyr__time--current {
     order: -1;
     /* top: 350px; */
     
-}
+/*}
 
 .plyr__controls .plyr__volume {
     /* order: -1; */
-    top: -785px;
+    /*top: -785px;*/
     /* left: 1300px;  */
-}
+/*}
 
 .plyr__controls .plyr__time--duration {
     order: -1;
@@ -45,7 +45,7 @@
     width: 1525px;
     /* left: -140px */
     
-}
+/*}
 
 
 .plyr__controls .plyr__progress input[type=range]{
@@ -73,3 +73,7 @@
     border-radius: 5px;
     cursor: pointer;
 } */
+
+.plyr__control--overlaid{
+    background-color: #ECC94B;
+}

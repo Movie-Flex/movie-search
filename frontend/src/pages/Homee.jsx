@@ -278,7 +278,7 @@ const Homee = () => {
                                 )}
 
                             </div>
-                            <span className='text-white font-bolds text-xl'><FaSearch /></span>
+                            <span className='text-white font-bolds text-xl' onClick={()=>runSearch(currentValue)}><FaSearch /></span>
                             <div className="">
                                 <Checkbox
                                     className='text-white'
