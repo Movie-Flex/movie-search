@@ -34,8 +34,13 @@ const subscription = async (req, res) => {
             await Subscription.updateOne({ email: email }, { $set: { subscription: newSubscription } });
 
             const role = await Role.findOne({ email: email });
-
-            const newToken = await generateToken(user, role.role, newSubscription);
+            const paymentDetail = await PaymentDetails.findOne({ email: email });
+            if(paymentDetail){
+                const newToken = await generateToken(user, role.role, newSubscription,paymentDetail.duration );
+            }else{
+                const newToken = await generateToken(user, role.role, newSubscription, "free");
+            }
+            // const newToken = await generateToken(user, role.role, newSubscription);
             return res.status(200).json({ message: `Subscription updated to ${newSubscription}`, token: newToken });
         }
 

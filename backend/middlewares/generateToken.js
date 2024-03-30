@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const generateToken = (user, role, subscription) => {
+const generateToken = (user, role, subscription, duration) => {
     try {
         const payload = {
             name: user.name,
@@ -8,11 +8,12 @@ const generateToken = (user, role, subscription) => {
             role: role ,
             subscription: subscription ,
             createdAt : user.createdAt,
+            duration : duration,
             issuedAt: Date.now()
         };
 
         const options = {
-            expiresIn: process.env.EXPIRES_IN || '60m'
+            expiresIn: process.env.EXPIRES_IN || '100m'
         };
         
         const token = jwt.sign(payload, process.env.SECRET_KEY, options);

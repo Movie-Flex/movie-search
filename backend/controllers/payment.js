@@ -179,7 +179,7 @@ const verify = async (req, res) => {
             );
             await successPayment.save();
             const newSubscription = await Subscriptions.findOneAndUpdate({ email: paymentDetail.email }, { $set: { subscription: paymentDetail.subscription } });
-            const newToken = generateToken(user, user.role ,paymentDetail.subscription)
+            const newToken = generateToken(user, user.role ,paymentDetail.subscription, paymentDetail.duration)
             return res.status(200).json({ paymentDetail: successPayment, token: newToken })
         } else {
             return res.status(209).json({ message : "Payment verification failed. Try again!" })
@@ -233,7 +233,7 @@ const refund = async (req, res) => {
         // checking a expired subscription
         if((duration == 'feeMonthly' && daysUsed >daysInMonth || duration == 'feeYearly' && daysUsed >daysInYear)){
             await Subscriptions.findOneAndUpdate({ email: user.email }, { $set: { subscription: "free"} });
-            const newToken = generateToken(user, user.role,"free")
+            const newToken = generateToken(user, user.role,"free", "free")
             return res.status(209).json({ message: "Subsciption expired", newToken });
         }
 
@@ -283,7 +283,7 @@ const refund = async (req, res) => {
                     });
     
             await Subscriptions.findOneAndUpdate({ email: user.email }, { $set: { subscription: "free"} });
-            const newToken = generateToken(user, user.role,"free")
+            const newToken = generateToken(user, user.role,"free", "free")
             const cancelledSubscription = await PaymentDetail.findOne({ email: user.email }).sort({ updatedDate: -1 });
 
             return res.status(200).json({ message: "Subscription cancelled and refund processed.", newToken,refundInfo :  cancelledSubscription });

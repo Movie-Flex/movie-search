@@ -10,6 +10,7 @@ const PaymentDetail = require('../models/payment');
 const { getUser } = require('../middlewares/getUserFromToken');
 const { verifyAdminToken } = require('../middlewares/verifyAdmin');
 const { verifyToken } = require('../middlewares/verifyToken');
+const PaymentDetails = require('../models/payment'); 
 
 const mongoURI = process.env.MONGODB_URI;
 
@@ -137,8 +138,14 @@ const loginUser = async (req, res) => {
             }
 
             role = await Role.findOne({ email: user.email });
+            let token;
             const subscription = await Subscription.findOne({ email: user.email });
-            const token = generateToken(user, role.role, subscription.subscription);
+            if(paymentDetail){
+                 token = await generateToken(user, role.role, subscription.subscription,paymentDetail.duration );
+            }else{
+                 token = await generateToken(user, role.role, subscription.subscription, "free");
+            }
+            // const token = generateToken(user, role.role, subscription.subscription);
             return res.status(200).json({ token });
         }
 
