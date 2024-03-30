@@ -19,48 +19,7 @@ const CardProviderOnHover = ({
 }) => {
     const userData = useContext(UserContext);
 
-    const [userRating, setUserRating] = useState(0);
 
-    const handleRatingSubmission = async () => {
-        axios.post(`http://localhost:3002/api/rateMovie/${movie._id}/${userRating * 2}`, {}, {
-            headers: {
-                Authorization: `Bearer ${userData.token}`
-            }
-        })
-            .then((response) => {
-                toast.success(response.data.message)
-            }).catch((err) => {
-                toast.error(err.message);
-            })
-    }
-
-    const handleAddToFavorites = () => {
-        axios.post(`http://localhost:3002/api/addFavouriteMovies/${movie._id}`, {}, {
-            headers: {
-                Authorization: `Bearer ${userData.token}`
-            }
-        })
-        .then((response) => {
-            toast.success("Successfully added to favorites")
-        })
-        .catch((err) => {
-            toast.error(err.message);
-        })
-    }
-
-    const handleAddToWatchLater = () => {
-        axios.post(`http://localhost:3002/api/addWatchLaterMovies/${movie._id}`, {}, {
-            headers: {
-                Authorization: `Bearer ${userData.token}`
-            }
-        })
-        .then((response) => {
-            toast.success(response.data.message)
-        })
-        .catch((err) => {
-            toast.error(err.message);
-        })
-    }
 
     return (
         <div>
@@ -96,7 +55,7 @@ const CardProviderOnHover = ({
                             ))
                         }
                     </Stack>
-                    <Stack marginTop='10px' display='flex' flexDirection='row' gap='5px' alignItems='center'>
+                    {/* <Stack marginTop='10px' display='flex' flexDirection='row' gap='5px' alignItems='center'>
                         <FaArrowRotateRight className='text-[#ECC94B] text-xl mx-1' />
                         <Button onClick={() => {handleAddToWatchLater()}} variant='solid' textColor='#171D21' colorScheme='yellow'>
                             Add to Watch Later
@@ -124,7 +83,7 @@ const CardProviderOnHover = ({
                                 Submit
                             </Button>
                         )}
-                    </Stack>
+                    </Stack> */}
                 </CardBody>
             </Card>
         </div>

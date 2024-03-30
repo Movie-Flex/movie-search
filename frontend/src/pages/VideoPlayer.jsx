@@ -22,9 +22,9 @@ const VideoPlayer = () => {
     //     // Or, for custom behavior, replace the above with your own logic
     // });
     let tier = 3;
-    if(userdata.subscription==="premium"){
+    if(userdata.user.subscription=="premium"){
       tier=2;
-    } else if (userdata.subscription==="diamond"){
+    } else if (userdata.user.subscription=="diamond"){
       tier =1;
     }
     const video = document.getElementById('player');

@@ -61,7 +61,7 @@ function App() {
               <Route path="/adminDashboard"
                 element={<AdminDashboard />}
               />
-              <Route path='/movie/:id'
+              <Route path='/movie/:id/:idx'
               element={<Movie/>}/>
             </Routes>
 

@@ -1,5 +1,9 @@
 import { useNavigate } from "react-router-dom";
 
+const generateRandomNumber = () => { 
+  return Math.floor(Math.random() * 5) + 1;
+ }
+
 export default function MovieCard({ movie }) {
   const navigate = useNavigate();
   return (
@@ -16,9 +20,15 @@ export default function MovieCard({ movie }) {
 
           <div class="flex-col text-gray-300">
             <p class="pt-4 text-2xl font-bold cursor-pointer hover:text-blue-500"
-            onClick={()=>navigate("/movie/"+movie._id)}
+            onClick={()=>
+              {
+              var random_number = generateRandomNumber();
+              navigate("/movie/"+movie._id+"/"+random_number)
+              }
+          }
 
             >{movie.title} ({movie.year})</p>
+
             <hr class="hr-text" data-content="" />
             <div class="text-md flex justify-between px-4 my-2">
               <span class="font-bold">{movie.runtime} mins | 

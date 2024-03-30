@@ -11,7 +11,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { useForm } from 'react-hook-form';
 import logo from "../assets/images/logo.png"
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import CardProvider from '../providers/CardProvider.jsx';
 import CardProviderOnHover from '../providers/CardProviderOnHover.jsx';
@@ -28,12 +28,14 @@ const classNames = (...classes) => {
 };
 
 const Homee = () => {
+   
     const navigate = useNavigate();
     const params = useParams();
     const [genreSelected, setGenreSelected] = useState()
     const { user, isLoggedIn } = useContext(UserContext);
     const [isFirstTime, setIsFirstTime] = useState(JSON.parse(localStorage.getItem('isFirstTime')))
-
+    
+   
     const { register, handleSubmit, setValue } = useForm();
     const [currentValue, setCurrentValue] = useState('');
     const [autocompleteResults, setAutocompleteResults] = useState([]);
@@ -457,7 +459,7 @@ const Homee = () => {
 
                                 <SwiperSlide>
                                     <div className="w-full h-[700px] sm:h-[600px] pl-5 flex flex-col justify-center ">
-                                        <video src="https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/video1.mp4?alt=media&token=46ac4bba-0850-495d-bcff-8eea28621da5" autoPlay muted playsInline className="absolute inset-0 w-full h-full object-cover">
+                                        <video src={`https://firebasestorage.googleapis.com/v0/b/opensoft-mflix.appspot.com/o/clip${params.idx?params.idx:(Math.floor(Math.random()*5)+1)}.mp4?alt=media`} autoPlay muted playsInline className="absolute inset-0 w-full h-full object-cover">
                                         </video>
                                         <div className="w-full sm:w-3/4 p-10 flex flex-col justify-center items-start gap-y-3 sm:gap-y-6 relative z-10">
                                             <div className="text-[#fff] font-bold text-4xl">
