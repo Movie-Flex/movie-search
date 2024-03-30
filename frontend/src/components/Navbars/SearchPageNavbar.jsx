@@ -134,7 +134,9 @@ const SearchPageNavbar = () => {
         <>
             <div className="w-full flex justify-between items-center mt-2">
                 <div className="">
-                    <img src={logo} alt="Movie Flex" className='h-14 w-auto' />
+                    <img 
+                    onClick={()=>navigate('/')}
+                     src={logo} alt="Movie Flex" className='h-14 w-auto' />
                 </div>
                 <div className="flex justify-start items-center flex-grow">
                     <div className="w-full flex items-center justify-center">
