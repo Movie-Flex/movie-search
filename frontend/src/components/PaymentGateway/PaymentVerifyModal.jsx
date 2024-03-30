@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
 
 export default function PaymentVerifyModal({props,setPaymentSuccessModal}){
 
     const navigate = useNavigate();
+    const {setSideNav} = useContext(UserContext);
     return(
         <>
         <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
@@ -32,6 +34,7 @@ export default function PaymentVerifyModal({props,setPaymentSuccessModal}){
                             onClick={() => {
                                 setPaymentSuccessModal(false);
                                 navigate('/profile')
+                                setSideNav(1)
                                 
                             }}
                         >

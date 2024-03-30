@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../../context/UserContext";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { CancelContext } from "../../../context/CancelContext";
 
 export default function SubscriptionDiamond({ props, yearly, setYearly }) {
   const navigate = useNavigate();
@@ -14,7 +15,10 @@ export default function SubscriptionDiamond({ props, yearly, setYearly }) {
     setPaymentGatewaySendingData,
     token,
     setPaymentGatewayReceivingData,
+    setSideNav,
   } = useContext(UserContext);
+
+  const{setCancelSubscriptionButton}=useContext(CancelContext);
 
   const handleDiamondSubscription = async () => {
     setPaymentGatewaySendingData({
@@ -108,7 +112,11 @@ export default function SubscriptionDiamond({ props, yearly, setYearly }) {
         )
       ) : (
         <button
-          onClick={() => navigate("/profile")}
+          onClick={() => {
+            navigate("/profile")
+            setSideNav(3);
+            setCancelSubscriptionButton(true);
+          }}
           className=" bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 
                 font-medium rounded-lg text-sm px-5 py-2.5 text-center text-white focus:ring-primary-900"
         >

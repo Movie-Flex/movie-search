@@ -1,32 +1,44 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useCancelSubscription } from "../../hooks/useCancelSubscription";
 import CancelSubscriptionDetailsForm from "./CancelSubscriptionDetailsForm";
 import RefundedAmountDetailsModal from "./RefundedAmountDetailsModal";
 import { UserContext } from "../../context/UserContext";
 
-export default function CancelSubscriptionModal({ closeModal, refundInfo }) {
+export default function CancelSubscriptionModal({ closeModal, refundInfo ,refundDetailsFetch}) {
   const { cancelSubscription } = useCancelSubscription();
   console.log("Refund Info", refundInfo);
 
   const [RefundedAmountDetails, setRefundedAmountDetails] = useState({});
   const[fetchRefundAmountDetails,setFetchRefundAmountDetails]=useState(false);
   const {afterCancelSubscriptionModal, setAfterCancelSubscriptionModal}=useState(false);
- 
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    refundDetailsFetch();
+  },[])
+
 
   const cancel = async () => {
     try {
+      setLoading(true);
       const response= await cancelSubscription();
       setRefundedAmountDetails(response);
       setFetchRefundAmountDetails(true);
       setAfterCancelSubscriptionModal(true);
     } catch (error) {
       console.log("Error", error);
+    }finally{
+      setLoading(false);
     }
     // closeModal(false);
   };
 
   return (
+    //make a outer div to make screeen blur and then display this
+
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
+      <div className="fixed inset-0 bg-black opacity-50"></div>
+
       <div className="relative w-auto max-w-3xl mx-auto my-6">
         <div className="relative flex flex-col w-full bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">
           <div className="flex items-start justify-between p-5 border-b border-solid rounded-t border-blueGray-200">
@@ -63,7 +75,7 @@ export default function CancelSubscriptionModal({ closeModal, refundInfo }) {
               style={{ transition: "all .15s ease" }}
               onClick={cancel}
             >
-              Yes
+              {loading ? 'Cancelling...' : 'Yes'}
             </button>
           </div>
         </div>

@@ -1,7 +1,12 @@
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
+
 export default function RefundedAmountDetailsModal({
   RefundedAmountDetails,
   closeModal,
 }) {
+
+  const { setSideNav } = useContext(UserContext);
   return (
     //make the smae with nice css
     <div class="fixed z-10 inset-0 overflow-y-auto">
@@ -109,6 +114,7 @@ export default function RefundedAmountDetailsModal({
               onClick={() => {
                 closeModal(false);
                 window.location.reload()
+                setSideNav(1)
               }}
             >
               Close

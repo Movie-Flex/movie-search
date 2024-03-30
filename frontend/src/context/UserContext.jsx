@@ -25,6 +25,8 @@ const UserContextProvider = (props) => {
         JSON.parse(JSON.stringify(localStorage.getItem("paymentGatewayReceivingData")))
     )
 
+    const [sideNav, setSideNav] = useState(1);
+
 
     return (
         <UserContext.Provider
@@ -40,7 +42,9 @@ const UserContextProvider = (props) => {
                 paymentGatewaySendingData,
                 setPaymentGatewaySendingData,
                 paymentGatewayReceivingData,
-                setPaymentGatewayReceivingData
+                setPaymentGatewayReceivingData,
+                sideNav,
+                setSideNav,
 
             }}
         >

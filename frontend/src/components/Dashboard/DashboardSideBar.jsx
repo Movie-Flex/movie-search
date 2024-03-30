@@ -6,15 +6,15 @@ import { UserContext } from "../../context/UserContext";
 import CancelSubscriptionModal from "../../pages/CancelSubscription/CancelSubscriptionModal";
 
 export default function DashboardSideBar({
-  sideNav,
-  setSideNav,
+
   setCancelSubscriptionButton,
   refundDetailsFetch,
 }) {
   const navigate = useNavigate();
   const { logout } = useLogout();
 
-  const { user } = useContext(UserContext);
+  const { user,sideNav,
+    setSideNav, } = useContext(UserContext);
 
   const logoutAction = () => {
     logout();
