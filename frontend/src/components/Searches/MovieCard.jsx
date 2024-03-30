@@ -22,7 +22,7 @@ export default function MovieCard({ movie }) {
             <hr class="hr-text" data-content="" />
             <div class="text-md flex justify-between px-4 my-2">
               <span class="font-bold">{movie.runtime} mins | 
-                {movie.genres.map((genre, index) => {
+                {movie && movie.genres &&movie.genres.length>0 &&movie.genres.map((genre, index) => {
                     return (
                     <span key={index} className="text-gray-400">
                         {genre}
@@ -45,7 +45,7 @@ export default function MovieCard({ movie }) {
             <div class="text-xs">
                 <p class="px-4 my-2">
                     <span class="font-bold">Directors: </span>
-                    {movie && movie.directors && movie.directors.map((director, index) => {
+                    {movie && movie.directors &&movie.directors.length>0 && movie.directors.map((director, index) => {
                         return (
                         <span key={index} className="text-gray-400">
                             {director}
@@ -57,7 +57,7 @@ export default function MovieCard({ movie }) {
                 </p>
                 <p class="px-4 my-2">
                     <span class="font-bold">Writers: </span>
-                    {movie && movie.writers && movie.writers.map((writer, index) => {
+                    {movie && movie.writers &&movie.writers.length>0 && movie.writers.map((writer, index) => {
                         return (
                         <span key={index} className="text-gray-400">
                             {writer}
@@ -69,7 +69,7 @@ export default function MovieCard({ movie }) {
                 </p>
                 <p class="px-4 my-2">
                     <span class="font-bold">Cast: </span>
-                    {movie.cast.map((cast, index) => {
+                    {movie && movie.cast && movie.cast.length>0 && movie.cast.map((cast, index) => {
                         return (
                         <span key={index} className="text-gray-400">
                             {cast}

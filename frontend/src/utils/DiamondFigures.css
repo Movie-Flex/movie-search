@@ -1,5 +1,4 @@
-@media (prefers-reduced-motion) {
-}
+@media (prefers-reduced-motion) {}
 
 figure {
   --size: 15vmin;
@@ -15,18 +14,15 @@ figure {
   animation: spin var(--duration) ease-in-out infinite;
 }
 
-figure > * {
+figure>* {
   --radius: calc(var(--size) / 2);
   --deg: calc(var(--i) * (360deg / 12));
-  --hs: 225 100%;
-  --transform-start: translate3d(
-      calc(cos(var(--deg)) * var(--radius)),
+  --hs: 53 100% 78%;
+  --transform-start: translate3d(calc(cos(var(--deg)) * var(--radius)),
       calc(sin(var(--deg)) * var(--radius)),
-      0
-    )
-    rotate(calc(var(--deg)));
+      0) rotate(calc(var(--deg)));
+  background-color: hsl(var(--hs));
   grid-area: figure;
-  background-color: hsl(var(--hs) var(--l, 60%));
   inline-size: calc(var(--size) / 4);
   aspect-ratio: 1;
   clip-path: polygon(25% 25%, 100% 50%, 25% 75%, 0% 50%);
@@ -48,6 +44,7 @@ figure:nth-child(3) {
 }
 
 @keyframes spin {
+
   0%,
   25% {
     transform: scaleX(var(--direction)) rotate(0);
@@ -60,6 +57,7 @@ figure:nth-child(3) {
 }
 
 @keyframes diamonds {
+
   0%,
   20% {
     transform: var(--transform-start);
@@ -67,11 +65,8 @@ figure:nth-child(3) {
 
   50% {
     clip-path: polygon(75% 25%, 100% 50%, 75% 75%, 0% 50%);
-    transform: translate3d(
-        calc(cos(var(--deg)) * var(--radius) * var(--pull)),
+    transform: translate3d(calc(cos(var(--deg)) * var(--radius) * var(--pull)),
         calc(sin(var(--deg)) * var(--radius) * var(--pull)),
-        5rem
-      )
-      rotate(calc(var(--deg) + 90deg));
+        5rem) rotate(calc(var(--deg) + 90deg));
   }
 }
