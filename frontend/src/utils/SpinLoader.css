@@ -8,22 +8,22 @@
   }
   
   .spin-loader-pl__ring--a {
-    stroke: #f49725;
+    stroke: #fff473;
   }
   
   .spin-loader-pl__ring--b {
     animation-name: ringB;
-    stroke: #f49725;
+    stroke: #fff473;
   }
   
   .spin-loader-pl__ring--c {
     animation-name: ringC;
-    stroke: #f49725;
+    stroke: #fff473;
   }
   
   .spin-loader-pl__ring--d {
     animation-name: ringD;
-    stroke: #f49725;
+    stroke: #fff473;
   }
   
   /* Animations */
