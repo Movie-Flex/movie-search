@@ -19,8 +19,8 @@ export default function Semantic() {
     setLoading(true);
     setAutocompleteResults([]);
     setValue('search', query);
-    const response = await axios.post(`http://localhost:3002/api/semantic?q=${query}`);
-    // const response = await axios.post(`http://localhost:3002/api/fuzzySearch?q=${query}`);
+    const response = await axios.post(`https://movie-flex-open-soft2024-backend.vercel.app//api/semantic?q=${query}`);
+    // const response = await axios.post(`https://movie-flex-open-soft2024-backend.vercel.app//api/fuzzySearch?q=${query}`);
     console.log(response);
     setSearchResults(response.data);
     setLoading(false);
@@ -44,7 +44,7 @@ export default function Semantic() {
     setCurrentValue(query);
 
     if (query) {
-      const response = await axios.post(`http://localhost:3002/api/autoSuggest?q=${query}`);
+      const response = await axios.post(`https://movie-flex-open-soft2024-backend.vercel.app//api/autoSuggest?q=${query}`);
       // const response = await axios.get(`http://localhost:3000/api/autocomplete?query=${query}`);
       setAutocompleteResults(response.data.map((u) => u.title));
     } else {

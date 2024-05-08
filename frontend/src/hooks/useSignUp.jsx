@@ -33,7 +33,7 @@ export const useSignup = () => {
 
       try {
         setIsLoading(true);
-        const response = await axios.post('http://localhost:3002/api/signup', signupData);
+        const response = await axios.post('https://movie-flex-open-soft2024-backend.vercel.app//api/signup', signupData);
        if(response.status===200){
          setIsLoading(false);
          localStorage.setItem('token', response.data.token);
@@ -59,7 +59,7 @@ export const useSignup = () => {
       try {
         // const tokenObject = { token: token };
         const response = await axios.post(
-          "http://localhost:3002/api/getUser",{} ,{
+          "https://movie-flex-open-soft2024-backend.vercel.app//api/getUser",{} ,{
             headers: {
               'authorization': `Bearer ${token}`,
             },

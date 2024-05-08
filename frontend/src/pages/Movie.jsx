@@ -64,7 +64,7 @@ const Movie = () => {
         window.location.reload();;
         // navigate(`/searchResult?query=${query}&isAdvSearch=${isAdvancedSearchSelected}`)
         // const response = await axios.get(`http://localhost:3000/api/search?query=${query}`);
-        // const response = await axios.post(`http://localhost:3002/api/fuzzySearch?q=${query}`);
+        // const response = await axios.post(`https://movie-flex-open-soft2024-backend.vercel.app//api/fuzzySearch?q=${query}`);
         // console.log(response);
         // setSearchResults(response.data);
         setLoader(false);
@@ -78,7 +78,7 @@ const Movie = () => {
         //window.location.reload();;
         navigate(`/searchResult?query=${query}&isAdvSearch=${isAdvancedSearchSelected}`)
         // const response = await axios.get(`http://localhost:3000/api/search?query=${query}`);
-        // const response = await axios.post(`http://localhost:3002/api/fuzzySearch?q=${query}`);
+        // const response = await axios.post(`https://movie-flex-open-soft2024-backend.vercel.app//api/fuzzySearch?q=${query}`);
         // console.log(response);
         // setSearchResults(response.data);
         setLoader(false);
@@ -107,7 +107,7 @@ const Movie = () => {
 
         if (query) {
             setMovieLoading(true);
-            const response = await axios.post(`http://localhost:3002/api/autoSuggest`, {
+            const response = await axios.post(`https://movie-flex-open-soft2024-backend.vercel.app//api/autoSuggest`, {
                 toSearch: genreSelected == null ? [] : [genreSelected]
             }, {
                 params: {
@@ -157,7 +157,7 @@ const Movie = () => {
             return;
         }
         setLoader(true);
-        axios.post(`http://localhost:3002/api/addToWatchHistory/${params.id}`, {}, {
+        axios.post(`https://movie-flex-open-soft2024-backend.vercel.app//api/addToWatchHistory/${params.id}`, {}, {
             headers:{
                 authorization : `Bearer ${userData.token}`
             }
@@ -181,7 +181,7 @@ const Movie = () => {
         const getMovie = async () => {
             try {
                 setLoader(true);
-                const response = await axios.post('http://localhost:3002/api/movie', {
+                const response = await axios.post('https://movie-flex-open-soft2024-backend.vercel.app//api/movie', {
                     id: params.id
                 });
 
@@ -203,7 +203,7 @@ const Movie = () => {
         const getOptions = async()=>{
             try{
                 setLoader(true);
-                const response = await axios.post(`http://localhost:3002/api/movieStatus/${params.id}`, {
+                const response = await axios.post(`https://movie-flex-open-soft2024-backend.vercel.app//api/movieStatus/${params.id}`, {
                     
                 }, {
                     headers:{
@@ -239,7 +239,7 @@ const Movie = () => {
 
     // useEffect(async () => {
 
-    //     axios.get("http://localhost:3002/api/getWatchHistory", {
+    //     axios.get("https://movie-flex-open-soft2024-backend.vercel.app//api/getWatchHistory", {
     //         headers: {
     //             'Authorization': `Bearer ${userData.token}`
     //         }
@@ -260,7 +260,7 @@ const Movie = () => {
     const [userRating, setUserRating] = useState(0);
 
     const handleRatingSubmission = async () => {
-        axios.post(`http://localhost:3002/api/rateMovie/${params.id}/${userRating * 2}`, {}, {
+        axios.post(`https://movie-flex-open-soft2024-backend.vercel.app//api/rateMovie/${params.id}/${userRating * 2}`, {}, {
             headers: {
                 authorization: `Bearer ${userData.token}`
             }
@@ -278,7 +278,7 @@ const Movie = () => {
 
     const handleAddToFavorites = () => {
         if(showfav){
-            axios.delete(`http://localhost:3002/api/deleteFavouriteMovie/${params.id}`,{
+            axios.delete(`https://movie-flex-open-soft2024-backend.vercel.app//api/deleteFavouriteMovie/${params.id}`,{
                 headers:{
                     authorization: `Bearer ${userData.token}`
                 }
@@ -296,7 +296,7 @@ const Movie = () => {
             })
             return;
         }
-        axios.post(`http://localhost:3002/api/addFavouriteMovies/${params.id}`, {}, {
+        axios.post(`https://movie-flex-open-soft2024-backend.vercel.app//api/addFavouriteMovies/${params.id}`, {}, {
             headers: {
                 authorization: `Bearer ${userData.token}`
             }
@@ -316,7 +316,7 @@ const Movie = () => {
 
     const handleAddToWatchLater = () => {
         if(showlater){
-            axios.delete(`http://localhost:3002/api/deleteWatchLaterMovie/${params.id}`,{
+            axios.delete(`https://movie-flex-open-soft2024-backend.vercel.app//api/deleteWatchLaterMovie/${params.id}`,{
                 headers:{
                     authorization: `Bearer ${userData.token}`
                 }
@@ -334,7 +334,7 @@ const Movie = () => {
             })
             return;
         }
-        axios.post(`http://localhost:3002/api/addWatchLaterMovies/${params.id}`, {}, {
+        axios.post(`https://movie-flex-open-soft2024-backend.vercel.app//api/addWatchLaterMovies/${params.id}`, {}, {
             headers: {
                 authorization: `Bearer ${userData.token}`
             }

@@ -63,7 +63,7 @@ const PaymentGateway = () => {
         const verificationObject = { ...data, ...paymentGatewayReceivingData };
 
         const result = await axios.post(
-          "http://localhost:3002/payment/verify",
+          "https://movie-flex-open-soft2024-backend.vercel.app//payment/verify",
 
           verificationObject,
 

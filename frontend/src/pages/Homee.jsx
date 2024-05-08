@@ -102,7 +102,7 @@ const Homee = () => {
 
         if (query) {
             setMovieLoading(true);
-            const response = await axios.post(`http://localhost:3002/api/autoSuggest`, {
+            const response = await axios.post(`https://movie-flex-open-soft2024-backend.vercel.app//api/autoSuggest`, {
                 toSearch: genreSelected == null ? [] : [genreSelected]
             }, {
                 params: {
@@ -152,7 +152,7 @@ const Homee = () => {
             return;
         }
         setLoaderCompletepage(true);
-        axios.post(`http://localhost:3002/api/addToWatchHistory/${id}`, {}, {
+        axios.post(`https://movie-flex-open-soft2024-backend.vercel.app//api/addToWatchHistory/${id}`, {}, {
             headers:{
                 authorization : `Bearer ${userData.token}`
             }
@@ -171,7 +171,7 @@ const Homee = () => {
     useEffect(() => {
         setLoaderCompletepage(true);
         const getHomePageMovies = async () => 
-        { axios.get("http://localhost:3002/api/homeMovies")
+        { axios.get("https://movie-flex-open-soft2024-backend.vercel.app//api/homeMovies")
              .then((response) => {
                  if (response.status === 200) {
                    console.log('response.data', response.data)
@@ -190,7 +190,7 @@ const Homee = () => {
             
  
         const getWatchHistory=async()=>{
-            axios.post("http://localhost:3002/api/getWatchHistory",{},
+            axios.post("https://movie-flex-open-soft2024-backend.vercel.app//api/getWatchHistory",{},
             {
                 
                 headers: {

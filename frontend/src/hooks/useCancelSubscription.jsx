@@ -13,7 +13,7 @@ export const useCancelSubscription =  () => {
     try {
 
       const response = await axios.post(
-        `http://localhost:3002/payment/cancel?q=refundInfo`,
+        `https://movie-flex-open-soft2024-backend.vercel.app//payment/cancel?q=refundInfo`,
         {} ,{
           headers: {
             'authorization': `Bearer ${token}`,
@@ -33,7 +33,7 @@ export const useCancelSubscription =  () => {
     try {
 
       const response = await axios.post(
-        `http://localhost:3002/payment/cancel?q=refundTrue`,
+        `https://movie-flex-open-soft2024-backend.vercel.app//payment/cancel?q=refundTrue`,
         {} ,{
           headers: {
             'authorization': `Bearer ${token}`,

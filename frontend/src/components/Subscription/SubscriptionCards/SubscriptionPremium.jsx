@@ -31,7 +31,7 @@ export default function SubscriptionPremium({ props, yearly, setYearly }) {
   
     try {
       const response = await axios.post(
-        `http://localhost:3002/payment/order?dur=${yearly ? "feeYearly" : "feeMonthly"}&type=premium`,
+        `https://movie-flex-open-soft2024-backend.vercel.app//payment/order?dur=${yearly ? "feeYearly" : "feeMonthly"}&type=premium`,
         {},
         {
           headers: {

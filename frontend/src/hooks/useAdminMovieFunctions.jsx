@@ -9,7 +9,7 @@ export const useAdminMovieFunctions = () => {
     try {
         const movieData={movieData:addMovieData}
       const response = await axios.post(
-        "http://localhost:3002/api/add-movie",
+        "https://movie-flex-open-soft2024-backend.vercel.app//api/add-movie",
         movieData,
         {
           headers: {
@@ -30,7 +30,7 @@ export const useAdminMovieFunctions = () => {
   const deleteMovie = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3002/api/delete-movie/${id}`,
+        `https://movie-flex-open-soft2024-backend.vercel.app//api/delete-movie/${id}`,
         {
           headers: {
             authorization: `Bearer ${token}`,
@@ -50,7 +50,7 @@ export const useAdminMovieFunctions = () => {
     const adminGenerateToken = async (generateAdminData) => {
         try {
         const response = await axios.post(
-            "http://localhost:3002/api/generateAdminToken",
+            "https://movie-flex-open-soft2024-backend.vercel.app//api/generateAdminToken",
             generateAdminData,
             {
             headers: {
@@ -71,7 +71,7 @@ export const useAdminMovieFunctions = () => {
 
     const getSubscriptionData = async (page) => {
       try{
-        const response = await axios.get(`http://localhost:3002/api/subs?p=${page}`,{
+        const response = await axios.get(`https://movie-flex-open-soft2024-backend.vercel.app//api/subs?p=${page}`,{
           headers: {
             authorization: `Bearer ${token}`,
           },

@@ -24,7 +24,7 @@ const SearchResult = () => {
     console.log("query, isAdvSearch", "isTitle", query, isAdvSearch);
     if (isAdvSearch === "true") {
       if(genre===null || genre===" "){
-        axios.post(`http://localhost:3002/api/semantic?q=${query}`)
+        axios.post(`https://movie-flex-open-soft2024-backend.vercel.app//api/semantic?q=${query}`)
         .then((response) => {
           console.log("response", response);
           setSearchResult(response.data);
@@ -36,7 +36,7 @@ const SearchResult = () => {
         });
       }
       else{
-        axios.post(`http://localhost:3002/api/semantic?q=${query}&g=${genre}`)
+        axios.post(`https://movie-flex-open-soft2024-backend.vercel.app//api/semantic?q=${query}&g=${genre}`)
         .then((response) => {
           console.log("response", response);
           setSearchResult(response.data);
@@ -49,7 +49,7 @@ const SearchResult = () => {
       }
     } else if (isAdvSearch === "false") {
       if(genre===null || genre===" "){
-        axios.post(`http://localhost:3002/api/fuzzySearch?q=${query}`)
+        axios.post(`https://movie-flex-open-soft2024-backend.vercel.app//api/fuzzySearch?q=${query}`)
         .then((response) => {
           console.log("response", response);
           setSearchResult(response.data);
@@ -61,7 +61,7 @@ const SearchResult = () => {
         });
       }
       else{
-        axios.post(`http://localhost:3002/api/fuzzySearch?q=${query}&g=${genre}`)
+        axios.post(`https://movie-flex-open-soft2024-backend.vercel.app//api/fuzzySearch?q=${query}&g=${genre}`)
         .then((response) => {
           console.log("response", response);
           setSearchResult(response.data);
