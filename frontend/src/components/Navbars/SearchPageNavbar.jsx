@@ -46,7 +46,7 @@ const SearchPageNavbar = () => {
         //window.location.reload();;
         // navigate(`/searchResult?query=${query}&isAdvSearch=${isAdvancedSearchSelected}`)
         // const response = await axios.get(`http://localhost:3000/api/search?query=${query}`);
-        // const response = await axios.post(`https://movie-flex-open-soft2024-backend.vercel.app//api/fuzzySearch?q=${query}`);
+        // const response = await axios.post(`https://movie-flex-open-soft2024-backend.vercel.app/api/fuzzySearch?q=${query}`);
         // console.log(response);
         // setSearchResults(response.data);
         setLoading(false);
@@ -85,7 +85,7 @@ const SearchPageNavbar = () => {
 
         if (query) {
             setMovieLoading(true);
-            const response = await axios.post(`https://movie-flex-open-soft2024-backend.vercel.app//api/autoSuggest`, {
+            const response = await axios.post(`https://movie-flex-open-soft2024-backend.vercel.app/api/autoSuggest`, {
                 toSearch: genreSelected == null ? [] : [genreSelected]
             }, {
                 params: {

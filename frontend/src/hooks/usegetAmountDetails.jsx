@@ -12,7 +12,7 @@ export const GetAmountDetails=()=>{
     const getAmountDetails=async ()=>{
        try{
 
-        const response =await  axios.post("https://movie-flex-open-soft2024-backend.vercel.app//payment/dashboard",{} ,{
+        const response =await  axios.post("https://movie-flex-open-soft2024-backend.vercel.app/payment/dashboard",{} ,{
           headers: {
             'authorization': `Bearer ${token}`,
           },

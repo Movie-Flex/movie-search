@@ -8,7 +8,7 @@ export const useYourMovies = () => {
   const fetchFavouriteMovies = async () => {
     try {
       const response = await axios.get(
-        "https://movie-flex-open-soft2024-backend.vercel.app//api/getFavouriteMovies",
+        "https://movie-flex-open-soft2024-backend.vercel.app/api/getFavouriteMovies",
         {
           headers: {
             authorization: `Bearer ${token}`,
@@ -27,7 +27,7 @@ export const useYourMovies = () => {
   const fetchwatchLaterMovies = async () => {
     try {
       const response = await axios.get(
-        "https://movie-flex-open-soft2024-backend.vercel.app//api/getWatchLaterMovies",
+        "https://movie-flex-open-soft2024-backend.vercel.app/api/getWatchLaterMovies",
         {
           headers: {
             authorization: `Bearer ${token}`,

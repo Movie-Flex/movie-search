@@ -11,7 +11,7 @@ export const useUpdateProfile = () => {
  
     try {
       const response = await axios.post(
-        "https://movie-flex-open-soft2024-backend.vercel.app//api/updateProfile",
+        "https://movie-flex-open-soft2024-backend.vercel.app/api/updateProfile",
         updatedData,
         {
           headers: {
@@ -35,7 +35,7 @@ export const useUpdateProfile = () => {
     const getUpdatedProfile = async () => {
         try {
             const response = await axios.post(
-                "https://movie-flex-open-soft2024-backend.vercel.app//api/userProfile",
+                "https://movie-flex-open-soft2024-backend.vercel.app/api/userProfile",
                 {},
                 {
                     headers: {

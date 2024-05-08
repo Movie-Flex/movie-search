@@ -14,7 +14,7 @@ export const useLogin = () => {
     try {
       setIsLoading(true);
       const response = await axios.post(
-        "https://movie-flex-open-soft2024-backend.vercel.app//api/login",
+        "https://movie-flex-open-soft2024-backend.vercel.app/api/login",
         loginData
       );
       setIsLoading(false);
@@ -38,7 +38,7 @@ export const useLogin = () => {
     try {
       // console.log("TokenVerify", token);
 
-      const response = await axios.post("https://movie-flex-open-soft2024-backend.vercel.app//api/getUser",{} ,{
+      const response = await axios.post("https://movie-flex-open-soft2024-backend.vercel.app/api/getUser",{} ,{
         headers: {
           'authorization': `Bearer ${token}`,
         },

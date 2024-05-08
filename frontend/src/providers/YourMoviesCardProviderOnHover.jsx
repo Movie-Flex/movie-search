@@ -38,7 +38,7 @@ const CardProviderOnHover = ({
   const handleRatingSubmission = async () => {
     try {
       const response = await axios.post(
-        `https://movie-flex-open-soft2024-backend.vercel.app//api/rateMovie/${movie._id}/${userRating * 2}`,
+        `https://movie-flex-open-soft2024-backend.vercel.app/api/rateMovie/${movie._id}/${userRating * 2}`,
         {},
         {
           headers: {
@@ -60,7 +60,7 @@ const CardProviderOnHover = ({
   const handleDeleteFromFavourites = async () => {
     try {
       const response = await axios.delete(
-        `https://movie-flex-open-soft2024-backend.vercel.app//api/deleteFavouriteMovie/${movie._id}`,
+        `https://movie-flex-open-soft2024-backend.vercel.app/api/deleteFavouriteMovie/${movie._id}`,
         {
           headers: {
             authorization: `Bearer ${token}`,
@@ -82,7 +82,7 @@ const CardProviderOnHover = ({
   const handleDeleteFromWatchLater = async () => {
     try {
       const response = await axios.delete(
-        `https://movie-flex-open-soft2024-backend.vercel.app//api/deleteWatchLaterMovie/${movie._id}`,
+        `https://movie-flex-open-soft2024-backend.vercel.app/api/deleteWatchLaterMovie/${movie._id}`,
         {
           headers: {
             authorization: `Bearer ${token}`,

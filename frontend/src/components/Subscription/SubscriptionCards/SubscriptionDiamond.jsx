@@ -28,7 +28,7 @@ export default function SubscriptionDiamond({ props, yearly, setYearly }) {
 
     try {
       const response = await axios.post(
-        `https://movie-flex-open-soft2024-backend.vercel.app//payment/order?dur=${yearly ? "feeYearly" : "feeMonthly"}&type=diamond`,
+        `https://movie-flex-open-soft2024-backend.vercel.app/payment/order?dur=${yearly ? "feeYearly" : "feeMonthly"}&type=diamond`,
 
         {},
         {
