@@ -1,5 +1,8 @@
 # movie-flex
 Contains code for movie search functionality
+
+Currently the site is live at [https://movie-flex-omega.vercel.app/](https://movie-flex-omega.vercel.app/)
+
 ## Clone repo to required folder as :
 `git clone https://github.com/Movie-Flex/movie-search.git`
 ## Tech Stack
@@ -25,6 +28,4 @@ The following tech stack has been incorporated for creating the app - <br>
   &emsp; `npm i` <br>
   &emsp; `nodemon start` <br>
 • Frontend server will start at port `3000`
-
-Currently the site is live at [https://movie-flex-omega.vercel.app/](https://movie-flex-omega.vercel.app/)
 
