@@ -25,3 +25,6 @@ The following tech stack has been incorporated for creating the app - <br>
   &emsp; `npm i` <br>
   &emsp; `nodemon start` <br>
 • Frontend server will start at port `3000`
+
+Currently the site is live at [https://movie-flex-omega.vercel.app/](https://movie-flex-omega.vercel.app/)
+
